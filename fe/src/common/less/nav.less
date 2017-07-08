@@ -1,0 +1,34 @@
+@import "./var.less";
+
+#footerNav {
+    width: 100%;
+    height: 2.5rem;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    background: #f9f9f9;
+    box-shadow: 0 1px 4px @color3;
+    & > div{
+        height:100%;
+    }
+    .nav-label {
+        font-size: 0.8rem;
+        padding-left: 3px;
+    }
+    .circle {
+        padding: 6px;
+        border-radius: 4px;
+        background: @color4;
+        .edit {
+            font-size: 1em;
+            color:@white;
+        }
+    }
+    svg{
+        position: relative;
+        top:7px;
+        &.home{
+            top:10px;
+        }
+    }
+}
