@@ -14,6 +14,7 @@ import { Flex, Icon } from "antd-mobile"
     render() {
         const {pathname}=this.props.location
         const homeActive=pathname=='/home'
+        const userActive=pathname=='/user'
         return <Flex id="footerNav">
             <Flex.Item>
                 <NavLink activeClassName="active home" to="/home" >
@@ -28,7 +29,7 @@ import { Flex, Icon } from "antd-mobile"
             </Flex.Item>
             <Flex.Item>
                 <NavLink activeClassName="active user" to="/user">
-                    <Icon type={require('../common/svg/user.svg')}  color={!homeActive?"#108ee9":"#777"} size="xxs" />
+                    <Icon type={require('../common/svg/user.svg')}  color={userActive?"#108ee9":"#777"} size="xxs" />
                     <span className="nav-label">我的</span>
                 </NavLink>
             </Flex.Item>

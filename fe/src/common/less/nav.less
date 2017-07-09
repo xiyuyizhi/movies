@@ -2,33 +2,34 @@
 
 #footerNav {
     width: 100%;
-    height: 2.5rem;
+    height: @bottom-nav-height;
     position: fixed;
     bottom: 0;
     text-align: center;
     background: #f9f9f9;
     box-shadow: 0 1px 4px @color3;
     & > div{
-        height:100%;
+        height:@bottom-nav-height;
+        line-height: @bottom-nav-height;
     }
     .nav-label {
-        font-size: 0.8rem;
+        font-size: 1rem;
         padding-left: 3px;
     }
     .circle {
-        padding: 6px;
+        padding: 6px 8px;
         border-radius: 4px;
         background: @color4;
         .edit {
-            font-size: 1em;
+            font-size: @normal-font-size;
             color:@white;
         }
     }
     svg{
         position: relative;
-        top:7px;
+        top:3px;
         &.home{
-            top:10px;
+            top:5px;
         }
     }
 }
