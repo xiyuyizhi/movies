@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import {
-    Flex,
     SearchBar,
     Picker,
     List,
@@ -28,7 +27,7 @@ class Header extends Component {
     }
 
     isHomepage(path) {
-        return path == '/home'
+        return path === '/home'
     }
     isDetail(path) {
         return path.indexOf('/detail') !== -1
@@ -44,7 +43,7 @@ class Header extends Component {
                     cols="1"
                     onPickerChange={this.onPickerChange}
                 >
-                    <List.Item arrow="horizontal" onClick={this.onClick}>选择</List.Item>
+                    <List.Item arrow="horizontal" onClick={this.onClick}>分类</List.Item>
                 </Picker>
             </div>
         </div>
@@ -57,7 +56,7 @@ class Header extends Component {
                 this.isHomepage(pathname) && this.homeEles()
             }
             {
-                this.isDetail(pathname) && <NavBar className="normalBar" leftContent="back"
+                this.isDetail(pathname) && <NavBar className="normalBar" leftContent="返回"
                     mode="light"
                     onLeftClick={() => history.go(-1)}
                 >{
@@ -65,7 +64,7 @@ class Header extends Component {
                     }</NavBar>
             }
             {
-                pathname == '/user' && <NavBar className="normalBar" iconName="false"
+                pathname === '/user' && <NavBar className="normalBar" iconName="false"
                     mode="light"
                 >我的</NavBar>
             }

@@ -6,15 +6,12 @@ import {
 import { Flex, Icon } from "antd-mobile"
 
  class Nav extends React.Component {
-    constructor(props) {
-        super(props)
-        
-    }
+
 
     render() {
         const {pathname}=this.props.location
-        const homeActive=pathname=='/home'
-        const userActive=pathname=='/user'
+        const homeActive=pathname==='/home'
+        const userActive=pathname==='/user'
         return <Flex id="footerNav">
             <Flex.Item>
                 <NavLink activeClassName="active home" to="/home" >

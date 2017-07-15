@@ -1,5 +1,80 @@
 @import "./var.less";
-.main{
-    position: relative;;
-    top:3rem;
+.main {
+    position: relative;
+    top: @top-header-height;
+    .am-list-body {
+        border-top-color: #ECECED;
+        &:after {
+            border-bottom: none
+        }
+    }
+    .listview {
+        margin: 5px 0;
+        .listview-item {
+            .separator {
+                margin: 0;
+                height: 0.5rem;
+                background: @white;
+                border-bottom: 1px solid @moveis-separator-border-color;
+                border-top: 1px solid @moveis-separator-border-color;
+            }
+            &:last-child {
+                .separator {
+                    border: none;
+                }
+            }
+        }
+    }
+    .m-item {
+        padding: 0 10px;
+        height: @movies-item-height;
+        .collection {
+            background: @color2;
+            color: @white
+        }
+        .m-item-thumb {
+            width: @thumb-width;
+            height: @movies-item-height;
+            position: absolute;
+        }
+        .m-item-wrap {
+            margin-left: @thumb-width;
+            padding-left: 10px;
+            display: flex;
+            height: 100%;
+            font-size: 0.8rem;
+            color: @color3;
+            .m-item-instruction-props {
+                display: flex;
+                flex-direction: column;
+                .label {
+                    display: block;
+                    flex: 1;
+                    line-height: 2rem;
+                    max-width: 85px;
+                }
+                .ellipsis {
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+                .weight {
+                    font-weight: bold
+                }
+            }
+            .m-item-instruct {
+                flex: 1;
+                line-height: 1.2rem;
+                padding: 8px 0 0 10px;
+                margin: 0;
+                overflow: hidden
+            }
+        }
+    }
+}
+
+.am-activity-indicator-content {
+    padding: 10px;
+    font-size: 0.5rem;
+    line-height: 0.5rem;
 }

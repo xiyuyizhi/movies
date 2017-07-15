@@ -12,6 +12,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const customLess = require('./custom-less')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -41,7 +42,7 @@ const cssFilename = 'static/css/[name].[contenthash:8].css';
 // To have this structure working with relative paths, we have to use custom options.
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
-    { publicPath: Array(cssFilename.split('/').length).join('../') }
+  { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
 
 // This is the production configuration.
@@ -88,7 +89,7 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      
+
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -118,7 +119,7 @@ module.exports = {
           {
             options: {
               formatter: eslintFormatter,
-              
+
             },
             loader: require.resolve('eslint-loader'),
           },
@@ -137,6 +138,8 @@ module.exports = {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
+          /\.less$/,
+          /\.svg$/,
           /\.css$/,
           /\.json$/,
           /\.bmp$/,
@@ -166,10 +169,19 @@ module.exports = {
         loader: require.resolve('babel-loader'),
         options: {
           plugins: [
-            ['import', { libraryName: 'antd', style: 'css' }],
+            ['import', { libraryName: 'antd-mobile', style: true }],
           ],
           compact: true,
         },
+      },
+      {
+        test: /\.(svg)$/i,
+        loader: 'svg-sprite-loader',
+        include: [
+          require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
+          path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
+          paths.appSrc,
+        ]
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
@@ -185,6 +197,46 @@ module.exports = {
       // in the main CSS file.
       {
         test: /\.css$/,
+        loader: ExtractTextPlugin.extract(
+          Object.assign({
+            fallback: require.resolve('style-loader'),
+            use: [
+              {
+                loader: require.resolve('css-loader'),
+                options: {
+                  importLoaders: 1,
+                },
+              },
+              {
+                loader: require.resolve('postcss-loader'),
+                options: {
+                  // Necessary for external CSS imports to work
+                  // https://github.com/facebookincubator/create-react-app/issues/2677
+                  ident: 'postcss',
+                  plugins: () => [
+                    require('postcss-flexbugs-fixes'),
+                    autoprefixer({
+                      browsers: [
+                        '>1%',
+                        'last 4 versions',
+                        'Firefox ESR',
+                        'not ie < 9', // React doesn't support IE8 anyway
+                        'iOS >= 8',
+                        'Android >= 4'
+                      ],
+                      flexbox: 'no-2009',
+                    }),
+                    pxtorem({ rootValue: 100, propWhiteList: [] })
+                  ],
+                },
+              }
+            ],
+          })
+        )
+      },
+      {
+        test: /\.less$/,
+        include: [paths.appSrc, paths.appNodeModules],
         loader: ExtractTextPlugin.extract(
           Object.assign(
             {
@@ -218,6 +270,12 @@ module.exports = {
                     ],
                   },
                 },
+                {
+                  loader: require.resolve('less-loader'),
+                  options: {
+                    modifyVars: customLess,
+                  },
+                }
               ],
             },
             extractTextPluginOptions
