@@ -3,8 +3,8 @@ import {
     NavLink,
     withRouter
 } from "react-router-dom"
-import { Flex, Icon } from "antd-mobile"
-
+import { Flex, Icon,Popup } from "antd-mobile"
+import Prop from "./popup"
  class Nav extends React.Component {
 
 
@@ -20,7 +20,11 @@ import { Flex, Icon } from "antd-mobile"
                 </NavLink>
             </Flex.Item>
             <Flex.Item>
-                <span className="circle">
+                <span className="circle" onClick={(e)=>{
+                        Popup.show(<Prop></Prop>,{
+                            animationType:'slide-up'
+                        })
+                    }}>
                     <Icon type={require('../common/svg/edit.svg')}  size="xxs" className="edit" />
                 </span>
             </Flex.Item>

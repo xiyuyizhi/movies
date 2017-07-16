@@ -1,0 +1,37 @@
+@import "./var.less";
+.popup {
+    text-align: center;
+    .showtime {
+        position: relative;
+        top: 8rem;
+        span {
+            display: inline-block;
+            width: 100%;
+            line-height: 2rem;
+            &.weekDay {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+        }
+    }
+    .editBtns {
+        position: relative;
+        top: 11rem;
+        .editBtns-item{
+            display: inline-block;
+            padding: 5px 25px;
+            .name{
+                display: block;
+                font-size: .6rem;
+            }
+        }
+    }
+    .popup-footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: @popup-footer-height;
+        line-height: @popup-footer-height;
+        border-top: 1px solid #eee;
+    }
+}
