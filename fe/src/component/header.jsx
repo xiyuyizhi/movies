@@ -49,6 +49,7 @@ class Header extends Component {
         </div>
     }
     render() {
+        console.log(this.props)
         const { history, location } = this.props
         const { pathname } = location
         return <div className='header'>
@@ -59,9 +60,7 @@ class Header extends Component {
                 this.isDetail(pathname) && <NavBar className="normalBar" leftContent="返回"
                     mode="light"
                     onLeftClick={() => history.go(-1)}
-                >{
-                        "杀人回忆"
-                    }</NavBar>
+                >{location.state.title}</NavBar>
             }
             {
                 pathname === '/user' && <NavBar className="normalBar" iconName="false"

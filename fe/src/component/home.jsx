@@ -50,16 +50,21 @@ export default class Home extends Component {
                         }
                     ]
                 }>
-                    <Link to={`/detail/${rowId + 1}`}>
+                    <Link to={{
+                        pathname:`/detail/${rowData.id}`,
+                        state:{
+                            title:rowData.title
+                        }
+                    }}>
                         <img src={rowData.thumb} className="m-item-thumb"></img>
                         <div className="m-item-wrap">
                             <div className="m-item-instruction-props">
-                                <span className='label ellipsis weight'>{rowData.title}</span>
-                                <span className='label ellipsis'>{rowData.type}</span>
-                                <span className='label ellipsis'>{rowData.actors}</span>
+                                <span className='label weight'>{rowData.title}</span>
+                                <span className='label'>{rowData.type}</span>
+                                <span className='label'>{rowData.actors}</span>
                             </div>
                             <Dotdotdot clamp={4}>
-                                <p className="m-item-instruct mutil-ellipsis">
+                                <p className="m-item-instruct">
                                     {rowData.instruct}
                                 </p>
                             </Dotdotdot>

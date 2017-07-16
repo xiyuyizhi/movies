@@ -41,7 +41,7 @@
             margin-left: @thumb-width;
             padding-left: 10px;
             display: flex;
-            height: 100%;
+            height:  @movies-item-height;
             font-size: 0.8rem;
             color: @color3;
             .m-item-instruction-props {
@@ -52,11 +52,7 @@
                     flex: 1;
                     line-height: 2rem;
                     max-width: 85px;
-                }
-                .ellipsis {
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
+                    .ellipsis()
                 }
                 .weight {
                     font-weight: bold
@@ -71,10 +67,4 @@
             }
         }
     }
-}
-
-.am-activity-indicator-content {
-    padding: 10px;
-    font-size: 0.5rem;
-    line-height: 0.5rem;
 }

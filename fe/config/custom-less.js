@@ -8,7 +8,7 @@ module.exports = {
     "@font-size-display-lg": "1.2rem",
     "@font-size-caption": "1rem",
 
-    "@button-height-sm": "1.5rem",
+    "@button-height-sm": "2rem",
     "@button-font-size-sm": "1rem",
 
     "@search-bar-height":"3rem",
