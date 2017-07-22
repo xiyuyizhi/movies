@@ -1,6 +1,9 @@
 import React from 'react'
 import { Popup, Icon } from "antd-mobile"
-
+import {
+    NavLink,
+    withRouter
+} from "react-router-dom"
 const dayOfWeek = ['日', '一', '二', '三', '四', '五', '六']
 function formate() {
     const now = new Date()
@@ -12,7 +15,7 @@ function formate() {
     }
 }
 
-export default () => {
+const Pop = ({ history }) => {
 
     const d = formate()
     return (
@@ -21,10 +24,18 @@ export default () => {
                 <span>{d.date}</span>
                 <span className="weekDay">{d.weekDay}</span>
             </div>
+
             <div className="editBtns">
                 <span className="editBtns-item">
                     <Icon type={require('../common/svg/form.svg')} size="lg"></Icon>
                     <label className='name'>表单形式</label>
+                </span>
+                <span className="editBtns-item" onClick={() => {
+                        Popup.hide();
+                        history.push('/reptile')
+                    }}>
+                    <Icon type={require('../common/svg/search.svg')} size="lg"></Icon>
+                    <label className='name' >先找找</label>
                 </span>
                 <span className="editBtns-item">
                     <Icon type={require('../common/svg/upload.svg')} size="lg"></Icon>
@@ -40,3 +51,5 @@ export default () => {
     )
 
 }
+
+export default Pop

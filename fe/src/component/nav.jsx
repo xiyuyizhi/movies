@@ -21,7 +21,7 @@ import Prop from "./popup"
             </Flex.Item>
             <Flex.Item>
                 <span className="circle" onClick={(e)=>{
-                        Popup.show(<Prop></Prop>,{
+                        Popup.show(<Prop history={this.props.history}></Prop>,{
                             animationType:'slide-up'
                         })
                     }}>

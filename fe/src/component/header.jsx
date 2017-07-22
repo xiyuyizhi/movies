@@ -20,6 +20,7 @@ class Header extends Component {
                 { label: '剧情', value: 4 },
             ]
         }
+        console.log(this.props)
     }
 
     search(val) {
@@ -31,6 +32,10 @@ class Header extends Component {
     }
     isDetail(path) {
         return path.indexOf('/detail') !== -1
+    }
+    isReptile(path){
+
+        return path.indexOf('/reptile') !== -1
     }
     homeEles() {
         return <div className="homeBar">
@@ -49,7 +54,6 @@ class Header extends Component {
         </div>
     }
     render() {
-        console.log(this.props)
         const { history, location } = this.props
         const { pathname } = location
         return <div className='header'>
@@ -61,6 +65,12 @@ class Header extends Component {
                     mode="light"
                     onLeftClick={() => history.go(-1)}
                 >{location.state.title}</NavBar>
+            }
+            {
+                this.isReptile(pathname) && <NavBar className="normalBar" leftContent="返回"
+                    mode="light"
+                    onLeftClick={() => history.push('/home')}
+                >找找看</NavBar>
             }
             {
                 pathname === '/user' && <NavBar className="normalBar" iconName="false"

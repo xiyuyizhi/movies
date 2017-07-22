@@ -10,6 +10,7 @@ import Nav from "./nav"
 import Home from "./home"
 import Detail from "./detail"
 import User from "./user"
+import Reptile from "./reptile"
 export default function () {
 
     return (
@@ -23,8 +24,9 @@ export default function () {
                     <Route path="/home" component={Home}></Route>
                     <Route path="/detail/:id" component={Detail}></Route>
                     <Route path="/user" component={User}></Route>
+                    <Route path="/reptile" component={Reptile}></Route>
                 </div>
-                    <Nav></Nav>
+                <Nav></Nav>
             </div>
         </Router>
     )

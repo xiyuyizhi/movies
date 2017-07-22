@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { Button } from 'antd-mobile';
 import data from "./data.js"
+import MovieInfo from "./movieInfo"
+console.log(MovieInfo)
 export default class Detail extends Component {
 
     constructor(props) {
@@ -18,27 +20,12 @@ export default class Detail extends Component {
     render() {
         const { id } = this.props.match.params
         const d = this.getData(id)
-        return <div className='detail'>
-            <img src={d.thumb} className='big-thumb' />
-            <section>
-                <p>
-                    <label>主演:</label>
-                    {d.actors}
-                </p>
-                <p>
-                    <label>类型:</label>
-                    {d.type}
-                </p>
-                <p>
-                    <label>上映时间:</label>
-                    {d.time}
-                </p>
-                <p><label>简介:</label>
-                    {d.instruct}
-                </p>
-            </section>
-            <Button type="primary" size="small">下载地址</Button>
-        </div>
+        return (
+            <div style={{"margin-bottom": "120px"}}>
+                <MovieInfo data={d}></MovieInfo>
+                <Button type="primary" size="small" style={{"margin":"0 10px"}}>下载地址</Button>
+            </div>
+        )
     }
 
 }
