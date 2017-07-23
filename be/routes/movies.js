@@ -1,23 +1,33 @@
-var express = require('express');
-var router = express.Router();
-var DB = require('../db')
+const express = require('express');
+const router = express.Router();
 
-DB.then((db, err) => {
+const MoviesModel = require('./movies_model')
 
-  console.log('connect to db success')
-  const Users = db.collection('users')
-  Users.find({}).toArray((err, docs) => {
-    console.log(docs)
-    db.close()
-  })
-}).catch(err=>{
-  console.log('error')
-  console.log(err)
-})
 /* GET users listing. */
 router.post('/add', function (req, res, next) {
-  console.log(req.body)
-  res.json(req.body);
+  MoviesModel.addMovies(req.body, (docs, err) => {
+    if (err) {
+      next(err)
+      return
+    }
+    res.json({
+      code:0,
+      data:'ok'
+    });
+  })
 });
 
+router.get('/list',function(req,res,next){
+  console.log(req.query)
+    MoviesModel.getList(req.query,(err,docs)=>{
+      if(err){
+        next(err)
+        return
+      }
+      res.json({
+        code:0,
+        data:docs
+      })
+    })
+})
 module.exports = router;

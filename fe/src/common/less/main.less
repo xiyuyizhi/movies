@@ -2,11 +2,14 @@
 .main {
     position: relative;
     top: @top-header-height;
-    width:100%;
-    .am-list-body {
-        border-top-color: #ECECED;
-        &:after {
-            border-bottom: none
+    width: 100%;
+    .am-list-view-scrollview-content {
+        width: 100%;
+        .am-list-body {
+            border-top-color: #ECECED;
+            &:after {
+                border-bottom: none
+            }
         }
     }
     .listview {
@@ -42,7 +45,7 @@
             margin-left: @thumb-width;
             padding-left: @normal-padding;
             display: flex;
-            height:  @movies-item-height;
+            height: @movies-item-height;
             font-size: 0.8rem;
             color: @color3;
             .m-item-instruction-props {

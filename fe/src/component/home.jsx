@@ -10,7 +10,7 @@ import {
     SwipeAction
 } from 'antd-mobile'
 import Dotdotdot from 'react-dotdotdot'
-import data from "./data.js"
+import "whatwg-fetch"
 
 export default class Home extends Component {
 
@@ -19,23 +19,41 @@ export default class Home extends Component {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => { return r1 !== r2 }
         })
-        this.data = data
+        this._data = []
         this.state = {
             isLoading: false,
-            datasource: ds.cloneWithRows(this.data),
+            datasource: ds.cloneWithRows([]),
             noMore: false,
             reflushing: false
         }
         this.footer = this.footer.bind(this)
         this.onEndReached = this.onEndReached.bind(this)
         this.onRefresh = this.onRefresh.bind(this)
-        this.index = 0
+        this.timer = null
     }
 
-    handleData() {
-        this.data = this.data.concat(this.data)
-        console.log(this.data)
-        return this.data
+    handleData(data) {
+        return this._data.concat(data)
+    }
+
+    componentDidMount() {
+        this.setState({
+            isLoading: true
+        })
+        fetch('/api/movies/list').then(res => {
+            return res.json()
+        }).then(data => {
+            if (data.data.length) {
+                this._data = this._data.concat(data.data)
+                this.latestTime = this._data[this._data.length - 1].updateTime
+                this.setState({
+                    datasource: this.state.datasource.cloneWithRows(this._data),
+                })
+            }
+            this.setState({
+                isLoading: false
+            })
+        })
     }
 
     row(rowData, sectionId, rowId) {
@@ -44,16 +62,16 @@ export default class Home extends Component {
                 <SwipeAction autoClose right={
                     [
                         {
-                            text:'收藏',
-                            onPress:()=>{console.log('收藏')},
-                            className:'collection'
+                            text: '收藏',
+                            onPress: () => { console.log('收藏') },
+                            className: 'collection'
                         }
                     ]
                 }>
                     <Link to={{
-                        pathname:`/detail/${rowData.id}`,
-                        state:{
-                            title:rowData.title
+                        pathname: `/detail/${rowData._id}`,
+                        state: {
+                            title: rowData.title
                         }
                     }}>
                         <img src={rowData.thumb} className="m-item-thumb"></img>
@@ -82,25 +100,35 @@ export default class Home extends Component {
         </div>
     }
     onEndReached(e) {
-        if (this.state.isLoading) {
-            return
-        }
-        if (this.index >= 3) {
-            this.setState({
-                noMore: true
-            })
+        console.log('ppppp')
+        if (this.state.isLoading || this.state.noMore) {
             return
         }
         this.setState({
             isLoading: true
         })
-        this.index++
-        setTimeout(() => {
-            this.setState({
-                datasource: this.state.datasource.cloneWithRows(this.handleData()),
-                isLoading: false
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+            fetch('/api/movies/list?latest=' + this.latestTime).then(res => {
+                return res.json()
+            }).then(data => {
+                console.log(data)
+                if (data.data.length) {
+                    this._data = this._data.concat(data.data)
+                    this.latestTime = this._data[this._data.length - 1].updateTime
+                    this.setState({
+                        datasource: this.state.datasource.cloneWithRows(this._data),
+                        isLoading: false
+                    })
+                }else{
+                    this.setState({
+                        noMore:true,
+                        isLoading: false
+                    })
+                }
             })
-        }, 300)
+        }, 100)
+
     }
 
     onRefresh() {
@@ -109,7 +137,6 @@ export default class Home extends Component {
             reflushing: true
         })
         setTimeout(() => {
-            console.log('why')
             this.setState({
                 reflushing: false
             })
@@ -131,9 +158,10 @@ export default class Home extends Component {
                     style={{
                         height: (document.documentElement.clientHeight - 110)
                     }}
-
+                    pageSize={10}
                     onEndReached={this.onEndReached}
-                    onEndReachedThreshold={15}
+                    onEndReachedThreshold={20}
+                    scrollEventThrottle={100}
                     refreshControl={<RefreshControl
                         refreshing={this.state.reflushing}
                         onRefresh={this.onRefresh}

@@ -39,14 +39,24 @@ export default class Reptile extends React.Component {
     }
 
     addMovie() {
+        if(this.state.isLoading){
+            return
+        }
+        this.setState({
+            isLoading: true
+        })
+        this.state.m_info.title=this.state.m_name
         fetch('/api/movies/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ title: 'www' })
+            body: JSON.stringify(this.state.m_info)
         }).then(res => {
-
+            this.setState({
+                isLoading: false
+            })
+            this.props.history.push('/home')
         })
     }
 
