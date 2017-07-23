@@ -42,7 +42,7 @@ function fillData($) {
 }
 
 /* GET home page. */
-router.get('/match/:name', function (req, res, next) {
+router.get('/:name', function (req, res, next) {
 
   getMovieSubjectUrl(req.params.name).then(str => {
     const $ = cheerio.load(str)

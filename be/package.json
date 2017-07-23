@@ -12,6 +12,7 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "jade": "~1.11.0",
+    "mongodb": "^2.2.30",
     "morgan": "~1.8.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",

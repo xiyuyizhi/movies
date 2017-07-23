@@ -9,11 +9,11 @@ export default ({data})=>{
             <section>
                 <p>
                     <label>主演:</label>
-                    {data.actors}
+                    {data.actors.join('/')}
                 </p>
                 <p>
                     <label>类型:</label>
-                    {data.type}
+                    {data.type.join('/')}
                 </p>
                 <p>
                     <label>上映时间:</label>

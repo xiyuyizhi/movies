@@ -9,14 +9,18 @@ import MovieInfo from "./movieInfo"
 export default class Reptile extends React.Component {
     constructor(props) {
         super(props)
-        this.reptile = this.reptile.bind(this)
         this.state = {
             m_name: '',
             m_info: null,
             isLoading: false
         }
+        this.reptile = this.reptile.bind(this)
+        this.addMovie = this.addMovie.bind(this)
     }
 
+    /**
+     * 爬取数据
+     */
     reptile() {
         if (!this.state.m_name) {
             return
@@ -24,13 +28,25 @@ export default class Reptile extends React.Component {
         this.setState({
             isLoading: true
         })
-        fetch('/api/match/' + this.state.m_name).then(res => {
+        fetch('/api/reptile/' + this.state.m_name).then(res => {
             return res.json()
         }).then(data => {
             this.setState({
                 m_info: data,
                 isLoading: false
             })
+        })
+    }
+
+    addMovie() {
+        fetch('/api/movies/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ title: 'www' })
+        }).then(res => {
+
         })
     }
 
@@ -52,7 +68,7 @@ export default class Reptile extends React.Component {
                 {
                     this.state.m_info && <div className="movie-info">
                         <MovieInfo data={this.state.m_info}></MovieInfo>
-                        <Button type="primary" size="small">录入</Button>
+                        <Button type="primary" size="small" onClick={this.addMovie}>录入</Button>
                     </div>
                 }
             </div>
