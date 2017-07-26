@@ -66,17 +66,10 @@ export default class Home extends Component {
             if (data.data.length) {
                 this.dataRecieve(data.data)
             } else {
-                if (this._data.length <= 10) {
-                    this.setState({
-                        loading: false
-                    })
-                } else {
-
-                    this.setState({
-                        noMore: true,
-                        loading: false
-                    })
-                }
+                this.setState({
+                    loading: false,
+                    noMore: true,
+                })
             }
         })
 
@@ -116,8 +109,8 @@ export default class Home extends Component {
                         <div className="m-item-wrap">
                             <div className="m-item-instruction-props">
                                 <span className='label weight'>{rowData.title}</span>
-                                <span className='label'>{rowData.type}</span>
-                                <span className='label'>{rowData.actors}</span>
+                                <span className='label'>{rowData.type.join('/')}</span>
+                                <span className='label'>{rowData.actors.join('/')}</span>
                             </div>
                             <Dotdotdot clamp={4}>
                                 <p className="m-item-instruct">
@@ -134,7 +127,7 @@ export default class Home extends Component {
 
     footer() {
         return <div className="footer" style={{ textAlign: 'center' }}>
-            {this.state.noMore ? '没有了' : this.state.loading ? 'Loading...' : ''}
+            {(this.state.noMore && this._data.length > 10) ? '没有了' : this.state.loading ? 'Loading...' : ''}
         </div>
     }
 

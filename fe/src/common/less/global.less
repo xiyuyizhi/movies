@@ -1,14 +1,14 @@
 @import "./var.less";
-
 html,
 body,
 ul {
     margin: 0;
 }
+
 html,
 body {
     font-size: 20px;
-    color:@color1;
+    color: @color1;
     font-family: @font-family;
     background: @body-bg;
 }
@@ -16,14 +16,14 @@ body {
 a {
     color: @color1;
     &.active {
-        color:@color2
+        color: @color2
     }
 }
 
-input[type="text"]{
-   -moz-box-sizing:    border-box;
-   -webkit-box-sizing: border-box;
-    box-sizing:        border-box;
+input[type="text"] {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 // loading
@@ -32,27 +32,51 @@ input[type="text"]{
     font-size: 0.5rem;
     line-height: 0.5rem;
 }
+
 // Popup
-.am-popup-slide-up{
+.am-popup-slide-up {
     height: 100%;
     opacity: 0.95
 }
-.am-toast{
-    .am-toast-text{
+
+.am-toast {
+    .am-toast-text {
         min-width: 3rem;
         font-size: 0.8rem;
     }
 }
 
-.noData{
+// switch
+.am-switch {
+    height: 1.5rem;
+    .checkbox {
+        width: 62px;
+        height: 1.5rem;
+        &:before {
+            height: 1.5rem;
+            width: 60px;
+            top: 0; // background:@color2; 
+        }
+        &:after {
+            width: 1.5rem;
+            height: 1.5rem;
+            top: 0;
+        }
+    }
+    input[type='checkbox']:checked+.checkbox:after {
+        transform: translateX(29px)
+    }
+}
+
+.noData {
     position: relative;
     height: 400px;
-    svg{
+    svg {
         position: absolute;
-        margin:auto;
+        margin: auto;
         top: 0;
         bottom: 0;
-        left:0;
+        left: 0;
         right: 0;
     }
 }
