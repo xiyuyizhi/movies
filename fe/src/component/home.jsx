@@ -7,10 +7,11 @@ import {
     ListView,
     RefreshControl,
     ActivityIndicator,
-    SwipeAction
+    SwipeAction,
+    Icon
 } from 'antd-mobile'
 import Dotdotdot from 'react-dotdotdot'
-import "whatwg-fetch"
+import Util from "../util/Util.js"
 
 export default class Home extends Component {
 
@@ -21,39 +22,76 @@ export default class Home extends Component {
         })
         this._data = []
         this.state = {
-            isLoading: false,
+            loading: true,
             datasource: ds.cloneWithRows([]),
             noMore: false,
-            reflushing: false
+            reflushing: false,
+            noData: false
         }
         this.footer = this.footer.bind(this)
         this.onEndReached = this.onEndReached.bind(this)
         this.onRefresh = this.onRefresh.bind(this)
-        this.timer = null
-    }
-
-    handleData(data) {
-        return this._data.concat(data)
     }
 
     componentDidMount() {
-        this.setState({
-            isLoading: true
-        })
-        fetch('/api/movies/list').then(res => {
-            return res.json()
-        }).then(data => {
+        Util.fetch('/api/movies/list').then(data => {
             if (data.data.length) {
-                this._data = this._data.concat(data.data)
-                this.latestTime = this._data[this._data.length - 1].updateTime
-                this.setState({
-                    datasource: this.state.datasource.cloneWithRows(this._data),
-                })
+                this.dataRecieve(data.data)
+                return
             }
             this.setState({
-                isLoading: false
+                loading: false,
+                noData: true
             })
         })
+    }
+
+    dataRecieve(data) {
+        this._data = this._data.concat(data)
+        this.latestTime = this._data[this._data.length - 1].updateTime
+        this.setState({
+            datasource: this.state.datasource.cloneWithRows(this._data),
+            loading: false
+        })
+    }
+
+    onEndReached(e) {
+        if (this.state.loading || this.state.noMore) {
+            return
+        }
+        this.setState({
+            loading: true
+        })
+        Util.fetch('/api/movies/list?latest=' + this.latestTime).then(data => {
+            if (data.data.length) {
+                this.dataRecieve(data.data)
+            } else {
+                if (this._data.length <= 10) {
+                    this.setState({
+                        loading: false
+                    })
+                } else {
+
+                    this.setState({
+                        noMore: true,
+                        loading: false
+                    })
+                }
+            }
+        })
+
+    }
+
+    onRefresh() {
+        console.log('reflush')
+        this.setState({
+            reflushing: true
+        })
+        setTimeout(() => {
+            this.setState({
+                reflushing: false
+            })
+        }, 1000)
     }
 
     row(rowData, sectionId, rowId) {
@@ -96,78 +134,35 @@ export default class Home extends Component {
 
     footer() {
         return <div className="footer" style={{ textAlign: 'center' }}>
-            {this.state.noMore ? '没有了' : this.state.isLoading ? 'Loading...' : ''}
+            {this.state.noMore ? '没有了' : this.state.loading ? 'Loading...' : ''}
         </div>
-    }
-    onEndReached(e) {
-        console.log('ppppp')
-        if (this.state.isLoading || this.state.noMore) {
-            return
-        }
-        this.setState({
-            isLoading: true
-        })
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
-            fetch('/api/movies/list?latest=' + this.latestTime).then(res => {
-                return res.json()
-            }).then(data => {
-                console.log(data)
-                if (data.data.length) {
-                    this._data = this._data.concat(data.data)
-                    this.latestTime = this._data[this._data.length - 1].updateTime
-                    this.setState({
-                        datasource: this.state.datasource.cloneWithRows(this._data),
-                        isLoading: false
-                    })
-                }else{
-                    this.setState({
-                        noMore:true,
-                        isLoading: false
-                    })
-                }
-            })
-        }, 100)
-
-    }
-
-    onRefresh() {
-        console.log('reflush')
-        this.setState({
-            reflushing: true
-        })
-        setTimeout(() => {
-            this.setState({
-                reflushing: false
-            })
-        }, 1000)
     }
 
     render() {
 
         return (
-            <div>
-                <ActivityIndicator
-                    toast
-                    animating={this.state.isLoading}>
-                </ActivityIndicator>
-                <ListView className="listview" dataSource={this.state.datasource}
-                    renderRow={this.row}
-                    renderFooter={this.footer}
-                    onScroll={() => { console.log('scroll'); }}
-                    style={{
-                        height: (document.documentElement.clientHeight - 110)
-                    }}
-                    pageSize={10}
-                    onEndReached={this.onEndReached}
-                    onEndReachedThreshold={20}
-                    scrollEventThrottle={100}
-                    refreshControl={<RefreshControl
-                        refreshing={this.state.reflushing}
-                        onRefresh={this.onRefresh}
-                    />}
-                >
-                </ListView>
+            <div>{
+                this.state.noData ? <div className='noData'>
+                    <Icon type={require('../common/svg/no-data.svg')} size="lg" />
+                </div>
+                    : <ListView className="listview" dataSource={this.state.datasource}
+                        renderRow={this.row}
+                        renderFooter={this.footer}
+                        onScroll={() => { console.log('scroll'); }}
+                        style={{
+                            height: (document.documentElement.clientHeight - 110)
+                        }}
+                        pageSize={10}
+                        onEndReached={this.onEndReached}
+                        onEndReachedThreshold={20}
+                        scrollEventThrottle={100}
+                        refreshControl={<RefreshControl
+                            refreshing={this.state.reflushing}
+                            onRefresh={this.onRefresh}
+                        />}
+                    >
+                    </ListView>
+            }
             </div>
         )
     }

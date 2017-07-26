@@ -21,8 +21,7 @@ class MoviesModel {
         data.updateTime = new Date().getTime()
         this.Type.addTypes(types)
         DB.connect().then((db, err) => {
-            const Movies = this.getCollection(db)
-            Movies.insertOne(data).then((docs, err) => {
+            this.getCollection(db).insertOne(data).then((docs, err) => {
                 console.log(docs)
                 callback(docs, err)
                 db.close()
@@ -57,6 +56,18 @@ class MoviesModel {
                 })
             })
         }
+    }
+
+    getOneMovie(movieId,callback){
+        DB.connect().then((db,err)=>{
+            const Movies=this.getCollection(db)
+            Movies.find({
+               _id:DB.id(movieId) 
+            }).toArray((err,docs)=>{
+                callback(err,docs)
+                db.close()
+            })
+        })
     }
 
 }

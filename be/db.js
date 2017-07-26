@@ -1,5 +1,5 @@
 
-const MongoClient = require('mongodb').MongoClient
+const {MongoClient,ObjectId} = require('mongodb')
 const f = require('util').format
 const user = encodeURIComponent('moviesAdmin')
 const pwd = encodeURIComponent('wangwei2017')
@@ -13,9 +13,9 @@ module.exports = {
     id(id) {
         try {
             if (id) {
-                return new MongoClient.ObjectId(id)
+                return new ObjectId(id)
             } else {
-                return new MongoClient.ObjectId()
+                return new ObjectId()
             }
         } catch (e) {
 
