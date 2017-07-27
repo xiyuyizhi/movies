@@ -22,16 +22,16 @@ class MoviesModel {
         this.Type.addTypes(types)
         DB.connect().then((db, err) => {
             this.getCollection(db).insertOne(data).then((docs, err) => {
-                console.log(docs)
-                callback(docs, err)
+                callback(err, docs)
                 db.close()
             })
+        }).catch(e => {
+            callback(e)
         })
     }
 
     getList(query, callback) {
         const pageSize = 10
-        console.log(query)
         if (query.latest) {
             //分页
             DB.connect().then((db, err) => {
@@ -45,6 +45,8 @@ class MoviesModel {
                     callback(err, docs)
                     db.close()
                 })
+            }).catch(e => {
+                callback(e)
             })
         } else {
             DB.connect().then((db, err) => {
@@ -54,19 +56,23 @@ class MoviesModel {
                     callback(err, docs)
                     db.close()
                 })
+            }).catch(e => {
+                callback(e)
             })
         }
     }
 
-    getOneMovie(movieId,callback){
-        DB.connect().then((db,err)=>{
-            const Movies=this.getCollection(db)
+    getOneMovie(movieId, callback) {
+        DB.connect().then((db, err) => {
+            const Movies = this.getCollection(db)
             Movies.find({
-               _id:DB.id(movieId) 
-            }).toArray((err,docs)=>{
-                callback(err,docs)
+                _id: DB.id(movieId)
+            }).toArray((err, docs) => {
+                callback(err, docs)
                 db.close()
             })
+        }).catch(e => {
+            callback(e)
         })
     }
 
