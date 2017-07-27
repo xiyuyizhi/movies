@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "pm2 start ecosystem.config.js"
+    "start": "pm2 start ecosystem.config.js",
+    "test": "mocha --watch"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -12,10 +13,12 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "jade": "~1.11.0",
+    "mocha": "^3.4.2",
     "mongodb": "^2.2.30",
     "morgan": "~1.8.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "should": "^11.2.1"
   }
 }
