@@ -58,8 +58,13 @@ router.get('/:name', function (req, res, next) {
   getMovieSubjectUrl(req.params.name).then(str => {
     const $ = cheerio.load(str)
     let detail = $('.detail')
-    if (detail.length !== 1) {
-      const a = detail.eq(1).find('.title a')
+    if (detail.length) {
+      let a
+      if (detail.eq(0).has('.rating_nums').length) {
+        a = detail.eq(0).find('.title a')
+      } else {
+        a = detail.eq(1).find('.title a')
+      }
       getMovieDetail(a.attr('href'), res, next)
     } else {
       next(10001)

@@ -29,6 +29,10 @@ export default class Reptile extends React.Component {
             return
         }
         Util.fetch('/api/reptile/' + this.state.m_name).then(data => {
+            if(data.code){
+                Toast.info(data.msg)
+                return
+            }
             this.setState({
                 m_info: data,
             })
@@ -38,7 +42,7 @@ export default class Reptile extends React.Component {
     addMovie() {
 
         this.state.m_info.title = this.state.m_name
-        Util.fetch('/api/movies/add', {
+        Util.fetch('/api/movies', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

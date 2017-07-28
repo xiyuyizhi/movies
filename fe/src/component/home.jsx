@@ -34,7 +34,7 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        Util.fetch('/api/movies/list').then(data => {
+        Util.fetch('/api/movies').then(data => {
             if (data.data.length) {
                 this.dataRecieve(data.data)
                 return
@@ -62,7 +62,7 @@ export default class Home extends Component {
         this.setState({
             loading: true
         })
-        Util.fetch('/api/movies/list?latest=' + this.latestTime).then(data => {
+        Util.fetch('/api/movies?latest=' + this.latestTime).then(data => {
             if (data.data.length) {
                 this.dataRecieve(data.data)
             } else {

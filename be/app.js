@@ -4,8 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-
+var code = require('./code')
 var reptile = require('./routes/reptile');
 var movies = require('./routes/movies');
 
@@ -34,13 +33,12 @@ app.use(function (req, res, next) {
 });
 
 app.use(function (err, req, res, next) {
-  switch (err) {
-    case 10001:
-      res.json({
-        code: 10001,
-        msg: '无匹配'
-      })
-      break;
+  if (typeof err == 'number') {
+    res.json({
+      code: err,
+      msg: code[err]
+    }) 
+    return
   }
   next()
 })

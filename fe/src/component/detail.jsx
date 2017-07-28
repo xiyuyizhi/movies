@@ -22,7 +22,7 @@ export default class Detail extends Component {
 
 
     componentWillMount() {
-        Util.fetch(`/api/movies/list/${this.props.match.params.id}`).then(res => {
+        Util.fetch(`/api/movies/${this.props.match.params.id}`).then(res => {
             this.setState({
                 movieInfo: res.data[0]
             })
