@@ -16,6 +16,7 @@
     "mocha": "^3.4.2",
     "mongodb": "^2.2.30",
     "morgan": "~1.8.1",
+    "phantom": "^4.0.5",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "serve-favicon": "~2.4.2",

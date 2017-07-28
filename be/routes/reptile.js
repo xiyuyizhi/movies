@@ -2,15 +2,26 @@ var express = require('express');
 var router = express.Router();
 const cheerio = require('cheerio')
 const rq = require('request-promise')
-
-
+var phantom = require("phantom");
 
 function getMovieSubjectUrl(name) {
-  return rq('https://movie.douban.com/subject_search?search_text=' + encodeURIComponent(name))
+  var _ph, _page, _outObj;
+  return phantom.create().then(ph => {
+    _ph = ph;
+    return _ph.createPage();
+  }).then(page => {
+    _page = page;
+    return _page.open('https://movie.douban.com/subject_search?search_text=' + encodeURIComponent(name));
+  }).then(status => {
+    return _page.property('content')
+  }).then(content => {
+    _page.close();
+    _ph.exit();
+    return content
+  }).catch(e => console.log(e));
 }
 
 function getMovieDetail(href, res, next) {
-
   rq(href).then(str => {
     const $ = cheerio.load(str)
     const data = fillData($)
@@ -46,15 +57,12 @@ router.get('/:name', function (req, res, next) {
 
   getMovieSubjectUrl(req.params.name).then(str => {
     const $ = cheerio.load(str)
-    let tables = $('table')
-    if (tables.length !== 1) {
-      const a = tables.eq(1).find('.pl2 a')
+    let detail = $('.detail')
+    if (detail.length !== 1) {
+      const a = detail.eq(1).find('.title a')
       getMovieDetail(a.attr('href'), res, next)
     } else {
-      res.json({
-        'msg':'没有匹配的'
-      })
-      res.end()
+      next(10001)
     }
   });
 

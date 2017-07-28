@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+
 var reptile = require('./routes/reptile');
 var movies = require('./routes/movies');
 
@@ -31,6 +32,18 @@ app.use(function (req, res, next) {
   err.status = 404;
   next(err);
 });
+
+app.use(function (err, req, res, next) {
+  switch (err) {
+    case 10001:
+      res.json({
+        code: 10001,
+        msg: '无匹配'
+      })
+      break;
+  }
+  next()
+})
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -72,6 +85,7 @@ new Array(100).fill(1).map((item, index) => {
 }).forEach(item => {
   //fill(item)
 })
+
 
 
 module.exports = app;
