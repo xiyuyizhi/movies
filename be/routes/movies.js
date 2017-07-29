@@ -3,7 +3,7 @@ const router = express.Router();
 
 const MoviesModel = require('../models/movies_model')
 
-function callback(err, docs, res,next) {
+function callback(err, docs, res, next) {
   if (err) {
     next(err)
     return
@@ -17,19 +17,28 @@ function callback(err, docs, res,next) {
 /* GET users listing. */
 router.post('/', function (req, res, next) {
   MoviesModel.addMovies(req.body, (err, docs) => {
-    callback(err,'ok',res,next)
+    callback(err, 'ok', res, next)
   })
 });
 
 router.get('/', function (req, res, next) {
   MoviesModel.getList(req.query, (err, docs) => {
-    callback(err, docs, res,next)
+    callback(err, docs, res, next)
   })
 })
+
 router.get('/:movieId', (req, res, next) => {
   MoviesModel.getOneMovie(req.params.movieId, (err, docs) => {
-    callback(err, docs, res,next)
+    callback(err, docs, res, next)
   })
+})
+
+
+router.get('/search/by', (req, res, next) => {
+  MoviesModel.search(req.query, (err, docs) => {
+    callback(err, docs, res, next)
+  })
+  
 })
 
 module.exports = router;

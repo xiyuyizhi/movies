@@ -26,17 +26,61 @@ export default class Home extends Component {
             datasource: ds.cloneWithRows([]),
             noMore: false,
             reflushing: false,
-            noData: false
+            noData: false,
         }
         this.footer = this.footer.bind(this)
         this.onEndReached = this.onEndReached.bind(this)
         this.onRefresh = this.onRefresh.bind(this)
+        this.timer = null
+    }
+
+    // componentWillReceiveProps(nextProps) {
+    //     const { category, search } = nextProps
+    //     console.log(category + "    " + search)
+    //     clearTimeout(this.timer)
+    //     this.timer = setTimeout(() => {
+    //         if (this.state.loading) {
+    //             return
+    //         }
+    //         this.setState({
+    //             loading: true
+    //         })
+    //         let promise
+    //         if (category || search) {
+    //             promise = Util.fetch('/api/movies/search/by?')
+    //         }
+    //         if (!category && !search) {
+    //             promise = Util.fetch('/api/movies')
+    //         }
+    //         promise.then(res => {
+    //             if (res.data.length) {
+    //                 this._data = []
+    //                 this.dataRecieve(res.data)
+    //             } else {
+    //                 this.setState({
+    //                     loading: false,
+    //                     noData: true
+    //                 })
+    //             }
+    //         })
+    //     }, 10)
+    // }
+
+
+    handleQuery(obj) {
+        const keys = Object.keys(obj)
+        keys.forEach(key => {
+            if (!obj[key]) {
+                delete obj[key]
+            }
+        })
+
     }
 
     componentDidMount() {
-        Util.fetch('/api/movies').then(data => {
-            if (data.data.length) {
-                this.dataRecieve(data.data)
+        Util.fetch('/api/movies').then(res => {
+            if (res.data.length) {
+                this.dataRecieve(res.data)
                 return
             }
             this.setState({
@@ -51,9 +95,12 @@ export default class Home extends Component {
         this.latestTime = this._data[this._data.length - 1].updateTime
         this.setState({
             datasource: this.state.datasource.cloneWithRows(this._data),
-            loading: false
+            loading: false,
+            noData: false
         })
     }
+
+
 
     onEndReached(e) {
         if (this.state.loading || this.state.noMore) {
@@ -62,9 +109,9 @@ export default class Home extends Component {
         this.setState({
             loading: true
         })
-        Util.fetch('/api/movies?latest=' + this.latestTime).then(data => {
-            if (data.data.length) {
-                this.dataRecieve(data.data)
+        Util.fetch('/api/movies?latest=' + this.latestTime).then(res => {
+            if (res.data.length) {
+                this.dataRecieve(res.data)
             } else {
                 this.setState({
                     loading: false,
@@ -88,7 +135,7 @@ export default class Home extends Component {
     }
 
     row(rowData, sectionId, rowId) {
-        return <div className='listview-item'>
+        return <div className='listview-item' key={rowId}>
             <div className="m-item">
                 <SwipeAction autoClose right={
                     [
@@ -145,6 +192,7 @@ export default class Home extends Component {
                         style={{
                             height: (document.documentElement.clientHeight - 110)
                         }}
+                        useZscroller
                         pageSize={10}
                         onEndReached={this.onEndReached}
                         onEndReachedThreshold={20}

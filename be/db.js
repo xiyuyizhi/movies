@@ -8,7 +8,9 @@ const url = f('mongodb://%s:%s@localhost:3307/Movies?authMechanism=%s', user, pw
 
 module.exports = {
     connect() {
-        return MongoClient.connect(url)
+        return MongoClient.connect(url).catch(e=>{
+            console.log(e)
+        })
     },
     id(id) {
         try {

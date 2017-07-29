@@ -26,10 +26,10 @@ const Pop = ({ history }) => {
             </div>
 
             <div className="editBtns">
-                <span className="editBtns-item">
+                {/*<span className="editBtns-item">
                     <Icon type={require('../common/svg/form.svg')} size="lg"></Icon>
                     <label className='name'>表单形式</label>
-                </span>
+                </span>*/}
                 <span className="editBtns-item" onClick={() => {
                         Popup.hide();
                         history.push('/reptile')

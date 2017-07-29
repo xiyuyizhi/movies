@@ -21,8 +21,17 @@ class Type {
         })
     }
 
+    getList(callback){
+        DB.connect().then((db,err)=>{
+            const Types=db.collection('types')
+            Types.find({}).toArray((err,docs)=>{
+                callback(err,docs)
+            })
+        })
+    }
+
     
 }
 
 
-module.exports = Type
+module.exports = new Type()

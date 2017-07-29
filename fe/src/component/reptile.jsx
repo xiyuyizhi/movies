@@ -50,9 +50,9 @@ export default class Reptile extends React.Component {
             body: JSON.stringify(this.state.m_info)
         }).then(res => {
             Toast.info('已录入', 1.5, () => {
-                setTimeout(() => {
-                    this.props.history.push('/home')
-                }, 0)
+                // setTimeout(() => {
+                //     this.props.history.push('/home')
+                // }, 0)
             })
         })
     }

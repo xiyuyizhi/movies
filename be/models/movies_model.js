@@ -1,10 +1,11 @@
 const DB = require('../db')
 const TypeModel = require('./type_model')
+const pageSize = 10
 
 class MoviesModel {
 
     constructor() {
-        this.Type = new TypeModel()
+        this.Type = TypeModel
     }
 
     getCollection(db) {
@@ -31,7 +32,6 @@ class MoviesModel {
     }
 
     getList(query, callback) {
-        const pageSize = 10
         if (query.latest) {
             //分页
             DB.connect().then((db, err) => {
@@ -64,8 +64,7 @@ class MoviesModel {
 
     getOneMovie(movieId, callback) {
         DB.connect().then((db, err) => {
-            const Movies = this.getCollection(db)
-            Movies.find({
+            this.getCollection(db).find({
                 _id: DB.id(movieId)
             }).toArray((err, docs) => {
                 callback(err, docs)
@@ -75,6 +74,26 @@ class MoviesModel {
             callback(e)
         })
     }
+
+
+    search(query, callback) {
+        const { cate, content, latest } = query
+        const queryObj = {}
+        cate && (queryObj['type'] = cate)
+        content && (queryObj['title'] = new RegExp(content))
+        latest && (queryObj['updateTime'] = {
+            '$lt': Number(query.latest)
+        })
+        console.log(queryObj)
+        DB.connect().then((db, err) => {
+            this.getCollection(db).find(queryObj).sort({
+                updateTime: -1
+            }).toArray().then((docs, err) => {
+                callback(err, docs)
+            })
+        })
+    }
+
 
 }
 

@@ -6,25 +6,40 @@ import {
     NavBar
 } from "antd-mobile"
 import { withRouter } from "react-router-dom"
+import Util from "../util/Util.js"
 
 class Header extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            types: [
-                { label: '爱情', value: 0 },
-                { label: '动作', value: 1 },
-                { label: '喜剧', value: 2 },
-                { label: '惊悚', value: 3 },
-                { label: '剧情', value: 4 },
-            ]
+            types: [],
+            category:'分类'
         }
-        console.log(this.props)
+        this.onOk=this.onOk.bind(this)
+        this.onDismiss=this.onDismiss.bind(this)
+        this.search=this.search.bind(this)
+        this.searchCancel=this.searchCancel.bind(this)
+    }
+
+    componentDidMount() {
+        Util.fetch('/api/types').then(res=>{
+            this.setState({
+                types:res.data.map(item=>{
+                    return {
+                        label:item.type_name,
+                        value:item.type_name
+                    }
+                })
+            })
+        })
     }
 
     search(val) {
-        alert(val)
+        this.props.searchCallback(val)
+    }
+    searchCancel(){
+        this.props.searchCallback('')
     }
 
     isHomepage(path) {
@@ -37,18 +52,36 @@ class Header extends Component {
 
         return path.indexOf('/reptile') !== -1
     }
+    /**
+     * 分类picker选择
+     * @param {*} val 
+     */
+    onOk(val){
+        this.setState({
+            category:val
+        })
+        this.props.cateCallback(val)
+    }
+    onDismiss(){
+        this.setState({
+            category:'分类'
+        })
+        this.props.cateCallback([''])
+    }
+    
     homeEles() {
         return <div className="homeBar">
             <div className="search">
-                <SearchBar placeholder="搜索" onSubmit={this.search}></SearchBar>
+                <SearchBar placeholder="搜索" onCancel={this.searchCancel} onSubmit={this.search}></SearchBar>
             </div>
             <div className="typeList">
                 <Picker
                     data={this.state.types}
                     cols="1"
-                    onPickerChange={this.onPickerChange}
+                    onOk={this.onOk}
+                    onDismiss={this.onDismiss}
                 >
-                    <List.Item arrow="horizontal" onClick={this.onClick}>分类</List.Item>
+                    <List.Item arrow="horizontal">{this.state.category}</List.Item>
                 </Picker>
             </div>
         </div>

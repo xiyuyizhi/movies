@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var code = require('./code')
 var reptile = require('./routes/reptile');
 var movies = require('./routes/movies');
+var types=require('./routes/types')
 
 var app = express();
 const pre = '/api'
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(pre + "/reptile", reptile);
 app.use(pre + "/movies", movies);
+app.use(pre + "/types", types);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
