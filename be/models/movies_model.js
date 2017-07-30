@@ -90,10 +90,19 @@ class MoviesModel {
                 updateTime: -1
             }).toArray().then((docs, err) => {
                 callback(err, docs)
+                db.close()
             })
         })
     }
 
+    remove(callback){
+        DB.connect().then((db,err)=>{
+            this.getCollection(db).remove({}).then(()=>{
+                callback()
+                db.close()
+            })
+        })
+    }
 
 }
 

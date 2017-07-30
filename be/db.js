@@ -4,7 +4,11 @@ const f = require('util').format
 const user = encodeURIComponent('moviesAdmin')
 const pwd = encodeURIComponent('wangwei2017')
 const authMechanism = 'DEFAULT'
-const url = f('mongodb://%s:%s@localhost:3307/Movies?authMechanism=%s', user, pwd, authMechanism)
+let db_name='Movies'
+if(process.env.NODE_ENV=='test'){
+    db_name='Movies_test'
+}
+const url = f(`mongodb://%s:%s@localhost:3307/${db_name}?authMechanism=%s`, user, pwd, authMechanism)
 
 module.exports = {
     connect() {
