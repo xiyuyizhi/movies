@@ -21,12 +21,14 @@ export default class Home extends Component {
             rowHasChanged: (r1, r2) => { return r1 !== r2 }
         })
         this._data = []
+        this.props = props
         this.state = {
             loading: true,
             datasource: ds.cloneWithRows([]),
+            noData: false,
             noMore: false,
             reflushing: false,
-            noData: false,
+            isSearch: false
         }
         this.footer = this.footer.bind(this)
         this.onEndReached = this.onEndReached.bind(this)
@@ -34,60 +36,79 @@ export default class Home extends Component {
         this.timer = null
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     const { category, search } = nextProps
-    //     console.log(category + "    " + search)
-    //     clearTimeout(this.timer)
-    //     this.timer = setTimeout(() => {
-    //         if (this.state.loading) {
-    //             return
-    //         }
-    //         this.setState({
-    //             loading: true
-    //         })
-    //         let promise
-    //         if (category || search) {
-    //             promise = Util.fetch('/api/movies/search/by?')
-    //         }
-    //         if (!category && !search) {
-    //             promise = Util.fetch('/api/movies')
-    //         }
-    //         promise.then(res => {
-    //             if (res.data.length) {
-    //                 this._data = []
-    //                 this.dataRecieve(res.data)
-    //             } else {
-    //                 this.setState({
-    //                     loading: false,
-    //                     noData: true
-    //                 })
-    //             }
-    //         })
-    //     }, 10)
-    // }
-
-
-    handleQuery(obj) {
-        const keys = Object.keys(obj)
-        keys.forEach(key => {
-            if (!obj[key]) {
-                delete obj[key]
-            }
-        })
-
-    }
-
-    componentDidMount() {
-        Util.fetch('/api/movies').then(res => {
-            if (res.data.length) {
-                this.dataRecieve(res.data)
+    /**
+     * 当选择了分类，或输入了搜索内容时，数据传递进来，查询
+     * @param {*} nextProps 
+     */
+    componentWillReceiveProps(nextProps) {
+        const { category, search } = nextProps
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+            if (this.state.loading) {
                 return
             }
             this.setState({
-                loading: false,
-                noData: true
+                loading: true,
+                isSearch: true
             })
+            this.fetch(category, search)
+        }, 0)
+    }
+
+
+    handleQuery(category, search) {
+        let cateStr
+        let searchStr
+        category && (cateStr = 'cate=' + category)
+        search && (searchStr = 'content=' + search)
+        if (cateStr && searchStr) {
+            return cateStr + '&' + searchStr
+        }
+        if (cateStr) {
+            return cateStr
+        }
+        if (searchStr) {
+            return searchStr
+        }
+
+    }
+
+    /**
+     * 根据props中的值来判断发搜索请求还是直接获取列表
+     */
+
+    fetch(category, search) {
+        let promise
+        if (category || search) {
+            const str = this.handleQuery(category, search)
+            promise = Util.fetch('/api/movies/search/by?' + str)
+            //分类、搜索时不分页
+        }
+        if (!category && !search) {
+            this.setState({
+                isSearch: false
+            })
+            promise = Util.fetch('/api/movies')
+        }
+        promise.then(res => {
+            if (res.data.length) {
+                this._data = []
+                this.dataRecieve(res.data)
+            } else {
+                this.setState({
+                    loading: false,
+                    noData: true
+                })
+            }
         })
+    }
+
+    componentDidMount() {
+        const { search, category } = this.props
+        this.setState({
+            isSearch: search || category
+        })
+        this.fetch(category, search)
     }
 
     dataRecieve(data) {
@@ -96,14 +117,15 @@ export default class Home extends Component {
         this.setState({
             datasource: this.state.datasource.cloneWithRows(this._data),
             loading: false,
-            noData: false
+            noData: false,
+            noMore: false
         })
     }
 
 
 
     onEndReached(e) {
-        if (this.state.loading || this.state.noMore) {
+        if (this.state.loading || this.state.noMore || this.state.isSearch) {
             return
         }
         this.setState({

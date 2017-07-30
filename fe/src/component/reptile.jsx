@@ -14,11 +14,11 @@ export default class Reptile extends React.Component {
         this.state = {
             m_name: '',
             m_info: null,
-            on:false //修改按钮
+            on: false //修改按钮
         }
         this.reptile = this.reptile.bind(this)
         this.addMovie = this.addMovie.bind(this)
-        this.editCallback=this.editCallback.bind(this)
+        this.editCallback = this.editCallback.bind(this)
     }
 
     /**
@@ -29,7 +29,7 @@ export default class Reptile extends React.Component {
             return
         }
         Util.fetch('/api/reptile/' + this.state.m_name).then(data => {
-            if(data.code){
+            if (data.code) {
                 Toast.info(data.msg)
                 return
             }
@@ -50,17 +50,17 @@ export default class Reptile extends React.Component {
             body: JSON.stringify(this.state.m_info)
         }).then(res => {
             Toast.info('已录入', 1.5, () => {
-                // setTimeout(() => {
-                //     this.props.history.push('/home')
-                // }, 0)
+                setTimeout(() => {
+                    this.props.history.push('/home')
+                }, 0)
             })
         })
     }
 
-    editCallback(data){
+    editCallback(data) {
         this.setState({
-                m_info: data,
-            })
+            m_info: data,
+        })
     }
 
     render() {
@@ -77,7 +77,7 @@ export default class Reptile extends React.Component {
                 {
                     this.state.m_info &&
                     <div className="movie-info">
-                        <div style={{'marginBottom':'10px'}}>
+                        <div style={{ 'marginBottom': '10px' }}>
                             <label>修改:</label><Switch checked={this.state.on} onChange={() => {
                                 this.setState({
                                     on: !this.state.on

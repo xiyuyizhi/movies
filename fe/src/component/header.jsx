@@ -14,32 +14,30 @@ class Header extends Component {
         super(props)
         this.state = {
             types: [],
-            category:'分类'
+            category: '分类',
+            search: ''
         }
-        this.onOk=this.onOk.bind(this)
-        this.onDismiss=this.onDismiss.bind(this)
-        this.search=this.search.bind(this)
-        this.searchCancel=this.searchCancel.bind(this)
+        this.onOk = this.onOk.bind(this)
+        this.onDismiss = this.onDismiss.bind(this)
+        this.search = this.search.bind(this)
+        this.onClear = this.onClear.bind(this)
+    }
+
+    componentWillReceiveProps(nextProps) {
+
     }
 
     componentDidMount() {
-        Util.fetch('/api/types').then(res=>{
+        Util.fetch('/api/types').then(res => {
             this.setState({
-                types:res.data.map(item=>{
+                types: res.data.map(item => {
                     return {
-                        label:item.type_name,
-                        value:item.type_name
+                        label: item.type_name,
+                        value: item.type_name
                     }
                 })
             })
         })
-    }
-
-    search(val) {
-        this.props.searchCallback(val)
-    }
-    searchCancel(){
-        this.props.searchCallback('')
     }
 
     isHomepage(path) {
@@ -48,31 +46,51 @@ class Header extends Component {
     isDetail(path) {
         return path.indexOf('/detail') !== -1
     }
-    isReptile(path){
+    isReptile(path) {
 
         return path.indexOf('/reptile') !== -1
     }
+
+    /**
+     * 搜索
+     * @param {*} val 
+     */
+    search(val) {
+        this.setState({
+            search: val
+        })
+        this.props.searchCallback(val)
+    }
+    onClear() {
+        this.props.searchCallback('')
+    }
+
     /**
      * 分类picker选择
      * @param {*} val 
      */
-    onOk(val){
+    onOk(val) {
         this.setState({
-            category:val
+            category: val
         })
         this.props.cateCallback(val)
     }
-    onDismiss(){
+    onDismiss() {
         this.setState({
-            category:'分类'
+            category: '分类'
         })
         this.props.cateCallback([''])
     }
-    
+
+
     homeEles() {
         return <div className="homeBar">
             <div className="search">
-                <SearchBar placeholder="搜索" onCancel={this.searchCancel} onSubmit={this.search}></SearchBar>
+                <SearchBar value={this.state.search} placeholder="搜索" onChange={(val) => {
+                    this.setState({
+                        search: val
+                    })
+                }} onClear={this.onClear} onSubmit={this.search}></SearchBar>
             </div>
             <div className="typeList">
                 <Picker
