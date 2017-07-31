@@ -29,6 +29,7 @@ describe('Movies', function () {
 
     describe('PageSize', function () {
       beforeEach(function (done) {
+        //插入三条记录
         request(app)
           .post('/api/movies').send(data.movieInfo).then(() => {
             return request(app).post('/api/movies').send(data.movieInfo1)
