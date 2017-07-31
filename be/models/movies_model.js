@@ -1,6 +1,6 @@
 const DB = require('../db')
 const TypeModel = require('./type_model')
-const pageSize = 10
+const PAGESIZE = 10
 
 class MoviesModel {
 
@@ -32,16 +32,17 @@ class MoviesModel {
     }
 
     getList(query, callback) {
-        if (query.latest) {
+        const {latest,pageSize}=query
+        if (latest) {
             //分页
             DB.connect().then((db, err) => {
                 this.getCollection(db).find({
                     updateTime: {
-                        '$lt': Number(query.latest)
+                        '$lt': Number(latest)
                     }
                 }).sort({
                     updateTime: -1
-                }).limit(pageSize).toArray((err, docs) => {
+                }).limit(parseInt(pageSize)||PAGESIZE).toArray((err, docs) => {
                     callback(err, docs)
                     db.close()
                 })
@@ -52,7 +53,7 @@ class MoviesModel {
             DB.connect().then((db, err) => {
                 this.getCollection(db).find().sort({
                     updateTime: -1
-                }).limit(pageSize).toArray((err, docs) => {
+                }).limit(parseInt(pageSize)||PAGESIZE).toArray((err, docs) => {
                     callback(err, docs)
                     db.close()
                 })
@@ -84,7 +85,6 @@ class MoviesModel {
         latest && (queryObj['updateTime'] = {
             '$lt': Number(query.latest)
         })
-        console.log(queryObj)
         DB.connect().then((db, err) => {
             this.getCollection(db).find(queryObj).sort({
                 updateTime: -1

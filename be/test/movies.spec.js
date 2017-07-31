@@ -1,16 +1,23 @@
 
 process.env.NODE_ENV = 'test'
-
 const should = require('should')
 const request = require('supertest')
 const app = require('../app')
 const MoviesModel = require('../models/movies_model')
+const TypeModel = require('../models/type_model')
 const DB = require('../db')
+
+const data = require('./mock.data')
+
+
 describe('Movies', function () {
+  this.timeout(2000)  //全局定义一下 其下的timeout最大时间
+
+
+  /**
+   * 查询接口
+   */
   describe('GET /movies', function () {
-
-    this.timeout(2000)  //全局定义一下 其下的timeout最大时间
-
     it('response with data property', function (done) {
       request(app)
         .get('/api/movies')
@@ -19,70 +26,147 @@ describe('Movies', function () {
           done()
         })
     })
-    describe('POST /movies', function () {
-      beforeEach(function (done) {
-        const movieInfo = {
-          "title": 'movie1',
-          "thumb": "public/p1075586949.jpg",
-          "actors": [
-            "河正宇",
-            "金允石",
-            "郑满植"
-          ],
-          "type": [
-            "剧情",
-            "动作",
-            "犯罪"
-          ],
-          "instruct": 'instruct...',
-          "time": "2010-12-22(韩国)",
-        }
-        const movieInfo1 = {
-          "title": 'movie1',
-          "thumb": "public/p1075586949.jpg",
-          "actors": [
-            "河正宇",
-            "金允石",
-            "郑满植"
-          ],
-          "type": [
-            "剧情",
-            "动作",
-            "犯罪"
-          ],
-          "instruct": 'instruct...',
-          "time": "2010-12-22(韩国)",
-        }
 
-        DB.connect().then((db, err) => {
-          db.collection('movies').insertMany([movieInfo,movieInfo1]).then(() => {
+    describe('PageSize', function () {
+      beforeEach(function (done) {
+        request(app)
+          .post('/api/movies').send(data.movieInfo).then(() => {
+            return request(app).post('/api/movies').send(data.movieInfo1)
+          }).then(() => {
+            return request(app).post('/api/movies').send(data.movieInfo2)
+          }).then(res => {
             done()
-            db.close()
           })
-        })
       })
       afterEach(function (done) {
         MoviesModel.remove(() => {
-          done()
+          TypeModel.remove(() => {
+            done()
+          })
         })
       })
-      it('add movie and get the added movie', function (done) {
+
+      it('get movies', (done) => {
         request(app)
           .get('/api/movies')
-          .end((er, res) => {
-            should(res.body.data).have.length(2)
-            should(res.body.data).matchEach(item => {
-              item.should.have.property('title', 'movie1')
-            })
+          .end(function (err, res) {
+            should(res.body).have.property('data').length(3)
             done()
           })
       })
 
+      it('get movies by pageSize=2', (done) => {
+        request(app)
+          .get('/api/movies?pageSize=2')
+          .end(function (err, res) {
+            should(res.body).have.property('data').length(2)
+            done()
+          })
+      })
+      //查询下一页
+      it('get movies by latest', (done) => {
+        let timeBeforeInsert = new Date().getTime()
+        request(app)
+          .get('/api/movies?latest='+timeBeforeInsert)
+          .end(function (err, res) {
+            should(res.body).have.property('data').length(3)
+            done()
+          })
+      })
+    })
+
+
+  })
+
+  /**
+   * 添加
+   */
+  describe('POST /movies', function () {
+    beforeEach(function (done) {
+      request(app)
+        .post('/api/movies').send(data.movieInfo).then(() => {
+          return request(app).post('/api/movies').send(data.movieInfo1)
+        }).then(res => {
+          done()
+        })
+    })
+    afterEach(function (done) {
+      MoviesModel.remove(() => {
+        TypeModel.remove(() => {
+          done()
+        })
+      })
+    })
+
+    it('add movie and get the added movie', function (done) {
+      request(app)
+        .get('/api/movies')
+        .end((er, res) => {
+          should(res.body.data).have.length(2)
+          should(res.body.data[0]).have.property('title', 'movie1')
+          done()
+        })
+    })
+
+    //类型已经存在的就不在存了
+    it('repeat type not saved', function (done) {
+      request(app)
+        .get('/api/types')
+        .then(res => {
+          should(res.body.data).have.length(3)
+          done()
+        })
+    })
+
+  })
+
+  /**
+   * 搜索
+   */
+  describe('Search movies', function () {
+
+    beforeEach(function (done) {
+
+      request(app)
+        .post('/api/movies').send(data.movieInfo2).then(() => {
+          return request(app).post('/api/movies').send(data.movieInfo3)
+        }).then(res => {
+          done()
+        })
+    })
+
+    afterEach(function (done) {
+      MoviesModel.remove(() => {
+        TypeModel.remove(() => {
+          done()
+        })
+      })
+    })
+
+    it('search movies by category', function (done) {
+      request(app)
+        .get(`/api/movies/search/by?cate=${encodeURIComponent('动作')}`)
+        .then(res => {
+          should(res.body.data).have.length(2)
+          should(res.body.data[0]).have.property('type').matchAny('动作')
+          done()
+        })
+    })
+
+    it('search movies by title', function (done) {
+      request(app)
+        .get(`/api/movies/search/by?content=title`)
+        .then(res => {
+          should(res.body.data).have.length(1)
+          should(res.body.data[0]).have.property('title', 'test seach by title')
+          done()
+        })
     })
 
 
 
 
   })
+
 
 });

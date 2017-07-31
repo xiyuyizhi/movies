@@ -30,6 +30,14 @@ class Type {
         })
     }
 
+    remove(callback){
+        DB.connect().then((db,err)=>{
+            const Types=db.collection('types')
+            Types.remove({}).then(()=>{
+                callback()
+            })
+        })
+    }
     
 }
 
