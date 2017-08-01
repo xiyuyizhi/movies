@@ -5,6 +5,7 @@ const request = require('supertest')
 const app = require('../app')
 const MoviesModel = require('../models/movies_model')
 const TypeModel = require('../models/type_model')
+const AttchModel = require('../models/attachment_model')
 const DB = require('../db')
 
 const data = require('./mock.data')
@@ -68,7 +69,7 @@ describe('Movies', function () {
       it('get movies by latest', (done) => {
         let timeBeforeInsert = new Date().getTime()
         request(app)
-          .get('/api/movies?latest='+timeBeforeInsert)
+          .get('/api/movies?latest=' + timeBeforeInsert)
           .end(function (err, res) {
             should(res.body).have.property('data').length(3)
             done()
@@ -116,6 +117,48 @@ describe('Movies', function () {
         .then(res => {
           should(res.body.data).have.length(3)
           done()
+        })
+    })
+
+  })
+
+  /**
+   * 保存带下载地址的
+   */
+
+  describe('POST with attchment', function () {
+
+    beforeEach(done => {
+      request(app)
+        .post('/api/movies').send(data.movieInfo4).end((err, res) => {
+          done()
+        })
+    })
+
+    afterEach(done => {
+      MoviesModel.remove(() => {
+        TypeModel.remove(() => {
+          AttchModel.remove(() => {
+            done()
+          })
+        })
+      })
+    })
+
+    it('save movies which have download url', done => {
+      request(app)
+        .get('/api/movies')
+        .end(function (err, res) {
+          should(res.body).have.property('data').length(1)
+          const mId = res.body.data[0]._id
+          request(app)
+            .get('/api/movies/' + mId + '/attach').then(res => {
+              should(res.body).have.property('data').length(1)
+              should(res.body.data[0]).have.property('url','urls')
+              done()
+
+            })
+
         })
     })
 

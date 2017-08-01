@@ -1,5 +1,6 @@
 const DB = require('../db')
 const TypeModel = require('./type_model')
+const AttachModel = require('./attachment_model')
 const PAGESIZE = 10
 
 class MoviesModel {
@@ -20,19 +21,40 @@ class MoviesModel {
         const types = data.type
         data.createTime = new Date().getTime()
         data.updateTime = new Date().getTime()
-        this.Type.addTypes(types)
+        this.Type.addTypes(types) //保存分类
         DB.connect().then((db, err) => {
-            this.getCollection(db).insertOne(data).then((docs, err) => {
-                callback(err, docs)
-                db.close()
-            })
+            if (data.downloadUrl) {
+                const attch = {
+                    url: data.downloadUrl,
+                    pwd: data.downloadPwd
+                }
+                delete data.downloadUrl
+                delete data.downloadPwd
+                //保存下载地址
+                AttachModel.addAttach(attch, db).then(docs => {
+                    data.attachId = docs.insertedId
+                    this.insertOne(db, data, callback)
+                })
+
+            } else {
+                this.insertOne(db, data, callback)
+            }
+
+
         }).catch(e => {
             callback(e)
         })
     }
 
+    insertOne(db, data, callback) {
+        this.getCollection(db).insertOne(data).then((docs, err) => {
+            callback(err, docs)
+            db.close()
+        })
+    }
+
     getList(query, callback) {
-        const {latest,pageSize}=query
+        const { latest, pageSize } = query
         if (latest) {
             //分页
             DB.connect().then((db, err) => {
@@ -42,7 +64,7 @@ class MoviesModel {
                     }
                 }).sort({
                     updateTime: -1
-                }).limit(parseInt(pageSize)||PAGESIZE).toArray((err, docs) => {
+                }).limit(parseInt(pageSize) || PAGESIZE).toArray((err, docs) => {
                     callback(err, docs)
                     db.close()
                 })
@@ -53,7 +75,7 @@ class MoviesModel {
             DB.connect().then((db, err) => {
                 this.getCollection(db).find().sort({
                     updateTime: -1
-                }).limit(parseInt(pageSize)||PAGESIZE).toArray((err, docs) => {
+                }).limit(parseInt(pageSize) || PAGESIZE).toArray((err, docs) => {
                     callback(err, docs)
                     db.close()
                 })
@@ -76,6 +98,17 @@ class MoviesModel {
         })
     }
 
+    getMovieAttach(movieId, callback) {
+        this.getOneMovie(movieId, (err, docs) => {
+            if (docs.length) {
+                const attachId = docs[0].attachId
+                AttachModel.getAttach(attachId, (err, docs) => {
+                    callback(err, docs)
+                })
+            }
+        })
+    }
+
 
     search(query, callback) {
         const { cate, content, latest } = query
@@ -95,9 +128,9 @@ class MoviesModel {
         })
     }
 
-    remove(callback){
-        DB.connect().then((db,err)=>{
-            this.getCollection(db).remove({}).then(()=>{
+    remove(callback) {
+        DB.connect().then((db, err) => {
+            this.getCollection(db).remove({}).then(() => {
                 callback()
                 db.close()
             })

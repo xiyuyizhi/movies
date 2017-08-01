@@ -7,10 +7,12 @@ import {
     ListView,
     RefreshControl,
     SwipeAction,
-    Icon
+    Icon,
+    Popup
 } from 'antd-mobile'
 import Dotdotdot from 'react-dotdotdot'
 import Util from "../util/Util.js"
+import ModifyPopup from "./modifyPopup"
 
 export default class Home extends Component {
 
@@ -32,6 +34,7 @@ export default class Home extends Component {
         this.footer = this.footer.bind(this)
         this.onEndReached = this.onEndReached.bind(this)
         this.onRefresh = this.onRefresh.bind(this)
+        this.row = this.row.bind(this)
         this.timer = null
     }
 
@@ -155,15 +158,30 @@ export default class Home extends Component {
         }, 1000)
     }
 
+    deleteOne(id) {
+        alert(id)
+    }
+
+    modifyOne(id) {
+        Popup.show(<ModifyPopup history={this.props.history}></ModifyPopup>, {
+            animationType: 'slide-up'
+        })
+    }
+
     row(rowData, sectionId, rowId) {
         return <div className='listview-item' key={rowId}>
             <div className="m-item">
                 <SwipeAction autoClose right={
                     [
                         {
-                            text: '收藏',
-                            onPress: () => { console.log('收藏') },
-                            className: 'collection'
+                            text: '修改',
+                            onPress: () => { this.modifyOne(rowData._id) },
+                            className: 'btn'
+                        },
+                        {
+                            text: '删除',
+                            onPress: () => { this.deleteOne(rowData._id) },
+                            className: 'btn delete'
                         }
                     ]
                 }>

@@ -1,6 +1,11 @@
 @import "./var.less";
 .popup {
     text-align: center;
+    max-height: 800px;
+    &.modify{
+        padding-bottom: 200px;
+        overflow: auto;
+    }
     .showtime {
         position: relative;
         top: 8rem;
@@ -33,5 +38,12 @@
         height: @popup-footer-height;
         line-height: @popup-footer-height;
         border-top: 1px solid #eee;
+    }
+    .popup-close{
+        position: fixed;
+        text-align: right
+    }
+    .am-button{
+        margin-bottom: 200px;
     }
 }

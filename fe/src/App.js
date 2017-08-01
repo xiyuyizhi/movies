@@ -7,19 +7,24 @@ import Util from "./util/Util"
 
 export default class App extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
-            isLoading:false
+        this.state = {
+            isLoading: false
         }
-        Util.open(()=>{
-            this.setState({
-                isLoading:true
-            })
+        this.timer = null
+        Util.open(() => {
+            clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                this.setState({
+                    isLoading: true
+                })
+            },0)
+
         })
-        Util.close(()=>{
+        Util.close(() => {
             this.setState({
-                isLoading:false
+                isLoading: false
             })
         })
 
@@ -29,9 +34,9 @@ export default class App extends Component {
 
         return <div>
             <ActivityIndicator
-                    toast
-                    animating={this.state.isLoading}>
-                </ActivityIndicator>
+                toast
+                animating={this.state.isLoading}>
+            </ActivityIndicator>
             <Router></Router>
         </div>
 

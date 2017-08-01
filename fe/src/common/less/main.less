@@ -24,7 +24,7 @@
             }
             &:last-child {
                 .separator {
-                    border: none;
+                    display: none;
                 }
             }
         }
@@ -32,9 +32,13 @@
     .m-item {
         padding: 0 @normal-padding;
         height: @movies-item-height;
-        .collection {
+        .btn {
             background: @color2;
-            color: @white
+            color: @white;
+            margin-right:1px;
+            &.delete{
+                background: red;
+            }
         }
         .m-item-thumb {
             width: @thumb-width;

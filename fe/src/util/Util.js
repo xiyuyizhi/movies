@@ -13,7 +13,9 @@ const Util = {
         Loading.close = fn
     },
     fetch(url, options) {
-        Loading.open()
+        if (!Loading.pendingRequest) {
+            Loading.open()
+        }
         Loading.pendingRequest++
         return fetch(url, options).then(res => {
             Loading.pendingRequest--

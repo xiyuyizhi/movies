@@ -17,7 +17,7 @@ function callback(err, docs, res, next) {
 /* GET users listing. */
 router.post('/', function (req, res, next) {
   MoviesModel.addMovies(req.body, (err, docs) => {
-    callback(err, 'ok', res, next)
+    callback(err, docs, res, next)
   })
 });
 
@@ -33,6 +33,11 @@ router.get('/:movieId', (req, res, next) => {
   })
 })
 
+router.get('/:movieId/attach',(req,res,next)=>{
+  MoviesModel.getMovieAttach(req.params.movieId,(err,docs)=>{
+    callback(err,docs,res,next)
+  })
+})
 
 router.get('/search/by', (req, res, next) => {
   MoviesModel.search(req.query, (err, docs) => {
