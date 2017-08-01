@@ -1,7 +1,6 @@
 @import "./var.less";
 .popup {
     text-align: center;
-    max-height: 650px;
     .showtime {
         position: relative;
         top: 8rem;
@@ -34,30 +33,5 @@
         height: @popup-footer-height;
         line-height: @popup-footer-height;
         border-top: 1px solid #eee;
-    }
-    .popup-close {
-        position: fixed;
-        width: 100%;
-        text-align: center;
-        a[role=button]{
-            display: inline-block;
-        }
-        svg{
-            display: block;
-        }
-    }
-    &.modify {
-        padding-bottom: 200px;
-        overflow: auto;
-        textarea,
-        input {
-            border: 1px solid #eee;
-            display: block;
-            width: 100%;
-        }
-        .download{
-            padding: 0 10px;
-            margin-bottom: 200px;
-        }
     }
 }

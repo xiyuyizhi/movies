@@ -7,12 +7,10 @@ import {
     ListView,
     RefreshControl,
     SwipeAction,
-    Icon,
-    Popup
+    Icon
 } from 'antd-mobile'
 import Dotdotdot from 'react-dotdotdot'
 import Util from "../util/Util.js"
-import ModifyPopup from "./modifyPopup"
 
 export default class Home extends Component {
 
@@ -162,11 +160,7 @@ export default class Home extends Component {
         alert(id)
     }
 
-    modifyOne(id) {
-        Popup.show(<ModifyPopup history={this.props.history}></ModifyPopup>, {
-            animationType: 'slide-up'
-        })
-    }
+   
 
     row(rowData, sectionId, rowId) {
         return <div className='listview-item' key={rowId}>
@@ -175,7 +169,12 @@ export default class Home extends Component {
                     [
                         {
                             text: '修改',
-                            onPress: () => { this.modifyOne(rowData._id) },
+                            onPress: () => { 
+                                this.props.history.push(`/detail/${rowData._id}`,{
+                                    title:rowData.title,
+                                    edit:true
+                                })
+                             },
                             className: 'btn'
                         },
                         {

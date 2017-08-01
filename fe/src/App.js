@@ -14,12 +14,13 @@ export default class App extends Component {
         }
         this.timer = null
         Util.open(() => {
-            clearTimeout(this.timer)
-            this.timer = setTimeout(() => {
-                this.setState({
+            // clearTimeout(this.timer)
+            // this.timer = setTimeout(() => {
+                
+            // },0)
+            this.setState({
                     isLoading: true
                 })
-            },0)
 
         })
         Util.close(() => {
