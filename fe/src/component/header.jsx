@@ -64,7 +64,6 @@ class Header extends Component {
     onClear() {
         this.props.searchCallback('')
     }
-
     /**
      * 分类picker选择
      * @param {*} val 
