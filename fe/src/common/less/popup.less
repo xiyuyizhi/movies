@@ -1,11 +1,7 @@
 @import "./var.less";
 .popup {
     text-align: center;
-    max-height: 800px;
-    &.modify{
-        padding-bottom: 200px;
-        overflow: auto;
-    }
+    max-height: 650px;
     .showtime {
         position: relative;
         top: 8rem;
@@ -22,10 +18,10 @@
     .editBtns {
         position: relative;
         top: 11rem;
-        .editBtns-item{
+        .editBtns-item {
             display: inline-block;
             padding: 5px 25px;
-            .name{
+            .name {
                 display: block;
                 font-size: .6rem;
             }
@@ -39,11 +35,29 @@
         line-height: @popup-footer-height;
         border-top: 1px solid #eee;
     }
-    .popup-close{
+    .popup-close {
         position: fixed;
-        text-align: right
+        width: 100%;
+        text-align: center;
+        a[role=button]{
+            display: inline-block;
+        }
+        svg{
+            display: block;
+        }
     }
-    .am-button{
-        margin-bottom: 200px;
+    &.modify {
+        padding-bottom: 200px;
+        overflow: auto;
+        textarea,
+        input {
+            border: 1px solid #eee;
+            display: block;
+            width: 100%;
+        }
+        .download{
+            padding: 0 10px;
+            margin-bottom: 200px;
+        }
     }
 }

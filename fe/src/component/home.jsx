@@ -236,11 +236,11 @@ export default class Home extends Component {
                         onEndReached={this.onEndReached}
                         onEndReachedThreshold={20}
                         scrollEventThrottle={100}
-                        refreshControl={<RefreshControl
+                    >
+                    {/*refreshControl={<RefreshControl
                             refreshing={this.state.reflushing}
                             onRefresh={this.onRefresh}
-                        />}
-                    >
+                        />}*/}
                     </ListView>
             }
             </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Popup, Icon, Button } from "antd-mobile"
-
 import MovieInfo from "./movieInfo"
+import DownForm from "./download-form"
 
 const Pop = ({ history }) => {
 
@@ -13,10 +13,10 @@ const Pop = ({ history }) => {
                 <Icon type={require('../common/svg/close.svg')} size="sm" style={{ position: 'relative', top: '5px' }} onClick={() => {
                     Popup.hide();
                 }} />
+                <Button type="primary" size="small">修改</Button>
             </div>
             <MovieInfo isEdit={true} data={data.data[0]}></MovieInfo>
-            <Button type="primary" size="small">修改</Button>
-
+            <DownForm isEdit={true}></DownForm>
         </div>
     )
 
