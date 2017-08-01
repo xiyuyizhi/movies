@@ -6,7 +6,6 @@ import {
 import {
     ListView,
     RefreshControl,
-    ActivityIndicator,
     SwipeAction,
     Icon
 } from 'antd-mobile'
@@ -174,7 +173,7 @@ export default class Home extends Component {
                             title: rowData.title
                         }
                     }}>
-                        <img src={rowData.thumb} className="m-item-thumb"></img>
+                        <img src={rowData.thumb} alt={rowData.title} className="m-item-thumb"></img>
                         <div className="m-item-wrap">
                             <div className="m-item-instruction-props">
                                 <span className='label weight'>{rowData.title}</span>

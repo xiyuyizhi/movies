@@ -13,7 +13,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
-const customLess=require('./custom-less')
+const customLess = require('./custom-less')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -129,12 +129,12 @@ module.exports = {
         include: paths.appSrc,
       },
       {
-        test: /\.(svg)$/i,      
+        test: /\.(svg)$/i,
         loader: 'svg-sprite-loader',
         include: [
           require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
           path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
-          paths.appSrc,  
+          paths.appSrc,
         ]
       },
       // ** ADDING/UPDATING LOADERS **
@@ -190,14 +190,14 @@ module.exports = {
           cacheDirectory: true,
         },
       },
-      
+
       // "postcss" loader applies autoprefixer to our CSS.
       // "css" loader resolves paths in CSS and adds assets as dependencies.
       // "style" loader turns CSS into JS modules that inject <style> tags.
       // In production, we use a plugin to extract that CSS to a file, but
       // in development "style" loader enables hot editing of CSS.
       {
-        test:/\.css$/,
+        test: /\.css$/,
         loader: ExtractTextPlugin.extract(
           Object.assign({
             fallback: require.resolve('style-loader'),
@@ -222,8 +222,8 @@ module.exports = {
                         'last 4 versions',
                         'Firefox ESR',
                         'not ie < 9', // React doesn't support IE8 anyway
-                         'iOS >= 8', 
-                         'Android >= 4'
+                        'iOS >= 8',
+                        'Android >= 4'
                       ],
                       flexbox: 'no-2009',
                     }),
@@ -271,7 +271,7 @@ module.exports = {
               {
                 loader: require.resolve('less-loader'),
                 options: {
-                  modifyVars:customLess,
+                  modifyVars: customLess,
                 },
               }
             ],
@@ -318,6 +318,13 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    /**
+       * https://github.com/lodash/lodash-webpack-plugin
+       */
+    new LodashModuleReplacementPlugin({
+      'collections': true,
+      'paths': true
+    })
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

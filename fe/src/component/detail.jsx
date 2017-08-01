@@ -16,7 +16,7 @@ export default class Detail extends Component {
 
     getData(id) {
         return data.filter(item => {
-            return item.id == id
+            return item.id === id
         })[0]
     }
 

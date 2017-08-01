@@ -1,9 +1,5 @@
 import React from 'react'
 import { Popup, Icon } from "antd-mobile"
-import {
-    NavLink,
-    withRouter
-} from "react-router-dom"
 const dayOfWeek = ['日', '一', '二', '三', '四', '五', '六']
 function formate() {
     const now = new Date()

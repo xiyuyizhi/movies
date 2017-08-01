@@ -18,12 +18,11 @@ export default class MovieInfo extends React.Component {
     }
     
     render() {
-        console.log('times...')
         const { isEdit,data} = this.props
         return (
             data ?
                 <div className="movie_info">
-                    <img src={data.thumb} className='big-thumb' />
+                    <img src={data.thumb} alt={data.title} className='big-thumb' />
                     <section>
                         <p>
                             <label>主演:</label>
