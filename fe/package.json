@@ -55,7 +55,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "analyze": "NODE_ENV=analyze  node scripts/build.js",
+    "analyze": "node scripts/build.js analyze",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {

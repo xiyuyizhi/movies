@@ -391,9 +391,10 @@ const config= {
     tls: 'empty',
   },
 };
-
-
-if(process.env.NODE_ENV=='analyze'){
+/**
+ * 分析打包后js相关文件大小
+ */
+if(process.argv[2]=='analyze'){
   config.plugins.push(new BundleAnalyzerPlugin())
 }
 
