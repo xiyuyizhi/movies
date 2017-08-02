@@ -39,6 +39,12 @@ router.get('/:movieId/attach',(req,res,next)=>{
   })
 })
 
+router.delete('/:movieId',(req,res,next)=>{
+  MoviesModel.delete(req.params.movieId,(err,docs)=>{
+      callback(err,docs,res,next)
+  })
+})
+
 router.get('/search/by', (req, res, next) => {
   MoviesModel.search(req.query, (err, docs) => {
     callback(err, docs, res, next)

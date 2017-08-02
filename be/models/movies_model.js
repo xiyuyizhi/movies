@@ -6,7 +6,6 @@ const PAGESIZE = 10
 class MoviesModel {
 
     constructor() {
-        this.Type = TypeModel
     }
 
     getCollection(db) {
@@ -21,8 +20,8 @@ class MoviesModel {
         const types = data.type
         data.createTime = new Date().getTime()
         data.updateTime = new Date().getTime()
-        this.Type.addTypes(types) //保存分类
         DB.connect().then((db, err) => {
+            TypeModel.addTypes(types, db) //保存分类
             if (data.downloadUrl) {
                 const attch = {
                     url: data.downloadUrl,
@@ -46,6 +45,7 @@ class MoviesModel {
         })
     }
 
+
     insertOne(db, data, callback) {
         this.getCollection(db).insertOne(data).then((docs, err) => {
             callback(err, docs)
@@ -55,34 +55,27 @@ class MoviesModel {
 
     getList(query, callback) {
         const { latest, pageSize } = query
+        let params
         if (latest) {
             //分页
-            DB.connect().then((db, err) => {
-                this.getCollection(db).find({
-                    updateTime: {
-                        '$lt': Number(latest)
-                    }
-                }).sort({
-                    updateTime: -1
-                }).limit(parseInt(pageSize) || PAGESIZE).toArray((err, docs) => {
-                    callback(err, docs)
-                    db.close()
-                })
-            }).catch(e => {
-                callback(e)
-            })
+            params = {
+                updateTime: {
+                    '$lt': Number(latest)
+                }
+            }
         } else {
-            DB.connect().then((db, err) => {
-                this.getCollection(db).find().sort({
-                    updateTime: -1
-                }).limit(parseInt(pageSize) || PAGESIZE).toArray((err, docs) => {
-                    callback(err, docs)
-                    db.close()
-                })
-            }).catch(e => {
-                callback(e)
-            })
+            params = {}
         }
+        DB.connect().then((db, err) => {
+            this.getCollection(db).find(params).sort({
+                updateTime: -1
+            }).limit(parseInt(pageSize) || PAGESIZE).toArray((err, docs) => {
+                callback(err, docs)
+                db.close()
+            })
+        }).catch(e => {
+            callback(e)
+        })
     }
 
     getOneMovie(movieId, callback) {
@@ -126,6 +119,33 @@ class MoviesModel {
                 db.close()
             })
         })
+    }
+
+    delete(movieId, callback) {
+        this.getOneMovie(movieId, (err, docs) => {
+            if (err) {
+                callback(err)
+                return
+            }
+            if (docs.length) {
+                const Types = docs[0].type
+                // const TypeDlet=async ()=>{
+                //     Type.delete(Types)
+                // }
+                // TypeDlet()
+                TypeModel.delete(Types, (db) => {
+                    this.getCollection(db).remove({
+                            _id: DB.id(movieId)
+                        }).then((docs, err) => {
+                            callback(err, docs)
+                            db.close()
+                        })
+                })
+                return
+            }
+            callback(err, docs)
+        })
+
     }
 
     remove(callback) {

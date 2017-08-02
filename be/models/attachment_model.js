@@ -17,6 +17,7 @@ class Attachment {
                 _id: DB.id(id)
             }).toArray().then((docs,err)=>{
                 callback(err,docs)
+                db.close()
             })
         })
 

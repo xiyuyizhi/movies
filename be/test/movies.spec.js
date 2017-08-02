@@ -111,16 +111,18 @@ describe('Movies', function () {
     })
 
     //类型已经存在的就不在存了
-    it('repeat type not saved', function (done) {
+    it('repeat type not saved,will only increment count', function (done) {
       request(app)
         .get('/api/types')
         .then(res => {
           should(res.body.data).have.length(3)
+          should(res.body.data[0]).have.property('count', 2)
           done()
         })
     })
-
   })
+
+
 
   /**
    * 保存带下载地址的
@@ -145,6 +147,7 @@ describe('Movies', function () {
       })
     })
 
+    //Attachment集合中插入了 url,pwd
     it('save movies which have download url', done => {
       request(app)
         .get('/api/movies')
@@ -154,7 +157,7 @@ describe('Movies', function () {
           request(app)
             .get('/api/movies/' + mId + '/attach').then(res => {
               should(res.body).have.property('data').length(1)
-              should(res.body.data[0]).have.property('url','urls')
+              should(res.body.data[0]).have.property('url', 'urls')
               done()
 
             })
@@ -208,6 +211,57 @@ describe('Movies', function () {
     })
 
 
+
+
+  })
+
+
+  describe('DELETE /movies', function (done) {
+
+    beforeEach(function (done) {
+      request(app)
+        .post('/api/movies').send(data.movieInfo).then(() => {
+          return request(app).post('/api/movies').send(data.movieInfo1)
+        }).then(res => {
+          done()
+        })
+    })
+    afterEach(function (done) {
+      MoviesModel.remove(() => {
+        TypeModel.remove(() => {
+          done()
+        })
+      })
+    })
+
+    it('delete movie will reduce Type collection count', done => {
+      request(app)
+        .get('/api/movies').then(res => {
+          should(res.body).have.property('data').length(2)
+          const _id = res.body.data[0]._id
+          request(app)
+            .get('/api/types').then(res => {
+              should(res.body).have.property('data').length(3)
+              should(res.body.data[0]).have.property('count', 2)
+              should(res.body.data[1]).have.property('count', 2)
+              should(res.body.data[2]).have.property('count', 1)
+              //删除 title movie1
+              request(app)
+                .delete('/api/movies/' + _id).then(res => {
+                  request(app)
+                    .get('/api/types').then(res => {
+                      should(res.body).have.property('data').length(3)
+                      should(res.body.data[0]).have.property('count', 1)
+                      should(res.body.data[1]).have.property('count', 1)
+                      should(res.body.data[2]).have.property('count', 0)
+                      done()
+                    })
+
+                })
+            })
+
+        })
+    })
 
 
   })
