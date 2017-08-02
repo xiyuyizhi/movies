@@ -1,12 +1,14 @@
 import React from 'react';
-
+import cloneDeep from "lodash/cloneDeep"
 
 export default class DownForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            url: '',
-            pwd: ''
+            download: {
+                url: '',
+                pwd: ''
+            }
         }
         this.handleUrl = this.handleUrl.bind(this)
         this.handlePwd = this.handlePwd.bind(this)
@@ -14,17 +16,29 @@ export default class DownForm extends React.Component {
 
 
     handleUrl(e) {
+        const dm = cloneDeep(this.state.download)
+        dm.url = e.target.value
         this.setState({
-            url: e.target.value
+            download: dm
         })
-        this.props.callback(this.state)
+        this.props.callback(this.state.download)
     }
 
     handlePwd(e) {
+        const dm = cloneDeep(this.state.download)
+        dm.pwd = e.target.value
         this.setState({
-            pwd: e.target.value
+            download: dm
         })
-        this.props.callback(this.state)
+        this.props.callback(this.state.download)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.data) {
+            this.setState({
+                download: nextProps.data
+            })
+        }
     }
 
     render() {
@@ -33,12 +47,12 @@ export default class DownForm extends React.Component {
             <div className='download'>
                 <p>
                     <label>下载地址:</label>
-                    <input type='text' value={this.state.url}
+                    <input type='text' value={this.state.download.url}
                         disabled={!isEdit} onChange={this.handleUrl}></input>
                 </p>
                 <p>
                     <label>提取码:</label>
-                    <input type='text' value={this.state.pwd}
+                    <input type='text' value={this.state.download.pwd}
                         disabled={!isEdit} onChange={this.handlePwd}></input>
                 </p>
             </div>

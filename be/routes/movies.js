@@ -21,6 +21,12 @@ router.post('/', function (req, res, next) {
   })
 });
 
+router.put('/:movieId',(req,res,next)=>{
+  MoviesModel.modifyMovie(req.params.movieId,req.body,(err,docs)=>{
+    callback(err,docs,res,next)
+  })
+})
+
 router.get('/', function (req, res, next) {
   MoviesModel.getList(req.query, (err, docs) => {
     callback(err, docs, res, next)

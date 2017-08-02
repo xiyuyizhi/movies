@@ -157,7 +157,11 @@ export default class Home extends Component {
     }
 
     deleteOne(id) {
-        alert(id)
+        Util.fetch('/api/movies/'+id,{
+            method:'DELETE'
+        }).then(res=>{
+            this.props.history.replace('/home')
+        })
     }
 
    

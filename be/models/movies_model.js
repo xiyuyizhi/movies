@@ -38,8 +38,6 @@ class MoviesModel {
             } else {
                 this.insertOne(db, data, callback)
             }
-
-
         }).catch(e => {
             callback(e)
         })
@@ -53,6 +51,23 @@ class MoviesModel {
         })
     }
 
+    modifyMovie(movieId,data,callback){
+        this.delete(movieId,(err)=>{
+            if(err){
+                callback(err)
+                return
+            }
+            this.addMovies(data,(err,docs)=>{
+                callback(err,docs)
+            })
+        })
+    }
+
+    /**
+     * 获取电影列表，按更新时间降序排，分页是按每一个最后一条的时间来查询
+     * @param {* 查询字符串} query 
+     * @param {*} callback 
+     */
     getList(query, callback) {
         const { latest, pageSize } = query
         let params
@@ -78,6 +93,11 @@ class MoviesModel {
         })
     }
 
+    /**
+     * 详情
+     * @param {*} movieId 
+     * @param {*} callback 
+     */
     getOneMovie(movieId, callback) {
         DB.connect().then((db, err) => {
             this.getCollection(db).find({
@@ -91,6 +111,11 @@ class MoviesModel {
         })
     }
 
+    /**
+     * 获取下载地址
+     * @param {*} movieId 
+     * @param {*} callback 
+     */
     getMovieAttach(movieId, callback) {
         this.getOneMovie(movieId, (err, docs) => {
             if (docs.length) {
@@ -98,11 +123,17 @@ class MoviesModel {
                 AttachModel.getAttach(attachId, (err, docs) => {
                     callback(err, docs)
                 })
+                return
             }
+            callback(err,docs)
         })
     }
 
-
+    /**
+     * 按类型分类、按title查询
+     * @param {*} query 
+     * @param {*} callback 
+     */
     search(query, callback) {
         const { cate, content, latest } = query
         const queryObj = {}
@@ -121,6 +152,11 @@ class MoviesModel {
         })
     }
 
+    /**
+     * 删除，同时type集合相应的类型数量-1
+     * @param {*} movieId 
+     * @param {*} callback 
+     */
     delete(movieId, callback) {
         this.getOneMovie(movieId, (err, docs) => {
             if (err) {
