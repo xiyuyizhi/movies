@@ -17,36 +17,25 @@ class Type {
     getList(callback) {
         DB.connect().then((db, err) => {
             const Types = db.collection('types')
-            Types.find({}).toArray((err, docs) => {
+            Types.find({
+                count: {
+                    '$gt': 0
+                }
+            }).toArray((err, docs) => {
                 callback(err, docs)
             })
         })
     }
 
-    delete(typesArr, callback) {
-
-        // const db = DB.connect()
-        // const Types = db.collection('types')
-        // typesArr.forEach(item => {
-        //     await Types.update({
-        //         'type_name': item
-        //     }, {
-        //             '$inc': { count: -1 }
-        //         })
-        // })
-        // db.close()
-        // callback()
-        DB.connect().then((db, err) => {
-            const Types = db.collection('types')
-            typesArr.forEach(item => {
-                Types.update({
-                    'type_name': item
-                }, {
-                        '$inc': { count: -1 }
-                    })
-            })
-            callback(db)
+    async delete(typesArr, callback) {
+        const db = await DB.connect()
+        const Types = db.collection('types')
+        typesArr.forEach(async item => {
+            await Types.update({
+                'type_name': item
+            }, { '$inc': { count: -1 } })
         })
+        db.close()
     }
 
     remove(callback) {

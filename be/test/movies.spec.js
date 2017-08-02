@@ -229,12 +229,14 @@ describe('Movies', function () {
     afterEach(function (done) {
       MoviesModel.remove(() => {
         TypeModel.remove(() => {
-          done()
+          AttchModel.remove(() => {
+            done()
+          })
         })
       })
     })
 
-    it('delete movie will reduce Type collection count', done => {
+    it('delete movie will reduce Type collection count,only get Typs who‘s count >0’', done => {
       request(app)
         .get('/api/movies').then(res => {
           should(res.body).have.property('data').length(2)
@@ -250,10 +252,9 @@ describe('Movies', function () {
                 .delete('/api/movies/' + _id).then(res => {
                   request(app)
                     .get('/api/types').then(res => {
-                      should(res.body).have.property('data').length(3)
+                      should(res.body).have.property('data').length(2)
                       should(res.body.data[0]).have.property('count', 1)
                       should(res.body.data[1]).have.property('count', 1)
-                      should(res.body.data[2]).have.property('count', 0)
                       done()
                     })
 

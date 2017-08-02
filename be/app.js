@@ -1,3 +1,4 @@
+require('./test')
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -66,26 +67,10 @@ function* test() {
 
 }
 
-const arr = []
-for (let i = 65; i < 91; i++) {
-  arr.push(String.fromCharCode(i))
-}
-let index = 0
-function fill(num) {
-  let newArr = []
-  while (num >= 0) {
-    newArr.unshift(arr[num % 26])
-    num = Math.floor(num / 26) - 1
-  }
-  console.log(newArr.join(''))
-}
-
-new Array(100).fill(1).map((item, index) => {
-  return index
-}).forEach(item => {
-  //fill(item)
-})
-
-
 
 module.exports = app;
+
+
+
+
+

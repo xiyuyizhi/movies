@@ -129,18 +129,16 @@ class MoviesModel {
             }
             if (docs.length) {
                 const Types = docs[0].type
-                // const TypeDlet=async ()=>{
-                //     Type.delete(Types)
-                // }
-                // TypeDlet()
-                TypeModel.delete(Types, (db) => {
-                    this.getCollection(db).remove({
-                            _id: DB.id(movieId)
-                        }).then((docs, err) => {
-                            callback(err, docs)
-                            db.close()
-                        })
-                })
+                const Dlet = async () => {
+                    await TypeModel.delete(Types)
+                    const db = await DB.connect()
+                    const docs = await this.getCollection(db).remove({
+                        _id: DB.id(movieId)
+                    })
+                    callback(null, docs)
+                    db.close()
+                }
+                Dlet()
                 return
             }
             callback(err, docs)
