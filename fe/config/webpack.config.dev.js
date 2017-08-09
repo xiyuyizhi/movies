@@ -325,7 +325,7 @@ module.exports = {
     new LodashModuleReplacementPlugin({
       'collections': true,
       'paths': true
-    })
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
@@ -341,4 +341,7 @@ module.exports = {
   performance: {
     hints: false,
   },
+  externals:{
+    AMap:'AMap'
+  }
 };

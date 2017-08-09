@@ -76,6 +76,45 @@ const movieInfo4 = {
     "instruct": 'instruct...',
     "time": "2010-12-22(韩国)",
 }
+const movieInfo5 = {
+    "title": 'not modify title',
+    "thumb": "public/p1075586949.jpg",
+    "actors": [
+        "河正宇",
+    ],
+    "type": [
+        "动作",
+        "爱情"
+    ],
+    "instruct": 'instruct...',
+    "time": "2010-12-22(韩国)",
+}
+const movieInfo6 = {
+    "title": 'not modify title1',
+    "thumb": "public/p1075586949.jpg",
+    "actors": [
+        "河正宇",
+    ],
+    "type": [
+        "动作",
+        "剧情"
+    ],
+    "instruct": 'instruct...',
+    "time": "2010-12-22(韩国)",
+}
+const movieInfo7 = {
+    "title": 'not modify title',
+    "thumb": "public/p1075586949.jpg",
+    "actors": [
+        "河正宇",
+    ],
+    "type": [
+        "动作",
+        "犯罪"
+    ],
+    "instruct": 'instruct...',
+    "time": "2010-12-22(韩国)",
+}
 
 
 
@@ -85,4 +124,7 @@ module.exports = {
     movieInfo2,
     movieInfo3,
     movieInfo4,
+    movieInfo5,
+    movieInfo6,
+    movieInfo7,
 }

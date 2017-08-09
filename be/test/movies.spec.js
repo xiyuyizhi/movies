@@ -159,9 +159,7 @@ describe('Movies', function () {
               should(res.body).have.property('data').length(1)
               should(res.body.data[0]).have.property('url', 'urls')
               done()
-
             })
-
         })
     })
 
@@ -263,7 +261,54 @@ describe('Movies', function () {
 
         })
     })
+  })
+  describe('PUT /movies', function (done) {
 
+    beforeEach(function (done) {
+      request(app)
+        .post('/api/movies').send(data.movieInfo5).then(() => {
+          return request(app).post('/api/movies').send(data.movieInfo6)
+        }).then(res => {
+          done()
+        })
+    })
+    afterEach(function (done) {
+      MoviesModel.remove(() => {
+        TypeModel.remove(() => {
+          AttchModel.remove(() => {
+            done()
+          })
+        })
+      })
+    })
+
+    it('modify movies', done => {
+      request(app)
+        .get('/api/movies').then(res => {
+          should(res.body).have.property('data').length(2)
+          const _id = res.body.data[1]._id
+          request(app)
+            .get('/api/types').then(res => {
+              should(res.body).have.property('data').length(3)
+              should(res.body.data[0]).have.property('count', 2)
+              should(res.body.data[1]).have.property('count', 1)
+              should(res.body.data[2]).have.property('count', 1)
+              request(app)
+                .put('/api/movies/' + _id + "/attach")
+                .send(data.movieInfo7)
+                .then(res => {
+                  request(app)
+                    .get('/api/types').then(res => {
+                      should(res.body).have.property('data').length(3)
+                      should(res.body.data[0]).have.property('count', 2)
+                      should(res.body.data[1]).have.property('count', 1)
+                      should(res.body.data[2]).have.property('count', 1)
+                      done()
+                    })
+                })
+            })
+        })
+    })
 
   })
 
