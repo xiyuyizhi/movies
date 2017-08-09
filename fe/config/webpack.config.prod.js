@@ -390,6 +390,9 @@ const config= {
     net: 'empty',
     tls: 'empty',
   },
+  externals:{
+    AMap:'AMap'
+  }
 };
 /**
  * 分析打包后js相关文件大小

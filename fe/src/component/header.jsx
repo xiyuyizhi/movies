@@ -23,9 +23,7 @@ class Header extends Component {
         this.onClear = this.onClear.bind(this)
     }
 
-    componentWillReceiveProps(nextProps) {
-
-    }
+   
 
     componentDidMount() {
         Util.fetch('/api/types').then(res => {
@@ -39,6 +37,8 @@ class Header extends Component {
             })
         })
     }
+
+    
 
     isHomepage(path) {
         return path === '/home'
