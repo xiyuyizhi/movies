@@ -6,6 +6,7 @@ const app = require('../app')
 const MoviesModel = require('../models/movies_model')
 const TypeModel = require('../models/type_model')
 const AttchModel = require('../models/attachment_model')
+const UserModel = require('../models/user_model')
 const DB = require('../db')
 
 const data = require('./mock.data')
@@ -23,6 +24,7 @@ describe('Movies', function () {
       request(app)
         .get('/api/movies')
         .end(function (err, res) {
+          console.log(res.body)
           should(res.body).have.property('data', [])
           done()
         })
@@ -262,6 +264,7 @@ describe('Movies', function () {
         })
     })
   })
+
   describe('PUT /movies', function (done) {
 
     beforeEach(function (done) {
@@ -312,5 +315,84 @@ describe('Movies', function () {
 
   })
 
+  describe('User', (done) => {
+
+
+    afterEach(done => {
+      UserModel.remove()
+      done()
+    })
+
+    it('add user', (done) => {
+      request(app)
+        .post('/api/user/add')
+        .send({
+          username: 'www',
+          password: '123'
+        }).then(res => {
+          should(res.body).have.property('ok', 1)
+          done()
+        })
+    })
+
+
+    describe('/login', (done) => {
+
+      beforeEach(done => {
+        request(app)
+          .post('/api/user/add')
+          .send({
+            username: 'www',
+            password: '123'
+          }).then(res => {
+            done()
+          })
+      })
+
+      afterEach(done => {
+        UserModel.remove()
+        done()
+      })
+
+
+      it('login with error username', done => {
+        request(app)
+          .post('/api/user/login')
+          .send({
+            username: 'xxx',
+            password: 'xxx'
+          }).then(res => {
+            should(res.body).have.property('code', 10002)
+            should(res.body).have.property('msg', '用户不存在')
+            done()
+          })
+      })
+      it('login with error password', done => {
+        request(app)
+          .post('/api/user/login')
+          .send({
+            username: 'www',
+            password: 'xxx'
+          }).then(res => {
+            should(res.body).have.property('code', 10003)
+            should(res.body).have.property('msg', '密码错误')
+            done()
+          })
+      })
+      it('login ok', done => {
+        request(app)
+          .post('/api/user/login')
+          .send({
+            username: 'www',
+            password: '123'
+          }).then(res => {
+            console.log(res.body)
+            done()
+          })
+      })
+
+    })
+
+  })
 
 });
