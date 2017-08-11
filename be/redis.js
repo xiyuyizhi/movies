@@ -23,36 +23,6 @@ function getToken(header) {
     return null;
 }
 
-function setValue(value) {
-    redisClient.set(value, { is_expired: true })
-    redisClient.expire(value,EXPIRES);
-}
-
-function getValue(value, req, res, next) {
-
-    redisClient.get(value, function (err, result) {
-        if (err) {
-
-            res.status(500).json({
-                'status': 'redis error'
-            });
-
-            return false;
-        }
-
-
-        if (result) {
-            res.status(401).json({
-                'status': 'UnauthorizedError'
-            });
-            return false;
-        }
-        next();
-    })
-}
-
 module.exports = {
-    set: setValue,
-    get: getValue,
     getToken: getToken
 }

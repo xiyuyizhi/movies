@@ -5,9 +5,16 @@ const token = require('../token')
 
 const MoviesModel = require('../models/movies_model')
 
-// router.use(token.validToken.unless({
-//   method:['GET','PUT','POST']
-// }), token.noAuthorization)
+
+if (process.env.NODE_ENV != 'test') {
+  router.use(token.validToken.unless({
+    path: [
+      { url: '/api/movies', methods: ['GET'] },
+      { url: '/api/movies/search/by', methods: ['GET'] },
+      { url: /movies\/[^\/]+$/, methods: ['GET'] },
+    ]
+  }), token.noAuthorization)
+}
 
 function callback(err, docs, res, next) {
   if (err) {
@@ -20,6 +27,12 @@ function callback(err, docs, res, next) {
   })
 }
 
+router.get('/', function (req, res, next) {
+  MoviesModel.getList(req.query, (err, docs) => {
+    callback(err, docs, res, next)
+  })
+})
+
 /* GET users listing. */
 router.post('/', function (req, res, next) {
   MoviesModel.addMovies(req.body, (err, docs) => {
@@ -29,13 +42,6 @@ router.post('/', function (req, res, next) {
 
 router.put('/:movieId', (req, res, next) => {
   MoviesModel.modifyMovie(req.params.movieId, req.body, (err, docs) => {
-    callback(err, docs, res, next)
-  })
-})
-
-router.get('/', function (req, res, next) {
-  console.log(req.user)
-  MoviesModel.getList(req.query, (err, docs) => {
     callback(err, docs, res, next)
   })
 })

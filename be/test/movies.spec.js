@@ -16,6 +16,7 @@ describe('Movies', function () {
   this.timeout(2000)  //全局定义一下 其下的timeout最大时间
 
 
+
   /**
    * 查询接口
    */
@@ -386,7 +387,7 @@ describe('Movies', function () {
             username: 'www',
             password: '123'
           }).then(res => {
-            console.log(res.body)
+            should(res.body).have.property('token')
             done()
           })
       })
