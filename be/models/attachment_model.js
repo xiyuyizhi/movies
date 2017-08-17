@@ -2,9 +2,6 @@
 const DB = require('../db')
 
 class Attachment {
-
-
-
     addAttach(data, db) {
         const Attach = db.collection('attachment')
         return Attach.insertOne(data)

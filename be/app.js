@@ -8,8 +8,8 @@ var bodyParser = require('body-parser');
 var code = require('./code')
 var reptile = require('./routes/reptile');
 var movies = require('./routes/movies');
-var types=require('./routes/types')
-var user =require('./routes/user')
+var types = require('./routes/types')
+var user = require('./routes/user')
 
 var app = express();
 const pre = '/api'
@@ -42,7 +42,7 @@ app.use(function (err, req, res, next) {
     res.json({
       code: err,
       msg: code[err]
-    }) 
+    })
     return
   }
   next(err)

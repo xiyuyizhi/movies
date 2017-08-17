@@ -1,7 +1,6 @@
 
 const express =require('express')
 const router= express.Router()
-
 const TypeModel =require('../models/type_model')
 
 router.get('/',(req,res,next)=>{

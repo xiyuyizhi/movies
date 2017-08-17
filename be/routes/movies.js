@@ -2,19 +2,24 @@ const express = require('express');
 const router = express.Router();
 const express_jwt = require('express-jwt');
 const token = require('../token')
-
 const MoviesModel = require('../models/movies_model')
 
+const unlessPath = {
+  path: [
+    { url: '/api/movies', methods: ['GET'] },
+    { url: '/api/movies/search/by', methods: ['GET'] },
+    { url: /movies\/[^\/]+$/, methods: ['GET'] },
+  ]
+}
 
 if (process.env.NODE_ENV != 'test') {
-  router.use(token.validToken.unless({
-    path: [
-      { url: '/api/movies', methods: ['GET'] },
-      { url: '/api/movies/search/by', methods: ['GET'] },
-      { url: /movies\/[^\/]+$/, methods: ['GET'] },
-    ]
-  }), token.noAuthorization)
+  router.use(
+    token.validToken.unless(unlessPath),
+    token.noAuthorization,
+    token.checkRedis.unless(unlessPath)
+  )
 }
+
 
 function callback(err, docs, res, next) {
   if (err) {

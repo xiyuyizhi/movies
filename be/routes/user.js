@@ -3,10 +3,18 @@ const express = require('express')
 const router = express.Router()
 const UserModel = require('../models/user_model')
 const token = require('../token')
-
-process.env.NODE_ENV != 'test' && router.use(token.validToken.unless({
+const redis = require('../redis')
+const unlessPath = {
     path: ['/api/user/login']
-}))
+}
+
+if (process.env.NODE_ENV != 'test') {
+    router.use(
+        token.validToken.unless(unlessPath),
+        token.noAuthorization,
+        token.checkRedis.unless(unlessPath)
+    )
+}
 
 router.post('/add', (req, res, next) => {
     UserModel.add(req.body).then(result => {
@@ -27,9 +35,10 @@ router.post('/login', (req, res, next) => {
                     return
                 }
                 const tok = token.sign(docs[0])
+                redis.add(tok)
                 res.json({
                     code: 0,
-                    token:tok
+                    token: tok
                 })
                 return
             }

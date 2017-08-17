@@ -54,7 +54,6 @@ function fillData($) {
 
 /* GET home page. */
 router.get('/:name', function (req, res, next) {
-
   getMovieSubjectUrl(req.params.name).then(str => {
     const $ = cheerio.load(str)
     let detail = $('.detail')
