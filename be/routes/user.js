@@ -2,8 +2,8 @@
 const express = require('express')
 const router = express.Router()
 const UserModel = require('../models/user_model')
-const token = require('../token')
-const redis = require('../redis')
+const token = require('../config/token')
+const redis = require('../config/redis')
 const unlessPath = {
     path: ['/api/user/login']
 }

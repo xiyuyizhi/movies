@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const express_jwt = require('express-jwt');
-const token = require('../token')
+const token = require('../config/token')
 const MoviesModel = require('../models/movies_model')
 
 const unlessPath = {

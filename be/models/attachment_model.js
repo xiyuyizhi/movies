@@ -1,5 +1,5 @@
 
-const DB = require('../db')
+const DB = require('../config/db')
 
 class Attachment {
     addAttach(data, db) {

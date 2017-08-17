@@ -1,4 +1,4 @@
-const DB = require('../db')
+const DB = require('../config/db')
 const TypeModel = require('./type_model')
 const AttachModel = require('./attachment_model')
 const PAGESIZE = 10
