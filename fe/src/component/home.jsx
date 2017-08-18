@@ -91,7 +91,7 @@ export default class Home extends Component {
             promise = Util.fetch('/api/movies')
         }
         promise.then(res => {
-            if (res.data.length) {
+            if (!res.code && res.data.length) {
                 this._data = []
                 this.dataRecieve(res.data)
             } else {
@@ -157,14 +157,14 @@ export default class Home extends Component {
     }
 
     deleteOne(id) {
-        Util.fetch('/api/movies/'+id,{
-            method:'DELETE'
-        }).then(res=>{
+        Util.fetch('/api/movies/' + id, {
+            method: 'DELETE'
+        }).then(res => {
             this.props.history.replace('/home')
         })
     }
 
-   
+
 
     row(rowData, sectionId, rowId) {
         return <div className='listview-item' key={rowId}>
@@ -173,12 +173,12 @@ export default class Home extends Component {
                     [
                         {
                             text: '修改',
-                            onPress: () => { 
-                                this.props.history.push(`/detail/${rowData._id}`,{
-                                    title:rowData.title,
-                                    edit:true
+                            onPress: () => {
+                                this.props.history.push(`/detail/${rowData._id}`, {
+                                    title: rowData.title,
+                                    edit: true
                                 })
-                             },
+                            },
                             className: 'btn'
                         },
                         {
@@ -240,7 +240,7 @@ export default class Home extends Component {
                         onEndReachedThreshold={20}
                         scrollEventThrottle={100}
                     >
-                    {/*refreshControl={<RefreshControl
+                        {/*refreshControl={<RefreshControl
                             refreshing={this.state.reflushing}
                             onRefresh={this.onRefresh}
                         />}*/}

@@ -1,6 +1,8 @@
 
 import 'whatwg-fetch'
-
+import {
+    Toast
+} from "antd-mobile"
 const Loading = {
     pendingRequest: 0
 }
@@ -13,9 +15,6 @@ const Util = {
         Loading.close = fn
     },
     fetch(url, options) {
-        // if (!Loading.pendingRequest) {
-        //     Loading.open()
-        // }
         Loading.open()
         Loading.pendingRequest++
         return fetch(url, options).then(res => {
@@ -24,7 +23,18 @@ const Util = {
                 Loading.close()
             }
             return res.json()
+        }).then(data=>{
+            if(data.code){
+                Toast.info(data.name || data.message,1)
+            }
+            console.log(data)
+            return data
         })
+    },
+    Toast:{
+        info(txt,callback){
+            Toast.info(txt,1,callback)
+        }
     }
 }
 

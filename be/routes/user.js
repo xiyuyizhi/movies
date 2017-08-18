@@ -1,6 +1,7 @@
 
 const express = require('express')
 const router = express.Router()
+const captchapng = require('captchapng');
 const UserModel = require('../models/user_model')
 const token = require('../config/token')
 const unlessPath = {
@@ -53,11 +54,26 @@ router.post('/login', (req, res, next) => {
     next(10004)
 })
 
-router.get('/logout',(req,res,next)=>{
+router.get('/logout', (req, res, next) => {
     token.remove(req)
     res.json({
+        code: 0,
+        status: 'ok'
+    })
+})
+
+router.get('/randomCode', (req, res, next) => {
+    const random = parseInt(Math.random() * 9000 + 1000)
+    var p = new captchapng(80, 30, random); // width,height,numeric captcha
+    p.color(0, 0, 0, 0);  // First color: background (red, green, blue, alpha)
+    p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
+
+    var img = p.getBase64();
+    //var imgbase64 = new Buffer(img, 'base64');
+    res.json({
         code:0,
-        status:'ok'
+        base64:img,
+        random
     })
 })
 

@@ -41,7 +41,7 @@ app.use(function (err, req, res, next) {
   if (typeof err == 'number') {
     res.json({
       code: err,
-      msg: code[err]
+      message: code[err]
     })
     return
   }

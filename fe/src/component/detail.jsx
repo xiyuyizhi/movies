@@ -55,7 +55,7 @@ export default class Detail extends Component {
             },
             body: JSON.stringify(info)
         }).then(res => {
-            Toast.info('已修改', 1.5, () => {
+            Util.Toast.info('已修改', () => {
                 setTimeout(() => {
                     this.props.history.push('/home')
                 }, 0)

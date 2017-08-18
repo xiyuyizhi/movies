@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Button,
-    Toast,
     Switch
 } from "antd-mobile"
 import cloneDeep from "lodash/cloneDeep"
@@ -33,11 +32,11 @@ export default class Reptile extends React.Component {
         }
         Util.fetch('/api/reptile/' + this.state.m_name).then(data => {
             if (data.code) {
-                Toast.info(data.msg)
+                Util.Toast.info(data.message)
                 return
             }
             this.setState({
-                m_info: data,
+                m_info: data.data,
             })
         })
     }
@@ -56,11 +55,13 @@ export default class Reptile extends React.Component {
             },
             body: JSON.stringify(info)
         }).then(res => {
-            Toast.info('已录入', 1.5, () => {
-                setTimeout(() => {
-                    this.props.history.push('/home')
-                }, 0)
-            })
+            if (!res.code) {
+                Util.Toast.info('已录入', () => {
+                    setTimeout(() => {
+                        this.props.history.push('/home')
+                    }, 0)
+                })
+            }
         })
     }
 

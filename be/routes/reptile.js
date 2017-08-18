@@ -25,7 +25,10 @@ function getMovieDetail(href, res, next) {
   rq(href).then(str => {
     const $ = cheerio.load(str)
     const data = fillData($)
-    res.json(data)
+    res.json({
+      code:0,
+      data
+    })
   })
 }
 
@@ -52,7 +55,6 @@ function fillData($) {
   return movie
 }
 
-/* GET home page. */
 router.get('/:name', function (req, res, next) {
   getMovieSubjectUrl(req.params.name).then(str => {
     const $ = cheerio.load(str)
