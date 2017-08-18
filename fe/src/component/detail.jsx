@@ -43,8 +43,10 @@ export default class Detail extends Component {
 
     modifyMovie() {
         const info = cloneDeep(this.state.movieInfo)
-        info.downloadUrl = this.download.url
-        info.downloadPwd = this.download.pwd
+        if (this.download) {
+            info.downloadUrl = this.download.url
+            info.downloadPwd = this.download.pwd
+        }
         const _id = info._id
         delete info._id
         // return
@@ -55,6 +57,9 @@ export default class Detail extends Component {
             },
             body: JSON.stringify(info)
         }).then(res => {
+            if(res.code){
+                return
+            }
             Util.Toast.info('已修改', () => {
                 setTimeout(() => {
                     this.props.history.push('/home')
@@ -75,7 +80,7 @@ export default class Detail extends Component {
                     this.setState({
                         download: res.data[0]
                     })
-                    this.download=res.data[0]
+                    this.download = res.data[0]
                 })
             }
         })

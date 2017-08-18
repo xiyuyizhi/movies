@@ -27,7 +27,6 @@ const Util = {
             if(data.code){
                 Toast.info(data.name || data.message,1)
             }
-            console.log(data)
             return data
         })
     },

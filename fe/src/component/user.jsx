@@ -68,9 +68,8 @@ export default class User extends React.Component {
                 password: this.state.password
             })
         }).then(res => {
-            // if (res.code) {
-            //     Util.Toast.info(res.message)
-            // }
+            //store token
+            
         })
     }
 
