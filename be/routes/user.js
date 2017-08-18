@@ -3,17 +3,16 @@ const express = require('express')
 const router = express.Router()
 const UserModel = require('../models/user_model')
 const token = require('../config/token')
-const redis = require('../config/redis')
 const unlessPath = {
     path: ['/api/user/login']
 }
 
 if (process.env.NODE_ENV != 'test') {
-    router.use(
-        token.validToken.unless(unlessPath),
-        token.noAuthorization,
-        token.checkRedis.unless(unlessPath)
-    )
+    // router.use(
+    //     token.validToken.unless(unlessPath),
+    //     token.noAuthorization,
+    //     token.checkRedis.unless(unlessPath)
+    // )
 }
 
 router.post('/add', (req, res, next) => {
@@ -35,7 +34,10 @@ router.post('/login', (req, res, next) => {
                     return
                 }
                 const tok = token.sign(docs[0])
-                redis.add(tok)
+                /**
+                 * 保存token到redis
+                 */
+                token.add(tok)
                 res.json({
                     code: 0,
                     token: tok
@@ -49,6 +51,14 @@ router.post('/login', (req, res, next) => {
         return
     }
     next(10004)
+})
+
+router.get('/logout',(req,res,next)=>{
+    token.remove(req)
+    res.json({
+        code:0,
+        status:'ok'
+    })
 })
 
 module.exports = router

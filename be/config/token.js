@@ -42,7 +42,14 @@ const token = {
                 next(10005)
             }
         })
+    },
+    add:(tok)=>{
+        redis.add(tok)
+    },
+    remove: (req) => {
+        const tok = token.getToken(req)
+        tok && redis.remove(tok)
     }
 }
-token.checkRedis.unless=unless
+token.checkRedis.unless = unless
 module.exports = token

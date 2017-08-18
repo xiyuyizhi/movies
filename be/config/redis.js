@@ -7,7 +7,6 @@ redisClient.on('error', function (err) {
 })
 
 module.exports =  {
-
     add(key) {
         redisClient.set(key, true)
         redisClient.expire(key, expire)
@@ -19,6 +18,9 @@ module.exports =  {
         redisClient.get(key,(err,data)=>{
             callback(data)
         })
+    },
+    remove(key){
+        redisClient.del(key)
     }
 
 }

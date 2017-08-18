@@ -7,7 +7,7 @@ const MoviesModel = require('../models/movies_model')
 const TypeModel = require('../models/type_model')
 const AttchModel = require('../models/attachment_model')
 const UserModel = require('../models/user_model')
-const DB = require('../db')
+const DB = require('../config/db')
 
 const data = require('./mock.data')
 
