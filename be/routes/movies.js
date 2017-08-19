@@ -12,11 +12,11 @@ const unlessPath = {
 }
 
 if (process.env.NODE_ENV != 'test') {
-  router.use(
-    token.validToken.unless(unlessPath),
-    token.noAuthorization,
-    token.checkRedis.unless(unlessPath)
-  )
+  // router.use(
+  //   token.validToken.unless(unlessPath),
+  //   token.noAuthorization,
+  //   token.checkRedis.unless(unlessPath)
+  // )
 }
 
 

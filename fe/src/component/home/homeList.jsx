@@ -10,7 +10,7 @@ import {
     Icon
 } from 'antd-mobile'
 import Dotdotdot from 'react-dotdotdot'
-import Util from "../util/Util.js"
+import Util from "../../util/Util.js"
 
 export default class Home extends Component {
 
@@ -145,7 +145,6 @@ export default class Home extends Component {
     }
 
     onRefresh() {
-        console.log('reflush')
         this.setState({
             reflushing: true
         })
@@ -160,7 +159,7 @@ export default class Home extends Component {
         Util.fetch('/api/movies/' + id, {
             method: 'DELETE'
         }).then(res => {
-            this.props.history.replace('/home')
+            this.props.flushTypes()
         })
     }
 
@@ -221,11 +220,10 @@ export default class Home extends Component {
     }
 
     render() {
-
         return (
             <div>{
                 this.state.noData ? <div className='noData'>
-                    <Icon type={require('../common/svg/no-data.svg')} size="lg" />
+                    <Icon type={require('../../common/svg/no-data.svg')} size="lg" />
                 </div>
                     : <ListView className="listview" dataSource={this.state.datasource}
                         renderRow={this.row}

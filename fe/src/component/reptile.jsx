@@ -58,7 +58,7 @@ export default class Reptile extends React.Component {
             if (!res.code) {
                 Util.Toast.info('已录入', () => {
                     setTimeout(() => {
-                        this.props.history.push('/home')
+                        //this.props.history.push('/home')
                     }, 0)
                 })
             }
