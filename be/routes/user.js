@@ -77,4 +77,14 @@ router.get('/randomCode', (req, res, next) => {
     })
 })
 
+router.get('/checkLogin',(req,res,next)=>{
+    token.checkRedis(req,res,next)
+    //next()
+},(req,res,next)=>{
+    res.json({
+        code:0,
+        login:true
+    })
+})
+
 module.exports = router

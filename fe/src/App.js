@@ -14,25 +14,20 @@ export default class App extends Component {
         }
         this.timer = null
         Util.open(() => {
-            // clearTimeout(this.timer)
-            // this.timer = setTimeout(() => {
-                
-            // },0)
             this.setState({
                     isLoading: true
                 })
-
         })
         Util.close(() => {
             this.setState({
                 isLoading: false
             })
         })
-
+        console.log('app')
     }
 
-    render() {
 
+    render() {
         return <div>
             <ActivityIndicator
                 toast

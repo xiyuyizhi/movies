@@ -11,13 +11,26 @@ import Home from "./home/homePage"
 import Detail from "./detail"
 import User from "./user"
 import Reptile from "./reptile"
+import Util from "../util/Util"
 
 export default class Rout extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
+        this.state = {
+            login: false
+        }
+        console.log('route')
+        console.log(props)
     }
 
+    componentDidMount() {
+        Util.fetch('/api/user/checkLogin').then(res => {
+            this.setState({
+                login: !res.code
+            })
+        })
+    }
 
     render() {
         return (
@@ -26,14 +39,22 @@ export default class Rout extends React.Component {
                     <Header></Header>
                     <div className="main">
                         <Route exact path="/" render={() =>
-                            <Redirect  to="/home"></Redirect>
+                            <Redirect to="/home"></Redirect>
                         }></Route>
-                        <Route path="/home"  component={Home}></Route>
-                        <Route path="/detail/:id" component={Detail}></Route>
-                        <Route path="/user" component={User}></Route>
-                        <Route path="/reptile" component={Reptile}></Route>
+                        <Route path="/home" render={(props) => {
+                            return <Home login={this.state.login} {...props}></Home>
+                        }}></Route>
+                        <Route path="/detail/:id" render={(props) => {
+                           return <Detail login={this.state.login} {...props}></Detail>
+                        }}></Route>
+                        <Route path="/user" render={(props) => {
+                            return <User login={this.state.login} {...props}></User>
+                        }}></Route>
+                        <Route path="/reptile" redner={(props=>{
+                            return <Reptile login={this.state.login} {...props}></Reptile>
+                        })}></Route>
                     </div>
-                    <Nav></Nav>
+                    <Nav login={this.state.login}></Nav>
                 </div>
             </Router>
         )

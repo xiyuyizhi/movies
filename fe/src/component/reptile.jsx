@@ -50,9 +50,6 @@ export default class Reptile extends React.Component {
         }
         Util.fetch('/api/movies', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(info)
         }).then(res => {
             if (!res.code) {

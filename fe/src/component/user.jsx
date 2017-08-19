@@ -60,16 +60,14 @@ export default class User extends React.Component {
         }
         Util.fetch('/api/user/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify({
                 username: this.state.username,
                 password: this.state.password
             })
         }).then(res => {
             //store token
-            
+            window.localStorage.setItem('t', res.token)
+            window.location.reload()
         })
     }
 
@@ -106,22 +104,38 @@ export default class User extends React.Component {
     }
 
     render() {
+        const { login } = this.props
         return <div className="user">
-            <form>
-                <div className="form-line">
-                    <input type="text" placeholder="用户名" onChange={this.changeUsername} />
-                </div>
-                <div className="form-line">
-                    <input type="password" placeholder="密码" onChange={this.changePassword} />
-                </div>
-                <div className="form-line randomcode">
-                    <input type="text" placeholder="验证码" onChange={this.changeRandom} />
-                    {
-                        this.state.img.base64 && <img src={this.geneUrl(this.state.img.base64)} onClick={this.flushRandom} />
-                    }
-                </div>
-                <Button type="primary" size="small" onClick={this.sub}>登录</Button>
-            </form>
+            {
+                login ? <div>
+                    <h1>logined</h1><button onClick={
+                        () => {
+                            //window.location.reload()
+                            Util.fetch('/api/user/logout').then(res => {
+                                if (!res.code) {
+                                    window.localStorage.removeItem('t')
+                                    window.location.reload()
+                                }
+                            })
+                        }
+                    }>退出</button>
+                </div> :
+                    <form>
+                        <div className="form-line">
+                            <input type="text" placeholder="用户名" onChange={this.changeUsername} />
+                        </div>
+                        <div className="form-line">
+                            <input type="password" placeholder="密码" onChange={this.changePassword} />
+                        </div>
+                        <div className="form-line randomcode">
+                            <input type="text" placeholder="验证码" onChange={this.changeRandom} />
+                            {
+                                this.state.img.base64 && <img src={this.geneUrl(this.state.img.base64)} onClick={this.flushRandom} />
+                            }
+                        </div>
+                        <Button type="primary" size="small" onClick={this.sub}>登录</Button>
+                    </form>
+            }
         </div>
     }
 

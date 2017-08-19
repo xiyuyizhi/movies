@@ -166,27 +166,38 @@ export default class Home extends Component {
 
 
     row(rowData, sectionId, rowId) {
+        const {login} =this.props
+        let rightBtns = [
+            {
+                text: '收藏',
+                onPress:()=>{
+                    if(!login){
+                        Util.Toast.info('请登录')
+                    }
+                },
+                className: 'btn'
+            }
+        ]
+        if (login) {
+            rightBtns = rightBtns.concat([{
+                text: '修改',
+                onPress: () => {
+                    this.props.history.push(`/detail/${rowData._id}`, {
+                        title: rowData.title,
+                        edit: true
+                    })
+                },
+                className: 'btn'
+            },
+            {
+                text: '删除',
+                onPress: () => { this.deleteOne(rowData._id) },
+                className: 'btn delete'
+            }])
+        }
         return <div className='listview-item' key={rowId}>
             <div className="m-item">
-                <SwipeAction autoClose right={
-                    [
-                        {
-                            text: '修改',
-                            onPress: () => {
-                                this.props.history.push(`/detail/${rowData._id}`, {
-                                    title: rowData.title,
-                                    edit: true
-                                })
-                            },
-                            className: 'btn'
-                        },
-                        {
-                            text: '删除',
-                            onPress: () => { this.deleteOne(rowData._id) },
-                            className: 'btn delete'
-                        }
-                    ]
-                }>
+                <SwipeAction autoClose right={rightBtns}>
                     <Link to={{
                         pathname: `/detail/${rowData._id}`,
                         state: {

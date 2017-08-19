@@ -52,9 +52,6 @@ export default class Detail extends Component {
         // return
         Util.fetch(`/api/movies/${_id}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify(info)
         }).then(res => {
             if(res.code){

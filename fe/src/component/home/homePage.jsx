@@ -8,6 +8,8 @@ export default class HomePage extends Component {
     constructor(props) {
         super(props)
         this.props = props
+        console.log('hoem')
+        console.log(props)
         this.state = {
             category: '',
             search: ''
@@ -51,11 +53,10 @@ export default class HomePage extends Component {
     }
 
     render() {
-
         return (
             <div>
                 <HomeHeader types={this.state.types} cateCallback={this.cateCallback} searchCallback={this.searchCallback}></HomeHeader>
-                <HomeList search={this.state.search} category={this.state.category} flushTypes={this.reflushType} {...this.props}></HomeList>
+                <HomeList login={this.state.login} search={this.state.search} category={this.state.category} flushTypes={this.reflushType} {...this.props}></HomeList>
             </div>
         )
 
