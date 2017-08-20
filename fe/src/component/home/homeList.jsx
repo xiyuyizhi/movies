@@ -184,7 +184,8 @@ export default class Home extends Component {
                 onPress: () => {
                     this.props.history.push(`/detail/${rowData._id}`, {
                         title: rowData.title,
-                        edit: true
+                        edit: true,
+                        login
                     })
                 },
                 className: 'btn'
@@ -201,7 +202,8 @@ export default class Home extends Component {
                     <Link to={{
                         pathname: `/detail/${rowData._id}`,
                         state: {
-                            title: rowData.title
+                            title: rowData.title,
+                            login
                         }
                     }}>
                         <img src={rowData.thumb} alt={rowData.title} className="m-item-thumb"></img>
@@ -239,7 +241,7 @@ export default class Home extends Component {
                     : <ListView className="listview" dataSource={this.state.datasource}
                         renderRow={this.row}
                         renderFooter={this.footer}
-                        onScroll={() => { console.log('scroll'); }}
+                        onScroll={() => {  }}
                         style={{
                             height: (document.documentElement.clientHeight - 110)
                         }}

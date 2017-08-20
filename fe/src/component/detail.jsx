@@ -14,6 +14,7 @@ export default class Detail extends Component {
 
     constructor(props) {
         super(props)
+        console.log(props)
         this.state = {
             movieInfo: null,
             download: null
@@ -32,13 +33,13 @@ export default class Detail extends Component {
     //movieInfo组件中form表单的回调
     editCallback(data) {
         this.setState({
-            movieInfo: data,
+            movieInfo: data
         })
     }
 
     downCallback(data) {
-        console.log(JSON.stringify(data))
         this.download = data
+        
     }
 
     modifyMovie() {
@@ -49,12 +50,14 @@ export default class Detail extends Component {
         }
         const _id = info._id
         delete info._id
-        // return
+        this.setState({
+            download:this.download
+        })
         Util.fetch(`/api/movies/${_id}`, {
             method: 'PUT',
             body: JSON.stringify(info)
         }).then(res => {
-            if(res.code){
+            if (res.code) {
                 return
             }
             Util.Toast.info('已修改', () => {
@@ -66,13 +69,15 @@ export default class Detail extends Component {
     }
 
     componentWillMount() {
-        const { id } = this.props.match.params
+        const { match, location } = this.props
+        const { id } = match.params
+        const { login } = location.state
         Util.fetch(`/api/movies/${id}`).then(res => {
             this.setState({
                 movieInfo: res.data[0]
             })
             const attachId = res.data[0].attachId
-            if (attachId) {
+            if (attachId && login) {
                 Util.fetch(`/api/movies/${id}/attach`).then(res => {
                     this.setState({
                         download: res.data[0]
@@ -83,19 +88,32 @@ export default class Detail extends Component {
         })
     }
 
+    showButton(isLogin, hasAttach) {
+
+        if (!isLogin || (isLogin && !hasAttach)) {
+            return <Button type="primary" size="small" style={{ "margin": "0 10px" }} disabled={!hasAttach} onClick={() => {
+                Util.Toast.info('请登录')
+            }}>下载地址</Button>
+        }
+
+    }
+
     render() {
-        const { state } = this.props.location
+        const { login, location } = this.props
+        const { state } = location
         return (
-            this.state.movieInfo && <div style={{ "marginBottom": "120px" }}>
+            this.state.movieInfo ? <div style={{ "marginBottom": "120px" }}>
                 <div className="movie-info">
                     <MovieInfo isEdit={state.edit} data={this.state.movieInfo} callback={this.editCallback}></MovieInfo>
-                    <DownForm isEdit={state.edit} data={this.state.download} callback={this.downCallback}></DownForm>
+                    {
+                        (state.edit || (this.state.movieInfo.attachId && state.login)) && <DownForm isEdit={state.edit} data={this.state.download} callback={this.downCallback}></DownForm>
+                    }
                     {
                         state.edit ? <Button type="primary" size="small" style={{ "margin": "0 10px" }} onClick={this.modifyMovie}>修改</Button> :
-                            <Button type="primary" size="small" style={{ "margin": "0 10px" }}>下载地址</Button>
+                            this.showButton(state.login, this.state.movieInfo.attachId)
                     }
                 </div>
-            </div>
+            </div>: null
         )
     }
 

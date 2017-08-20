@@ -44,13 +44,11 @@ export default class Rout extends React.Component {
                         <Route path="/home" render={(props) => {
                             return <Home login={this.state.login} {...props}></Home>
                         }}></Route>
-                        <Route path="/detail/:id" render={(props) => {
-                           return <Detail login={this.state.login} {...props}></Detail>
-                        }}></Route>
+                        <Route path="/detail/:id" component={Detail}></Route>
                         <Route path="/user" render={(props) => {
                             return <User login={this.state.login} {...props}></User>
                         }}></Route>
-                        <Route path="/reptile" redner={(props=>{
+                        <Route path="/reptile" render={(props=>{
                             return <Reptile login={this.state.login} {...props}></Reptile>
                         })}></Route>
                     </div>

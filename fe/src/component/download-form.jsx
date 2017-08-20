@@ -21,7 +21,7 @@ export default class DownForm extends React.Component {
         this.setState({
             download: dm
         })
-        this.props.callback(this.state.download)
+        this.props.callback(dm)
     }
 
     handlePwd(e) {
@@ -30,7 +30,7 @@ export default class DownForm extends React.Component {
         this.setState({
             download: dm
         })
-        this.props.callback(this.state.download)
+        this.props.callback(dm)
     }
 
     componentWillReceiveProps(nextProps) {
