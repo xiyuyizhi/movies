@@ -1,16 +1,12 @@
 
 import React, { Component } from 'react';
-import {
-    Link
-} from "react-router-dom"
+
 import {
     ListView,
-    RefreshControl,
-    SwipeAction,
     Icon
 } from 'antd-mobile'
-import Dotdotdot from 'react-dotdotdot'
 import Util from "../../util/Util.js"
+import List from "../list"
 
 export default class Home extends Component {
 
@@ -29,10 +25,8 @@ export default class Home extends Component {
             reflushing: false,
             isSearch: false
         }
-        this.footer = this.footer.bind(this)
         this.onEndReached = this.onEndReached.bind(this)
-        this.onRefresh = this.onRefresh.bind(this)
-        this.row = this.row.bind(this)
+        this.deleteOne = this.deleteOne.bind(this)
         this.timer = null
     }
 
@@ -104,11 +98,7 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        const { search, category } = this.props
-        this.setState({
-            isSearch: search || category
-        })
-        this.fetch(category, search)
+        this.fetch()
     }
 
     dataRecieve(data) {
@@ -121,8 +111,6 @@ export default class Home extends Component {
             noMore: false
         })
     }
-
-
 
     onEndReached(e) {
         if (this.state.loading || this.state.noMore || this.state.isSearch) {
@@ -144,17 +132,6 @@ export default class Home extends Component {
 
     }
 
-    onRefresh() {
-        this.setState({
-            reflushing: true
-        })
-        setTimeout(() => {
-            this.setState({
-                reflushing: false
-            })
-        }, 1000)
-    }
-
     deleteOne(id) {
         Util.fetch('/api/movies/' + id, {
             method: 'DELETE'
@@ -165,104 +142,35 @@ export default class Home extends Component {
 
 
 
-    row(rowData, sectionId, rowId) {
-        const { login } = this.props
-        let rightBtns = [
-            {
-                text: '收藏',
-                onPress: () => {
-                    if (!login) {
-                        Util.Toast.info('请登录')
-                    }
-                },
-                className: 'btn'
-            }
-        ]
-        if (login) {
-            rightBtns = rightBtns.concat([{
-                text: '修改',
-                onPress: () => {
-                    this.props.history.push(`/detail/${rowData._id}`, {
-                        title: rowData.title,
-                        edit: true,
-                        login
-                    })
-                },
-                className: 'btn'
-            },
-            {
-                text: '删除',
-                onPress: () => { this.deleteOne(rowData._id) },
-                className: 'btn delete'
-            }])
-        }
-        return <div className='listview-item' key={rowId}>
-            <div className="m-item">
-                <SwipeAction autoClose onOpen={
-                    () => {
-                        console.log('opende......')
-                    }
-                } right={rightBtns}>
-                    <Link to={{
-                        pathname: `/detail/${rowData._id}`,
-                        state: {
-                            title: rowData.title,
-                            login
-                        }
-                    }}>
-                        <img src={rowData.thumb} alt={rowData.title} className="m-item-thumb"></img>
-                        <div className="m-item-wrap">
-                            <div className="m-item-instruction-props">
-                                <span className='label weight'>{rowData.title}</span>
-                                <span className='label'>{rowData.type.join('/')}</span>
-                                <span className='label'>{rowData.actors.join('/')}</span>
-                            </div>
-                            <Dotdotdot clamp={4}>
-                                <p className="m-item-instruct">
-                                    {rowData.instruct}
-                                </p>
-                            </Dotdotdot>
-                        </div>
-                    </Link>
-                </SwipeAction>
-            </div>
-            <p className="separator"></p>
-        </div>
-    }
-
-    footer() {
-        return <div className="footer" style={{ textAlign: 'center' }}>
-            {(this.state.noMore && this._data.length > 10) ? '没有了' : this.state.loading ? 'Loading...' : ''}
-        </div>
-    }
 
     render() {
+        const { noData, noMore, loading, datasource } = this.state
         return (
             <div>{
-                this.state.noData ? <div className='noData'>
+                noData ? <div className='noData'>
                     <Icon type={require('../../common/svg/no-data.svg')} size="lg" />
-                </div>
-                    : <ListView className="listview" dataSource={this.state.datasource}
-                        renderRow={this.row}
-                        renderFooter={this.footer}
-                        onScroll={() => { }}
-                        style={{
-                            height: (document.documentElement.clientHeight - 110)
-                        }}
-                        useZscroller
-                        pageSize={10}
-                        onEndReached={this.onEndReached}
-                        onEndReachedThreshold={20}
-                        scrollEventThrottle={100}
-                    >
-                        {/*refreshControl={<RefreshControl
-                            refreshing={this.state.reflushing}
-                            onRefresh={this.onRefresh}
-                        />}*/}
-                    </ListView>
+                </div> : <List noMore={noMore} 
+                    loading={loading}
+                    datasource={datasource}
+                    dataLen={this._data.length}
+                    onEndReached={this.onEndReached}
+                    deleteOne={this.deleteOne}
+                    {...this.props}></List>
             }
             </div>
         )
     }
+
+    /**
+     * noMore
+     * loading
+     * dataLen
+     * datasource
+     * onEndReached
+     * deleteOne
+     * 
+     * login
+     * history
+     */
 
 }

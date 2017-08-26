@@ -5,7 +5,6 @@ import {
 } from "react-router-dom"
 import {
     ListView,
-    RefreshControl,
     SwipeAction,
     Icon
 } from 'antd-mobile'
@@ -90,7 +89,7 @@ export default class List extends Component {
 
     _footer() {
         return <div className="footer" style={{ textAlign: 'center' }}>
-            {(this.props.noMore && this._data.length > 10) ? '没有了' : this.props.loading ? 'Loading...' : ''}
+            {(this.props.noMore && this.props.dataLen > 10) ? '没有了' : this.props.loading ? 'Loading...' : ''}
         </div>
     }
 
@@ -108,10 +107,6 @@ export default class List extends Component {
                 onEndReached={this.props.onEndReached}
                 onEndReachedThreshold={20}
                 scrollEventThrottle={100}>
-                {/*refreshControl={<RefreshControl
-                            refreshing={this.state.reflushing}
-                            onRefresh={this.onRefresh}
-                        />}*/}
             </ListView>
         )
     }
