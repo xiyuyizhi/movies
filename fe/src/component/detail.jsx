@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
     Button,
 } from 'antd-mobile';
-import data from "./data.js"
 import MovieInfo from "./movieInfo"
 import DownForm from "./download-form"
 import Util from "../util/Util.js"
@@ -23,11 +22,6 @@ export default class Detail extends Component {
         this.modifyMovie = this.modifyMovie.bind(this)
     }
 
-    getData(id) {
-        return data.filter(item => {
-            return item.id === id
-        })[0]
-    }
 
     //movieInfo组件中form表单的回调
     editCallback(data) {

@@ -1,7 +1,7 @@
 const DB = require('../config/db')
 const TypeModel = require('./type_model')
 const AttachModel = require('./attachment_model')
-const CONFIG =require('../config/config')
+const CONFIG = require('../config/config')
 
 class MoviesModel {
 
@@ -51,19 +51,19 @@ class MoviesModel {
         })
     }
 
-    modifyMovie(movieId,data,callback){
-        this.delete(movieId,(err)=>{
-            if(err){
+    modifyMovie(movieId, data, callback) {
+        this.delete(movieId, (err) => {
+            if (err) {
                 callback(err)
                 return
             }
-            if(!data.downloadUrl){
+            if (!data.downloadUrl) {
                 delete data.downloadUrl
                 delete data.downloadPwd
                 delete data.attachId
             }
-            this.addMovies(data,(err,docs)=>{
-                callback(err,docs)
+            this.addMovies(data, (err, docs) => {
+                callback(err, docs)
             })
         })
     }
@@ -98,6 +98,20 @@ class MoviesModel {
         })
     }
 
+    async getListByIds(ids) {
+        const db = await DB.connect()
+        const docs = db.collection('movies').find({
+            _id: {
+                '$in': ids.map(item => {
+                    return DB.id(item)
+                })
+            }
+        }).toArray()
+        db.close()
+        return docs
+    }
+
+
     /**
      * 详情
      * @param {*} movieId 
@@ -130,7 +144,7 @@ class MoviesModel {
                 })
                 return
             }
-            callback(err,docs)
+            callback(err, docs)
         })
     }
 

@@ -86,7 +86,50 @@ router.post('/:movieId/collect', (req, res, next) => {
   }).catch(err => {
     next(err)
   })
+})
 
+//通过movie ids查询列表
+router.get('/list/byIds', (req, res, next) => {
+  const ids = req.query.ids
+  const idsArr = ids.split(',')
+  if (ids && idsArr.length) {
+    MoviesModel.getListByIds(idsArr).then(docs => {
+      callback(null, docs, res, next)
+    }).catch(err => {
+      next(err)
+    })
+  } else {
+    next(10004)
+  }
+})
+
+router.get('/list/checkCollect', (req, res, next) => {
+  const ids = req.query.ids
+  const idsArr = ids.split(',')
+  if (ids && idsArr.length) {
+    CollectModel.checkCollect({
+      userId: req.user._id,
+      idsArr
+    }).then(docs => {
+      const collected = idsArr.map(id => {
+        for (let collect of docs) {
+          if (id == collect.movieId) {
+            return {
+              movieId: id,
+              isCollect: true
+            }
+          }
+        }
+      }).filter(item=>{
+        return !!item
+      })
+      callback(null, collected, res, next)
+    }).catch(err => {
+      next(err)
+    })
+  } else {
+    next(10004)
+  }
 })
 
 module.exports = router;

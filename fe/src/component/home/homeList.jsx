@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react';
-
 import {
     ListView,
     Icon
@@ -12,22 +11,15 @@ export default class Home extends Component {
 
     constructor(props) {
         super(props)
-        const ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => { return r1 !== r2 }
-        })
-        this._data = []
         this.props = props
+        this._data = []
         this.state = {
             loading: true,
-            datasource: ds.cloneWithRows([]),
-            noData: false,
             noMore: false,
-            reflushing: false,
             isSearch: false
         }
         this.onEndReached = this.onEndReached.bind(this)
         this.deleteOne = this.deleteOne.bind(this)
-        this.timer = null
     }
 
     /**
@@ -36,21 +28,18 @@ export default class Home extends Component {
      */
     componentWillReceiveProps(nextProps) {
         const { category, search } = nextProps
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
-            if (this.state.loading) {
-                return
-            }
-            this.setState({
-                loading: true,
-                isSearch: true
-            })
-            this.fetch(category, search)
-        }, 0)
+        if (this.state.loading) {
+            return
+        }
+        this.setState({
+            loading: true,
+            isSearch: true
+        })
+        this._fetch(category, search)
     }
 
 
-    handleQuery(category, search) {
+    _handleQuery(category, search) {
         let cateStr
         let searchStr
         category && (cateStr = 'cate=' + category)
@@ -71,10 +60,10 @@ export default class Home extends Component {
      * 根据props中的值来判断发搜索请求还是直接获取列表
      */
 
-    fetch(category, search) {
+    _fetch(category, search) {
         let promise
         if (category || search) {
-            const str = this.handleQuery(category, search)
+            const str = this._handleQuery(category, search)
             promise = Util.fetch('/api/movies/search/by?' + str)
             //分类、搜索时不分页
         }
@@ -85,29 +74,51 @@ export default class Home extends Component {
             promise = Util.fetch('/api/movies')
         }
         promise.then(res => {
-            if (!res.code && res.data.length) {
+            if (!res.code) {
                 this._data = []
-                this.dataRecieve(res.data)
+                this._mergeCollectStatus(res.data)
             } else {
                 this.setState({
                     loading: false,
-                    noData: true
                 })
             }
         })
     }
 
-    componentDidMount() {
-        this.fetch()
+    _mergeCollectStatus(data) {
+        const ids = data.map(item => {
+            return item._id
+        })
+        const obj = {}
+        if (!ids.length) {
+            this.dataRecieve(data)
+            return
+        }
+        Util.fetch(`/api/movies/list/checkCollect/?ids=${ids}`).then(collects => {
+            if (collects)
+                collects.data.forEach(item => {
+                    if (item) {
+                        obj[item.movieId] = item.isCollect
+                    }
+                })
+            data.forEach(item => {
+                if (obj[item._id]) {
+                    item.isCollect = true
+                }
+            })
+            this.dataRecieve(data)
+        })
+
     }
+
 
     dataRecieve(data) {
         this._data = this._data.concat(data)
-        this.latestTime = this._data[this._data.length - 1].updateTime
+        if (this._data.length) {
+            this.latestTime = this._data[this._data.length - 1].updateTime
+        }
         this.setState({
-            datasource: this.state.datasource.cloneWithRows(this._data),
             loading: false,
-            noData: false,
             noMore: false
         })
     }
@@ -121,7 +132,7 @@ export default class Home extends Component {
         })
         Util.fetch('/api/movies?latest=' + this.latestTime).then(res => {
             if (res.data.length) {
-                this.dataRecieve(res.data)
+                this._mergeCollectStatus(res.data)
             } else {
                 this.setState({
                     loading: false,
@@ -141,24 +152,21 @@ export default class Home extends Component {
     }
 
 
+    componentDidMount() {
+        this._fetch()
+    }
 
 
     render() {
-        const { noData, noMore, loading, datasource } = this.state
-        return (
-            <div>{
-                noData ? <div className='noData'>
-                    <Icon type={require('../../common/svg/no-data.svg')} size="lg" />
-                </div> : <List noMore={noMore} 
-                    loading={loading}
-                    datasource={datasource}
-                    dataLen={this._data.length}
-                    onEndReached={this.onEndReached}
-                    deleteOne={this.deleteOne}
-                    {...this.props}></List>
-            }
-            </div>
-        )
+        const { noMore, loading } = this.state
+        return <List
+            noMore={noMore}
+            loading={loading}
+            datasource={this._data}
+            dataLen={this._data.length}
+            onEndReached={this.onEndReached}
+            deleteOne={this.deleteOne}
+            {...this.props}></List>
     }
 
     /**

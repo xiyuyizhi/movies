@@ -39,6 +39,12 @@ class Header extends Component {
                     mode="light"
                 >我的</NavBar>
             }
+            {
+                pathname === '/collect' && <NavBar className="normalBar" iconName="false" leftContent="返回"
+                    mode="light"
+                    onLeftClick={() => history.go(-1)}
+                >收藏</NavBar>
+            }
         </div>
 
     }

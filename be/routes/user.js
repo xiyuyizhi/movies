@@ -109,4 +109,20 @@ router.get('/collections', (req, res, next) => {
 })
 
 
+
+router.post('/colltions/:cId/delete', (req, res, next) => {
+    CollectModel.delete({
+        movieId: req.params.cId,
+        userId: req.user._id
+    }).then(docs => {
+        res.json({
+            code: CONFIG.ERR_OK,
+            data: docs
+        })
+    }).catch(err => {
+        next(err)
+    })
+})
+
+
 module.exports = router

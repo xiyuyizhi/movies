@@ -11,6 +11,7 @@ import Home from "./home/homePage"
 import Detail from "./detail"
 import User from "./user"
 import Reptile from "./reptile"
+import Collect from "./collectList"
 import Util from "../util/Util"
 
 export default class Rout extends React.Component {
@@ -51,6 +52,7 @@ export default class Rout extends React.Component {
                         <Route path="/reptile" render={(props=>{
                             return <Reptile login={this.state.login} {...props}></Reptile>
                         })}></Route>
+                        <Route path="/collect" component={Collect}></Route>
                     </div>
                     <Nav login={this.state.login}></Nav>
                 </div>

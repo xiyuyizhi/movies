@@ -31,6 +31,25 @@ class Collect {
         return movies
     }
 
+    async delete(data) {
+        const db = await DB.connect()
+        console.log(data)
+        const docs = await db.collection('collect').remove(data)
+        return docs
+    }
+
+    async checkCollect(data) {
+        const db = await DB.connect()
+        const docs = db.collection('collect').find({
+            userId:data.userId,
+            movieId: {
+                '$in': data.idsArr
+            }
+        }).toArray()
+        db.close()
+        return docs
+    }
+
 }
 
 

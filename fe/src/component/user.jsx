@@ -2,7 +2,12 @@
 
 import React from 'react';
 import Util from "../util/Util"
-import { Icon } from "antd-mobile"
+import {
+    Icon
+} from "antd-mobile"
+import {
+    NavLink
+} from "react-router-dom"
 import Login from "./login"
 export default class User extends React.Component {
 
@@ -33,7 +38,9 @@ export default class User extends React.Component {
                         <span className="uname">西域一支</span>
                     </div>
                     <ul className="uList">
-                        <li>我的收藏</li>
+                        <li>
+                            <NavLink to="/collect">我的收藏</NavLink>
+                        </li>
                         <li onClick={() => {
                             this.logout()
                         }}>退出</li>
