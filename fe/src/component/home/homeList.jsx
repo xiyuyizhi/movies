@@ -16,10 +16,12 @@ export default class Home extends Component {
         this.state = {
             loading: true,
             noMore: false,
+            noData: false,
             isSearch: false
         }
         this.onEndReached = this.onEndReached.bind(this)
         this.deleteOne = this.deleteOne.bind(this)
+        this.timer = null
     }
 
     /**
@@ -27,15 +29,21 @@ export default class Home extends Component {
      * @param {*} nextProps 
      */
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps)
         const { category, search } = nextProps
-        if (this.state.loading) {
-            return
-        }
-        this.setState({
-            loading: true,
-            isSearch: true
+
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+            if (this.state.loading) {
+                return
+            }
+            this.setState({
+                loading: true,
+                isSearch: true,
+                noData: false
+            })
+            this._fetch(category, search)
         })
-        this._fetch(category, search)
     }
 
 
@@ -86,6 +94,11 @@ export default class Home extends Component {
     }
 
     _mergeCollectStatus(data) {
+
+        if (!this.props.login) {
+            this.dataRecieve(data)
+            return
+        }
         const ids = data.map(item => {
             return item._id
         })
@@ -96,7 +109,7 @@ export default class Home extends Component {
         }
         Util.fetch(`/api/movies/list/checkCollect/?ids=${ids}`).then(collects => {
             if (collects)
-                collects.data.forEach(item => {
+                collects.data && collects.data.forEach(item => {
                     if (item) {
                         obj[item.movieId] = item.isCollect
                     }
@@ -116,11 +129,18 @@ export default class Home extends Component {
         this._data = this._data.concat(data)
         if (this._data.length) {
             this.latestTime = this._data[this._data.length - 1].updateTime
+            this.setState({
+                loading: false,
+                noMore: false
+            })
+        } else {
+            this.setState({
+                loading: false,
+                noMore: false,
+                noData: true
+            })
         }
-        this.setState({
-            loading: false,
-            noMore: false
-        })
+
     }
 
     onEndReached(e) {
@@ -153,13 +173,15 @@ export default class Home extends Component {
 
 
     componentDidMount() {
+        console.log(this.props)
         this._fetch()
     }
 
 
     render() {
-        const { noMore, loading } = this.state
+        const { noMore, loading, noData } = this.state
         return <List
+            noData={noData}
             noMore={noMore}
             loading={loading}
             datasource={this._data}

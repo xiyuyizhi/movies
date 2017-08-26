@@ -30,7 +30,6 @@ export default class Collect extends Component {
             }
         }).then(res => {
             if (res && !res.code && res.data.length) {
-                this._data = []
                 this.dataRecieve(res.data)
             } else {
                 this.setState({

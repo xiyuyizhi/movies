@@ -17,6 +17,9 @@ export default class App extends Component {
         }
         this.timer = null
         Util.open(() => {
+            if(this.state.isLoading){
+                return
+            }
             this.setState({
                     isLoading: true
                 })

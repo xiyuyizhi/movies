@@ -153,28 +153,30 @@ export default class List extends Component {
 
     _noData() {
         const d = this.state._data
-        return d && !d.length
+        return d.length
     }
 
     render() {
+        const { onEndReached } = this.props
         const dss = this.ds.cloneWithRows(this.state._data)
-        return (
-            this._noData() ? <div className='noData'>
+        if (this._noData()) {
+            return <ListView className="listview" dataSource={dss}
+                renderRow={this._row}
+                renderFooter={this._footer}
+                style={{
+                    height: (document.documentElement.clientHeight - 110)
+                }}
+                useZscroller
+                pageSize={10}
+                onEndReached={onEndReached}
+                onEndReachedThreshold={20}
+                scrollEventThrottle={100}>
+            </ListView>
+        } else {
+            return <div className='noData'>
                 <Icon type={require('../common/svg/no-data.svg')} size="lg" />
-            </div> :
-                <ListView className="listview" dataSource={dss}
-                    renderRow={this._row}
-                    renderFooter={this._footer}
-                    onScroll={() => { }}
-                    style={{
-                        height: (document.documentElement.clientHeight - 110)
-                    }}
-                    useZscroller
-                    pageSize={10}
-                    onEndReached={this.props.onEndReached}
-                    onEndReachedThreshold={20}
-                    scrollEventThrottle={100}>
-                </ListView>
-        )
+            </div>
+        }
+
     }
 }
