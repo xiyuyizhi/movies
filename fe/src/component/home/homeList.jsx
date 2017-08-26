@@ -166,12 +166,12 @@ export default class Home extends Component {
 
 
     row(rowData, sectionId, rowId) {
-        const {login} =this.props
+        const { login } = this.props
         let rightBtns = [
             {
                 text: '收藏',
-                onPress:()=>{
-                    if(!login){
+                onPress: () => {
+                    if (!login) {
                         Util.Toast.info('请登录')
                     }
                 },
@@ -198,7 +198,11 @@ export default class Home extends Component {
         }
         return <div className='listview-item' key={rowId}>
             <div className="m-item">
-                <SwipeAction autoClose right={rightBtns}>
+                <SwipeAction autoClose onOpen={
+                    () => {
+                        console.log('opende......')
+                    }
+                } right={rightBtns}>
                     <Link to={{
                         pathname: `/detail/${rowData._id}`,
                         state: {
@@ -241,7 +245,7 @@ export default class Home extends Component {
                     : <ListView className="listview" dataSource={this.state.datasource}
                         renderRow={this.row}
                         renderFooter={this.footer}
-                        onScroll={() => {  }}
+                        onScroll={() => { }}
                         style={{
                             height: (document.documentElement.clientHeight - 110)
                         }}

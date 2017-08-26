@@ -1,7 +1,7 @@
 const DB = require('../config/db')
 const TypeModel = require('./type_model')
 const AttachModel = require('./attachment_model')
-const PAGESIZE = 10
+const CONFIG =require('../config/config')
 
 class MoviesModel {
 
@@ -57,6 +57,11 @@ class MoviesModel {
                 callback(err)
                 return
             }
+            if(!data.downloadUrl){
+                delete data.downloadUrl
+                delete data.downloadPwd
+                delete data.attachId
+            }
             this.addMovies(data,(err,docs)=>{
                 callback(err,docs)
             })
@@ -84,7 +89,7 @@ class MoviesModel {
         DB.connect().then((db, err) => {
             this.getCollection(db).find(params).sort({
                 updateTime: -1
-            }).limit(parseInt(pageSize) || PAGESIZE).toArray((err, docs) => {
+            }).limit(parseInt(pageSize) || CONFIG.PAGESIZE).toArray((err, docs) => {
                 callback(err, docs)
                 db.close()
             })

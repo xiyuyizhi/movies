@@ -5,6 +5,14 @@
   "dependencies": {
     "antd": "^2.11.2",
     "antd-mobile": "^1.4.1",
+    "react-fastclick": "^3.0.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-dotdotdot": "^1.1.0",
+    "react-router-dom": "^4.1.1",
+    "whatwg-fetch": "^2.0.3"    
+  },
+  "devDependencies": {
     "autoprefixer": "7.1.1",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
@@ -38,12 +46,8 @@
     "postcss-loader": "2.0.6",
     "postcss-pxtorem": "^4.0.1",
     "promise": "7.1.1",
-    "react": "^15.6.1",
     "react-dev-utils": "^3.0.2",
-    "react-dom": "^15.6.1",
-    "react-dotdotdot": "^1.1.0",
     "react-error-overlay": "^1.0.9",
-    "react-router-dom": "^4.1.1",
     "style-loader": "0.18.2",
     "svg-sprite-loader": "^0.3.1",
     "sw-precache-webpack-plugin": "0.11.3",
@@ -51,8 +55,7 @@
     "webpack": "2.6.1",
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-dev-server": "2.5.0",
-    "webpack-manifest-plugin": "1.1.0",
-    "whatwg-fetch": "^2.0.3"
+    "webpack-manifest-plugin": "1.1.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -101,4 +104,5 @@
     "extends": "react-app"
   },
   "proxy": "http://localhost:9000"
+  
 }

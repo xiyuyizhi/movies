@@ -216,7 +216,7 @@ describe('Movies', function () {
 
   })
 
-
+/******************** DELETE /movies *******************/
   describe('DELETE /movies', function (done) {
 
     beforeEach(function (done) {
@@ -266,6 +266,7 @@ describe('Movies', function () {
     })
   })
 
+/******************** PUT /movies *******************/
   describe('PUT /movies', function (done) {
 
     beforeEach(function (done) {
@@ -298,7 +299,7 @@ describe('Movies', function () {
               should(res.body.data[1]).have.property('count', 1)
               should(res.body.data[2]).have.property('count', 1)
               request(app)
-                .put('/api/movies/' + _id + "/attach")
+                .put('/api/movies/' + _id)
                 .send(data.movieInfo7)
                 .then(res => {
                   request(app)
@@ -314,8 +315,33 @@ describe('Movies', function () {
         })
     })
 
+    it('modify movies and delete the download id', done => {
+      request(app)
+        .get('/api/movies').then(res => {
+          //此时是有附件id的
+          should(res.body).have.property('data').length(2)
+          should(res.body.data[1]).have.property('attachId')
+          const d = res.body.data[1]
+          const _id = d._id
+          //修改，去掉附件地址
+          d.downloadUrl = ''
+          request(app)
+            .put('/api/movies/' + _id)
+            .send(d)
+            .then(res => {
+              request(app)
+                .get('/api/movies').then(res => {
+                  should(res.body).have.property('data').length(2)
+                  should(res.body.data[1]).not.have.property('attachId')
+                  done()
+                })
+            })
+        })
+    })
+
   })
 
+/******************** User *******************/
   describe('User', (done) => {
 
 
@@ -364,7 +390,7 @@ describe('Movies', function () {
             password: 'xxx'
           }).then(res => {
             should(res.body).have.property('code', 10002)
-            should(res.body).have.property('msg', '用户不存在')
+            should(res.body).have.property('message', '用户不存在')
             done()
           })
       })
@@ -376,7 +402,7 @@ describe('Movies', function () {
             password: 'xxx'
           }).then(res => {
             should(res.body).have.property('code', 10003)
-            should(res.body).have.property('msg', '密码错误')
+            should(res.body).have.property('message', '密码错误')
             done()
           })
       })
@@ -395,5 +421,6 @@ describe('Movies', function () {
     })
 
   })
+
 
 });

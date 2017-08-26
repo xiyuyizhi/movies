@@ -4,6 +4,9 @@ import {
     ActivityIndicator
 } from "antd-mobile"
 import Util from "./util/Util"
+import initReactFastclick from 'react-fastclick';
+
+initReactFastclick();
 
 export default class App extends Component {
 
@@ -23,7 +26,6 @@ export default class App extends Component {
                 isLoading: false
             })
         })
-        console.log('app')
     }
 
 

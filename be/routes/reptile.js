@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const CONFIG = require('../config/config')
 const cheerio = require('cheerio')
 const rq = require('request-promise')
 var phantom = require("phantom");
@@ -26,7 +27,7 @@ function getMovieDetail(href, res, next) {
     const $ = cheerio.load(str)
     const data = fillData($)
     res.json({
-      code:0,
+      code: CONFIG.ERR_OK,
       data
     })
   })

@@ -3,7 +3,6 @@ import {
     NavBar
 } from "antd-mobile"
 import { withRouter } from "react-router-dom"
-import Util from "../util/Util.js"
 
 class Header extends Component {
 

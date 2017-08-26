@@ -1,19 +1,26 @@
 
 const express = require('express')
 const router = express.Router()
+const CONFIG = require('../config/config')
 const captchapng = require('captchapng');
 const UserModel = require('../models/user_model')
+const CollectModel = require('../models//collect_model')
 const token = require('../config/token')
 const unlessPath = {
-    path: ['/api/user/login']
+    path: [
+        { url: '/api/user/login', methods: ['POST'] },
+        { url: '/api/user/add', methods: ['POST'] },
+        { url: '/api/user/randomCode', methods: ['GET'] },
+        { url: '/api/user/checkLogin', methods: ['GET'] },
+    ]
 }
 
 if (process.env.NODE_ENV != 'test') {
-    // router.use(
-    //     token.validToken.unless(unlessPath),
-    //     token.noAuthorization,
-    //     token.checkRedis.unless(unlessPath)
-    // )
+    router.use(
+        token.validToken.unless(unlessPath),
+        token.noAuthorization,
+        token.checkRedis.unless(unlessPath)
+    )
 }
 
 router.post('/add', (req, res, next) => {
@@ -57,7 +64,7 @@ router.post('/login', (req, res, next) => {
 router.get('/logout', (req, res, next) => {
     token.remove(req)
     res.json({
-        code: 0,
+        code: CONFIG.ERR_OK,
         status: 'ok'
     })
 })
@@ -69,22 +76,37 @@ router.get('/randomCode', (req, res, next) => {
     p.color(80, 80, 80, 255); // Second color: paint (red, green, blue, alpha)
 
     var img = p.getBase64();
-    //var imgbase64 = new Buffer(img, 'base64');
     res.json({
-        code:0,
-        base64:img,
+        code: CONFIG.ERR_OK,
+        base64: img,
         random
     })
 })
 
-router.get('/checkLogin',(req,res,next)=>{
-    token.checkRedis(req,res,next)
-    //next()
-},(req,res,next)=>{
+router.get('/checkLogin', (req, res, next) => {
+    token.checkRedis(req, res, next)
+}, (req, res, next) => {
     res.json({
-        code:0,
-        login:true
+        code: CONFIG.ERR_OK,
+        login: true
     })
 })
+
+/**
+ * 收藏列表
+ */
+
+router.get('/collections', (req, res, next) => {
+
+    CollectModel.collectionListByUId(req.query, req.user._id).then(docs => {
+        res.json({
+            code: CONFIG.ERR_OK,
+            data: docs
+        })
+    }).catch(err => {
+        next(err)
+    })
+})
+
 
 module.exports = router

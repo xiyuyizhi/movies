@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import {
     Button,
-    Toast
 } from 'antd-mobile';
 import data from "./data.js"
 import MovieInfo from "./movieInfo"

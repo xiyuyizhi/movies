@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const token = require('../config/token')
+const CONFIG = require('../config/config')
 const MoviesModel = require('../models/movies_model')
-
+const CollectModel = require('../models/collect_model')
 const unlessPath = {
   path: [
     { url: '/api/movies', methods: ['GET'] },
@@ -26,7 +27,7 @@ function callback(err, docs, res, next) {
     return
   }
   res.json({
-    code: 0,
+    code: CONFIG.ERR_OK,
     data: docs
   })
 }
@@ -71,6 +72,19 @@ router.delete('/:movieId', (req, res, next) => {
 router.get('/search/by', (req, res, next) => {
   MoviesModel.search(req.query, (err, docs) => {
     callback(err, docs, res, next)
+  })
+
+})
+
+router.post('/:movieId/collect', (req, res, next) => {
+  const user = req.user
+  CollectModel.addCollect({
+    userId: user._id,
+    movieId: req.params.movieId
+  }).then(docs => {
+    callback(null, docs, res, next)
+  }).catch(err => {
+    next(err)
   })
 
 })

@@ -88,6 +88,8 @@ const movieInfo5 = {
     ],
     "instruct": 'instruct...',
     "time": "2010-12-22(韩国)",
+    "downloadUrl":'123',
+    "downloadPwd":'123'
 }
 const movieInfo6 = {
     "title": 'not modify title1',
