@@ -165,10 +165,13 @@ export default class Home extends Component {
     }
 
     deleteOne(id) {
-        Util.fetch('/api/movies/' + id, {
+        return Util.fetch('/api/movies/' + id, {
             method: 'DELETE'
         }).then(res => {
-            this.props.flushTypes()
+            if (!res.code) {
+                this.props.flushTypes()
+                return true
+            }
         })
     }
 

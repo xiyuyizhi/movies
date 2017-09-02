@@ -14,6 +14,9 @@ export default class User extends React.Component {
     constructor(props) {
         super(props)
         this.props = props
+        this.state = {
+            uInfo: null
+        }
     }
 
     logout() {
@@ -25,6 +28,28 @@ export default class User extends React.Component {
         })
     }
 
+    _getInfo() {
+        Util.fetch('/api/user/info').then(res => {
+            this.setState({
+                uInfo: res.data
+            })
+        })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.login != this.props.login) {
+            if (nextProps.login) {
+                //查询用户信息
+                this._getInfo()
+            }
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.login) {
+            this._getInfo()
+        }
+    }
 
     render() {
         const { login } = this.props
@@ -32,10 +57,7 @@ export default class User extends React.Component {
             {
                 login ? <div className="uMain">
                     <div className="uInfo">
-                        <span className="vatar">
-                            <Icon type={require('../common/svg/usered.svg')} size="lg" />
-                        </span>
-                        <span className="uname">西域一支</span>
+                        <span className="uname">{this.state.uInfo && this.state.uInfo.fullname}</span>
                     </div>
                     <ul className="uList">
                         <li>

@@ -4,8 +4,20 @@ const DB = require('../config/db')
 
 class User {
 
-  constructor(){
+  constructor() {
     this.schmea
+  }
+
+  async get(uId) {
+    const db = await DB.connect()
+    const docs = await db.collection('users').find({
+      _id: DB.id(uId)
+    },{
+      password:0,
+      role:0
+    }).toArray()
+    db.close()
+    return docs
   }
 
   async add(user) {
@@ -21,9 +33,9 @@ class User {
     db.close()
   }
 
-  async validUser(username){
-    const db=await DB.connect()
-    const u= await db.collection('users').find({
+  async validUser(username) {
+    const db = await DB.connect()
+    const u = await db.collection('users').find({
       username
     }).toArray()
     db.close()

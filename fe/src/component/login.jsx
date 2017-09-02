@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import Util from "../util/Util"
 import {
-    Button
+    Button,
+    Switch
 } from "antd-mobile"
 
 export default class Login extends Component {
@@ -15,7 +16,8 @@ export default class Login extends Component {
             img: '',
             username: '',
             password: '',
-            random: ''
+            random: '',
+            on: false
         }
         this.changeUsername = this.changeUsername.bind(this)
         this.changePassword = this.changePassword.bind(this)
@@ -57,7 +59,11 @@ export default class Login extends Component {
         if (!this.valid()) {
             return
         }
-        Util.fetch('/api/user/login', {
+        let url = '/api/user/login'
+        if (this.state.on) {
+            url = "/api/user/add"
+        }
+        Util.fetch(url,{
             method: 'POST',
             body: JSON.stringify({
                 username: this.state.username,
@@ -65,8 +71,19 @@ export default class Login extends Component {
             })
         }).then(res => {
             //store token
-            window.localStorage.setItem('t', res.token)
-            window.location.reload()
+            if (!res.code) {
+                if (this.state.on) {
+                    this.setState({
+                        on:false
+                    })
+                    Util.Toast.info('请登录')
+                } else {
+                    window.localStorage.setItem('t', res.token)
+                    window.sessionStorage.setItem('r', res.role)
+                    window.location.reload()
+                }
+
+            }
         })
     }
 
@@ -117,7 +134,15 @@ export default class Login extends Component {
                     this.state.img.base64 && <img src={this.geneUrl(this.state.img.base64)} onClick={this.flushRandom} />
                 }
             </div>
-            <Button type="primary" size="small" onClick={this.sub}>登录</Button>
+            <Button type="primary" size="small" onClick={this.sub}>{this.state.on ? "注册" : "登录"}</Button>
+            <div className="regisiter">
+                <label className="label">注册</label>
+                <Switch checked={this.state.on} onChange={() => {
+                    this.setState({
+                        on: !this.state.on
+                    })
+                }}></Switch>
+            </div>
         </form>
 
     }

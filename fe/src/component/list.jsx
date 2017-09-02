@@ -27,75 +27,79 @@ export default class List extends Component {
         }
     }
 
-    _sectionBtns(rowData, rowId) {
-        const { login, parent } = this.props
-        let rightBtns = [
-            {
-                text: rowData.isCollect ? '移除' : '收藏',
-                onPress: () => {
-                    if (!login) {
-                        Util.Toast.info('请登录')
-                        return
-                    }
-                    if (!rowData.isCollect) {
-                        //收藏
-                        Util.fetch(`/api/movies/${rowData._id}/collect`, {
-                            method: 'POST'
-                        }).then(res => {
-                            if (!res.code) {
-                                rowData.isCollect=true
-                                this.setState({
-                                    _data:this.state._data
-                                })
-                                Util.Toast.info('已收藏')
-                            }
+    _defaultBtn(rowData, rowId, parent, login) {
+        let rightBtns
+        if (!parent) {
+            rightBtns = [
+                {
+                    text: rowData.isCollect ? '移除' : '收藏',
+                    onPress: () => {
+                        if (!login) {
+                            Util.Toast.info('请登录')
+                            return
+                        }
+                        if (!rowData.isCollect) {
+                            //收藏
+                            Util.fetch(`/api/movies/${rowData._id}/collect`, {
+                                method: 'POST'
+                            }).then(res => {
+                                if (!res.code) {
+                                    rowData.isCollect = true
+                                    this.setState({
+                                        _data: this.state._data
+                                    })
+                                    Util.Toast.info('已收藏')
+                                }
 
-                        })
-                    } else {
-                        Util.fetch(`/api/user/colltions/${rowData._id}/delete`, {
-                            method: 'POST'
-                        }).then(res => {
-                            if (!res.code) {
-                                delete rowData.isCollect
-                                this.setState({
-                                    _data:this.state._data
-                                })
-                                Util.Toast.info('已移除')
-                            }
-                        })
-                    }
+                            })
+                        } else {
+                            Util.fetch(`/api/user/colltions/${rowData._id}/delete`, {
+                                method: 'POST'
+                            }).then(res => {
+                                if (!res.code) {
+                                    delete rowData.isCollect
+                                    this.setState({
+                                        _data: this.state._data
+                                    })
+                                    Util.Toast.info('已移除')
+                                }
+                            })
+                        }
 
-                },
-                className: 'btn'
-            }
-        ]
+                    },
+                    className: 'btn'
+                }
+            ]
+        }
         //收藏列表中按钮是移除
         if (parent) {
-            rightBtns = [{
-                text: '移除',
-                onPress: () => {
-                    Util.fetch(`/api/user/colltions/${rowData._id}/delete`, {
-                        method: 'POST'
-                    }).then(res => {
-                        if (!res.code) {
-                            const d = this.state._data
-                            d.splice(rowId, 1)
-                            this.setState({
-                                _data: d
-                            })
-                            Util.Toast.info('已移除')
-                        }
-                    })
-                },
-                className: 'btn'
-            }]
-        }
-        if (login) {
-            rightBtns = this._renderAllowedBtns(rightBtns, rowData, login, rowId)
+            rightBtns = this._collectDefaultBtn(rowData, rowId)
         }
         return rightBtns
     }
 
+    _collectDefaultBtn(rowData, rowId) {
+        return [{
+            text: '移除',
+            onPress: () => {
+                Util.fetch(`/api/user/colltions/${rowData._id}/delete`, {
+                    method: 'POST'
+                }).then(res => {
+                    if (!res.code) {
+                        const d = this.state._data
+                        d.splice(rowId, 1)
+                        this.setState({
+                            _data: d
+                        })
+                        Util.Toast.info('已移除')
+                    }
+                })
+            },
+            className: 'btn'
+        }]
+    }
+
+    //登录后有权限才能看到的菜单
     _renderAllowedBtns(rightBtns, rowData, login, rowId) {
         return rightBtns.concat([{
             text: '修改',
@@ -111,16 +115,33 @@ export default class List extends Component {
         {
             text: '删除',
             onPress: () => {
-                this.props.deleteOne(rowData._id)
-                console.log(this.state._data.length)
-                this.state._data.splice(rowId, 1)
-                console.log(this.state._data.length)
-                this.setState({
-                    _data: this.state._data
+                this.props.deleteOne(rowData._id).then((status) => {
+                    if (status) {
+                        this.state._data.splice(rowId, 1)
+                        this.setState({
+                            _data: this.state._data
+                        })
+                        Util.Toast.info('已删除')                        
+                    }
                 })
+
             },
             className: 'btn delete'
         }])
+    }
+
+    /**
+     * 左划菜单项
+     * @param {*} rowData 
+     * @param {*} rowId 
+     */
+    _sectionBtns(rowData, rowId) {
+        const { login, parent } = this.props
+        let rightBtns = this._defaultBtn(rowData, rowId, parent, login)
+        if (login && this.userRole) {
+            rightBtns = this._renderAllowedBtns(rightBtns, rowData, login, rowId)
+        }
+        return rightBtns
     }
 
     _row(rowData, sectionId, rowId) {
@@ -169,6 +190,7 @@ export default class List extends Component {
     }
 
     componentWillMount() {
+        this.userRole = window.sessionStorage.getItem('r') == '2017'
         this.setState({
             _data: this.props.datasource
         })

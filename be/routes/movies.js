@@ -46,6 +46,10 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/:movieId', (req, res, next) => {
+  if (req.user.role != 2017) {
+    next(10006)
+    return
+  }
   MoviesModel.modifyMovie(req.params.movieId, req.body, (err, docs) => {
     callback(err, docs, res, next)
   })
@@ -64,6 +68,10 @@ router.get('/:movieId/attach', (req, res, next) => {
 })
 
 router.delete('/:movieId', (req, res, next) => {
+  if (req.user.role != 2017) {
+    next(10006)
+    return
+  }
   MoviesModel.delete(req.params.movieId, (err, docs) => {
     callback(err, docs, res, next)
   })
@@ -120,7 +128,7 @@ router.get('/list/checkCollect', (req, res, next) => {
             }
           }
         }
-      }).filter(item=>{
+      }).filter(item => {
         return !!item
       })
       callback(null, collected, res, next)

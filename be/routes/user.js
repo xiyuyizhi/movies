@@ -23,7 +23,18 @@ if (process.env.NODE_ENV != 'test') {
     )
 }
 
+router.get('/info',(req,res,next)=>{
+     UserModel.get(req.user._id).then(result=>{
+         res.json({
+             code:CONFIG.ERR_OK,
+             data:result.length && result[0]
+         })
+     })
+})
+
 router.post('/add', (req, res, next) => {
+    req.body.role = 1
+    req.body.fullname=`用户${new Date().getTime()}`
     UserModel.add(req.body).then(result => {
         res.json(result)
     }).catch(err => {
@@ -48,7 +59,8 @@ router.post('/login', (req, res, next) => {
                 token.add(tok)
                 res.json({
                     code: 0,
-                    token: tok
+                    token: tok,
+                    role:docs[0].role
                 })
                 return
             }
@@ -88,7 +100,8 @@ router.get('/checkLogin', (req, res, next) => {
 }, (req, res, next) => {
     res.json({
         code: CONFIG.ERR_OK,
-        login: true
+        login: true,
+
     })
 })
 
@@ -97,7 +110,6 @@ router.get('/checkLogin', (req, res, next) => {
  */
 
 router.get('/collections', (req, res, next) => {
-
     CollectModel.collectionListByUId(req.query, req.user._id).then(docs => {
         res.json({
             code: CONFIG.ERR_OK,
