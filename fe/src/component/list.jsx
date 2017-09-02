@@ -43,14 +43,23 @@ export default class List extends Component {
                             method: 'POST'
                         }).then(res => {
                             if (!res.code) {
+                                rowData.isCollect=true
+                                this.setState({
+                                    _data:this.state._data
+                                })
                                 Util.Toast.info('已收藏')
                             }
+
                         })
                     } else {
                         Util.fetch(`/api/user/colltions/${rowData._id}/delete`, {
                             method: 'POST'
                         }).then(res => {
                             if (!res.code) {
+                                delete rowData.isCollect
+                                this.setState({
+                                    _data:this.state._data
+                                })
                                 Util.Toast.info('已移除')
                             }
                         })
@@ -82,12 +91,12 @@ export default class List extends Component {
             }]
         }
         if (login) {
-            rightBtns = this._renderAllowedBtns(rightBtns, rowData, login)
+            rightBtns = this._renderAllowedBtns(rightBtns, rowData, login, rowId)
         }
         return rightBtns
     }
 
-    _renderAllowedBtns(rightBtns, rowData, login) {
+    _renderAllowedBtns(rightBtns, rowData, login, rowId) {
         return rightBtns.concat([{
             text: '修改',
             onPress: () => {
@@ -101,7 +110,15 @@ export default class List extends Component {
         },
         {
             text: '删除',
-            onPress: () => { this.props.deleteOne(rowData._id) },
+            onPress: () => {
+                this.props.deleteOne(rowData._id)
+                console.log(this.state._data.length)
+                this.state._data.splice(rowId, 1)
+                console.log(this.state._data.length)
+                this.setState({
+                    _data: this.state._data
+                })
+            },
             className: 'btn delete'
         }])
     }
@@ -148,6 +165,12 @@ export default class List extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             _data: nextProps.datasource
+        })
+    }
+
+    componentWillMount() {
+        this.setState({
+            _data: this.props.datasource
         })
     }
 

@@ -29,11 +29,12 @@ export default class Home extends Component {
      * @param {*} nextProps 
      */
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps)
         const { category, search } = nextProps
+        if (this.props.category != category || this.props.search != search) {
+            // clearTimeout(this.timer)
+            // this.timer = setTimeout(() => {
 
-        clearTimeout(this.timer)
-        this.timer = setTimeout(() => {
+            // })
             if (this.state.loading) {
                 return
             }
@@ -43,7 +44,7 @@ export default class Home extends Component {
                 noData: false
             })
             this._fetch(category, search)
-        })
+        }
     }
 
 
@@ -173,7 +174,6 @@ export default class Home extends Component {
 
 
     componentDidMount() {
-        console.log(this.props)
         this._fetch()
     }
 
