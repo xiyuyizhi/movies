@@ -33,7 +33,6 @@ class Collect {
 
     async delete(data) {
         const db = await DB.connect()
-        console.log(data)
         const docs = await db.collection('collect').remove(data)
         return docs
     }

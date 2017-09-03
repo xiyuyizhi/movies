@@ -40,7 +40,7 @@ class Header extends Component {
                 >我的</NavBar>
             }
             {
-                pathname === '/collect' && <NavBar className="normalBar" iconName="false" leftContent="返回"
+                pathname === '/collect' && <NavBar className="normalBar" leftContent="返回"
                     mode="light"
                     onLeftClick={() => history.go(-1)}
                 >收藏</NavBar>

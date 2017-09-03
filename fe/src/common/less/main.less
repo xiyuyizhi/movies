@@ -6,7 +6,7 @@
     .am-list-view-scrollview-content {
         width: 100%;
         .am-list-body {
-            border-top-color: #ECECED;
+            border-top-color: @border-color;
             &:after {
                 border-bottom: none
             }
@@ -19,8 +19,8 @@
                 margin: 0;
                 height: 0.5rem;
                 background: @white;
-                border-bottom: 1px solid @moveis-separator-border-color;
-                border-top: 1px solid @moveis-separator-border-color;
+                border-bottom: 1px solid @border-color;
+                border-top: 1px solid @border-color;
             }
             &:last-child {
                 .separator {

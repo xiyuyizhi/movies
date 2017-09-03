@@ -4,14 +4,14 @@
     input {
         height: 2rem;
         border: none;
-        border-bottom: 1px solid #eae5e5;
+        border-bottom: 1px solid @border-color;
         width: 100%;
         background: #f5f5f9;
     }
     form {
         padding: 20px;
         .form-line {
-            padding: 10px 0;
+            padding: @normal-padding 0;
             &.randomcode {
                 input {
                     width: 50%;
@@ -19,13 +19,13 @@
             }
         }
         a[role=button] {
-            margin-top: 10px;
+            margin-top: @normal-margin;
         }
-        .regisiter{
-            margin-top: 10px;
-            .label{
-                padding-right: 10px;
-                color:@color3;
+        .regisiter {
+            margin-top: @normal-margin;
+            .label {
+                padding-right: @normal-padding;
+                color: @color3;
             }
         }
     }
@@ -43,14 +43,17 @@
                 margin-top: 10px;
             }
         }
-        .uList{
+        .uList {
             margin: 0 -10px;
-            li{
-                background: #fff;
+            li {
+                background: @white;
                 padding: 20px;
                 margin-bottom: 5px;
                 font-size: 0.8rem;
-                color:@color2;
+                color: @color2;
+                a{
+                    display: block;
+                }
             }
         }
     }

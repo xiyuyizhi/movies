@@ -4,6 +4,7 @@ const token = require('../config/token')
 const CONFIG = require('../config/config')
 const MoviesModel = require('../models/movies_model')
 const CollectModel = require('../models/collect_model')
+const Admin = 2017
 const unlessPath = {
   path: [
     { url: '/api/movies', methods: ['GET'] },
@@ -46,7 +47,7 @@ router.post('/', function (req, res, next) {
 });
 
 router.put('/:movieId', (req, res, next) => {
-  if (req.user.role != 2017) {
+  if (req.user.role != Admin) {
     next(10006)
     return
   }
@@ -68,7 +69,7 @@ router.get('/:movieId/attach', (req, res, next) => {
 })
 
 router.delete('/:movieId', (req, res, next) => {
-  if (req.user.role != 2017) {
+  if (req.user.role != Admin) {
     next(10006)
     return
   }
