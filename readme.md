@@ -4,17 +4,17 @@
 
 *断断续续利用周末时间做了两个月，基于react和express的一个小项目差不多做完了。做之前想着边做边做些笔记，记录下每步遇到的问题和解决方案,然而没有。*
 
-*所以现在开始补一下。*
+* 所以现在开始补一下。*
 
-*初衷是练习一下react相关的技术栈，但做的过程感觉对后端投入的热情更大。*
+* 初衷是练习一下react相关的技术栈，但做的过程感觉对后端投入的热情更大。*
 
 ## 接下来会从这几点写写文章记录下
 
-- 蚂蚁金服antd-mobile 在 create-react-app 中的相关配置（如何配置webpack来构建时 用自己的css样式变量 覆盖 antd-mobile的默认变量）
+- 蚂蚁金服antd-mobile 在 create-react-app 中的相关配置（如何配置webpack来构建时 用自己的css样式变量 覆盖 antd-mobile的默认变量）
 
 - 前端页面结构及路由规划
 
-- 爬取豆瓣电影的电影信息
+- 爬取豆瓣电影的电影信息
 
 - 使用pm2来管理node应用 [pm2](http://pm2.keymetrics.io/)
 
@@ -22,7 +22,7 @@
 
 - node中使用 mocha + supertest + should 来写单元测试
 
--  使用 jwt + redis 来做基于token的用户身份认证
+- 使用 jwt + redis 来做基于token的用户身份认证
 
 ## 技术栈
 
@@ -35,7 +35,7 @@
 
 clone代码到本地
 
-前端:
+前端:
 ```
     npm install
     npm start
@@ -72,7 +72,7 @@ clone代码到本地
 
 - 爬取豆瓣电影并录入
 
-- 登录、注册
+- 登录、注册
 
 - 管理员增删改查
 
@@ -86,22 +86,29 @@ clone代码到本地
 ### 首页
 
 ![](img/homepage.png)
+
 ![](img/category.png)
+
 ![](img/action_menu1.png)
+
 ![](img/action_menu2.png)
 
 ### 详情页
 ![](img/detail1.png)
+
 ![](img/detail2.png)
 
 ## 录入
 ![](img/search.png)
+
 ![](img/add.png)
 
 
 ## 用户
 ![](img/login.png)
+
 ![](img/user.png)
+
 ![](img/collect.png)
 
 
