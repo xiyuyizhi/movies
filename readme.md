@@ -50,7 +50,7 @@ clone代码到本地
 
     3. npm install -g pm2
 
-    3. node 版本最好最新版本，因为使用了 async await,推荐nvm来关闭node版本
+    3. node 版本最好最新版本，因为使用了 async await,推荐nvm来管理node版本
 
     4. npm install 
 
