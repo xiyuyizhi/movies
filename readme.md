@@ -10,7 +10,7 @@
 
 ## 接下来会从这几点写写文章记录下
 
-- 蚂蚁金服antd-mobile 在 create-react-app 中的相关配置（如何配置webpack来构建时 用自己的css样式变量 覆盖 antd-mobile的默认变量）
+- 蚂蚁金服antd-mobile 在 create-react-app 中的相关配置（如何配置webpack来构建时用自己的css样式变量覆盖antd-mobile的默认变量）
 
 - 前端页面结构及路由规划
 
@@ -18,7 +18,7 @@
 
 - 使用pm2来管理node应用 [pm2](http://pm2.keymetrics.io/)
 
-- mongodb开启身份认证
+- mongodb开启身份认证
 
 - node中使用 mocha + supertest + should 来写单元测试
 
@@ -27,7 +27,7 @@
 ## 技术栈
 
 - react + react-router + antd-mobile + fetch
-- redux(没用,之后改)
+- redux(没用,之后改)
 - express + mongodb + redis
 
 
@@ -44,9 +44,9 @@ clone代码到本地
 
 后端:
 ```
-    1. 需要安装mogondb 本项目mogondb端口 3307,并开启权限认证。可以在/BE/config/db.js中修改
+    1. 需要安装mogondb 本项目mogondb端口 3307,并开启权限认证。可以在/BE/config/db.js中修改
 
-    2. 需要安装redis  brew install redis
+    2. 需要安装redis  brew install redis
 
     3. npm install -g pm2
 
@@ -64,7 +64,7 @@ clone代码到本地
 
 ## 功能介绍
 
-之前看了挺多棒子电影的，所以想做一个电影相关的小项目，主要功能：
+之前看了挺多棒子电影的，所以想做一个电影相关的小项目，主要功能：
 
 - 首页 电影列表展示，可搜索和分类筛选
 
@@ -85,31 +85,18 @@ clone代码到本地
 
 ### 首页
 
-![](img/homepage.png)
-
-![](img/category.png)
-
-![](img/action_menu1.png)
-
-![](img/action_menu2.png)
+![](img/homepage.png)![](img/category.png)
+![](img/action_menu1.png)![](img/action_menu2.png)
 
 ### 详情页
-![](img/detail1.png)
-
-![](img/detail2.png)
+![](img/detail1.png)![](img/detail2.png)
 
 ## 录入
-![](img/search.png)
-
-![](img/add.png)
+![](img/search.png)![](img/add.png)
 
 
 ## 用户
-![](img/login.png)
-
-![](img/user.png)
-
-![](img/collect.png)
+![](img/login.png)![](img/user.png)![](img/collect.png)
 
 
 
