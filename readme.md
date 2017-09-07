@@ -10,8 +10,6 @@
 
 ## 接下来会从这几点写写文章记录下
 
-- 蚂蚁金服antd-mobile 在 create-react-app 中的相关配置（如何配置webpack来构建时用自己的css样式变量覆盖antd-mobile的默认变量）
-
 - 前端页面结构及路由规划
 
 - 爬取豆瓣电影的电影信息
