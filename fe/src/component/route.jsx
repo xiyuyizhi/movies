@@ -21,8 +21,6 @@ export default class Rout extends React.Component {
         this.state = {
             login: false
         }
-        console.log('route')
-        console.log(props)
     }
 
     componentDidMount() {
