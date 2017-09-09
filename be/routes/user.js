@@ -58,7 +58,7 @@ router.post('/login', (req, res, next) => {
                  */
                 token.add(tok)
                 res.json({
-                    code: 0,
+                    code: CONFIG.ERR_OK,
                     token: tok,
                     role:docs[0].role
                 })

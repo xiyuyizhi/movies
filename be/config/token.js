@@ -8,7 +8,6 @@ const SECRET = 'MOVIESKEY'
 const token = {
 
     SECRET,
-
     sign: (user) => {
         return jwt.sign(user, SECRET)
     },
@@ -32,8 +31,6 @@ const token = {
         next()
     },
     checkRedis: (req, res, next) => {
-        console.log('oooooo')
-        console.log(req.user)
         const tok = token.getToken(req)
         redis.get(tok, (data) => {
             if (data) {

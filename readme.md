@@ -14,11 +14,11 @@
 
 - [爬取豆瓣电影的电影信息](/dayByday/day2.md)
 
-- mongodb开启身份认证
+- [mongodb开启身份认证](/dayByday/day3.md)
+
+- [使用 jwt + redis 来做基于token的用户身份认证](/dayByday/day4.md)
 
 - node中使用 mocha + supertest + should 来写单元测试
-
-- 使用 jwt + redis 来做基于token的用户身份认证
 
 - 部署
 
