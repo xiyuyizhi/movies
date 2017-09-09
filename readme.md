@@ -12,7 +12,7 @@
 
 - [一步一步搭建react应用-前后端初始化](/dayByday/day1.md)
 
-- 爬取豆瓣电影的电影信息
+- [爬取豆瓣电影的电影信息](/dayByday/day2.md)
 
 - mongodb开启身份认证
 
