@@ -1,11 +1,11 @@
 ## node中使用 mocha + supertest + should 来写单元测试
 
 
-mocha 是一个node单元测试框架，类似于前端的jasmine,语法也相近
+*mocha 是一个node单元测试框架，类似于前端的jasmine,语法也相近*
 
-supertest 用来测试node接口的库
+*supertest 用来测试node接口的库*
 
-should nodejs断言库，可读性很高
+*should nodejs断言库，可读性很高*
 
 - ### 搭建
 
@@ -162,6 +162,7 @@ const movieInfo1 = {
     ],
     "instruct": 'instruct...',"time": "2010-12-22(韩国)",
 }
+```
 
 *测试代码*
 
@@ -221,4 +222,4 @@ describe('Movies Test',()=>{
 })
 ```
 
-详细完整的对每个接口的测试见[test](https://github.com/xiyuyizhi/movies/be/test)
+详细完整的对每个接口的测试见 [test](https://github.com/xiyuyizhi/movies/tree/master/be/test)
