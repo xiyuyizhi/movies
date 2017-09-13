@@ -28,7 +28,7 @@ module.exports = {
       repo: "git@github.com:xiyuyizhi/movies.git",
       path: "/var/www/movies/",
       "post-setup": "ls -la",
-      "post-deploy": "npm install && pm2 kill && npm start",
+      "post-deploy": "cd be && npm install && pm2 kill && npm start",
       "env": {
         "NODE_ENV": "production"
       }
