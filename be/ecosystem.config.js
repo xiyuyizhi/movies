@@ -22,7 +22,7 @@ module.exports = {
   ],
   deploy: {
     "production": {
-      user: "node",
+      user: "root",
       host: ['118.190.208.49'],
       ref: "origin/master",
       repo: "git@github.com:xiyuyizhi/movies.git",
