@@ -15,8 +15,23 @@ module.exports = {
         NODE_ENV: 'development'
       },
       env_production: {
+        PORT: 8000,
         NODE_ENV: 'production'
       }
     }
-  ]
+  ],
+  deploy: {
+    "production": {
+      user: "node",
+      host: ['118.190.208.49'],
+      ref: "origin/master",
+      repo: "git@github.com:xiyuyizhi/movies.git",
+      path: "/var/www/movies/",
+      "post-setup": "ls -la",
+      "post-deploy": "npm install && pm2 kill && npm start",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
 };

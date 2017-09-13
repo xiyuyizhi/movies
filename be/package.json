@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "pm2 start ecosystem.config.js",
-    "test": "mocha --watch --slow 300"
+    "test": "mocha --watch --slow 300",
+    "deploy":"pm2 deploy ecosystem.config.js production"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
