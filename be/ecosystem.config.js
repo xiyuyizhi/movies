@@ -29,7 +29,7 @@ module.exports = {
       path: "/root/www/data_movies",
       "post-setup": "ls -la",
       "pre-deploy-local":"ls -la",
-      "post-deploy": "cd be && npm install && pm2 kill && npm start",
+      "post-deploy": "cd be && npm install && pm2 kill && pm2 start ecosystem.config.js --env production",
       "env": {
         "NODE_ENV": "production"
       }
