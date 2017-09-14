@@ -3,9 +3,6 @@
 import React from 'react';
 import Util from "../util/Util"
 import {
-    Icon
-} from "antd-mobile"
-import {
     NavLink
 } from "react-router-dom"
 import Login from "./login"
