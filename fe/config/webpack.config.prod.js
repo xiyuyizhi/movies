@@ -127,6 +127,15 @@ const config= {
         ],
         include: paths.appSrc,
       },
+      {
+        test: /\.(svg)$/i,
+        loader: 'svg-sprite-loader',
+        include: [
+          require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
+          path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
+          paths.appSrc,
+        ]
+      },
       // ** ADDING/UPDATING LOADERS **
       // The "file" loader handles all assets unless explicitly excluded.
       // The `exclude` list *must* be updated with every change to loader extensions.
@@ -175,15 +184,7 @@ const config= {
           compact: true,
         },
       },
-      {
-        test: /\.(svg)$/i,
-        loader: 'svg-sprite-loader',
-        include: [
-          require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
-          path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
-          paths.appSrc,
-        ]
-      },
+      
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
       // "css" loader resolves paths in CSS and adds assets as dependencies.
