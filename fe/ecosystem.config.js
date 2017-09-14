@@ -8,7 +8,7 @@ module.exports = {
       repo: "git@github.com:xiyuyizhi/movies.git",
       path: "/root/www/data_movies_front",
       "post-setup": "ls -la",
-      "post-deploy": "cd /root/www/front && rm -rf * && cd /root/www/data_movies_front/build && cp -r . /root/www/front",
+      "post-deploy": "cd /root/www/front && rm -rf * && cd /root/www/data_movies_front/current/fe/build && cp -r . /root/www/front",
     }
   }
 };
