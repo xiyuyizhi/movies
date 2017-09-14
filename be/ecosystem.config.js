@@ -26,7 +26,7 @@ module.exports = {
       host: ['118.190.208.49'],
       ref: "origin/master",
       repo: "git@github.com:xiyuyizhi/movies.git",
-      path: "/root/www/data_movies",
+      path: "/root/www/movies_be",
       "post-setup": "ls -la",
       "pre-deploy-local":"ls -la",
       "post-deploy": "cd be && npm install && pm2 kill && pm2 start ecosystem.config.js --env production",

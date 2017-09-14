@@ -6,9 +6,9 @@ module.exports = {
       host: ['118.190.208.49'],
       ref: "origin/master",
       repo: "git@github.com:xiyuyizhi/movies.git",
-      path: "/root/www/data_movies_front",
+      path: "/root/www/movies_fe",
       "post-setup": "ls -la",
-      "post-deploy": "cd /root/www/front && rm -rf * && cd /root/www/data_movies_front/current/fe/build && cp -r . /root/www/front",
+      "post-deploy": "cd /root/www/front && rm -rf * && cd /root/www/movies_fe/current/fe/build && cp -r . /root/www/front",
     }
   }
 };
