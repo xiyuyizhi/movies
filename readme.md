@@ -22,7 +22,7 @@
 
 - [node中使用 mocha + supertest + should 来写单元测试](/dayByday/day5.md)
 
-- 部署
+- [部署](/dayByday/day6.md)
 
 ## 技术栈
 
