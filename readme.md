@@ -2,11 +2,6 @@
 
 # 一步一步搭建react应用-开篇
 
-branch
-
-- [master](https://github.com/xiyuyizhi/movies/tree/master)
-
-- [redux-rxjs](https://github.com/xiyuyizhi/movies/tree/redux-rxjs)
 
 ## [在线地址](http://xiyuyizhi.xyz:8080) 推荐浏览器开发者工具开启手机设备模式
 
