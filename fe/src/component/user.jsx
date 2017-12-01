@@ -34,7 +34,7 @@ export default class User extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.login != this.props.login) {
+        if (nextProps.login !== this.props.login) {
             if (nextProps.login) {
                 //查询用户信息
                 this._getInfo()

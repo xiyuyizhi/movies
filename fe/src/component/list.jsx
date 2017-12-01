@@ -145,7 +145,7 @@ export default class List extends Component {
     }
 
     _row(rowData, sectionId, rowId) {
-        const { login, parent } = this.props
+        const { login} = this.props
         const rightBtns = this._sectionBtns(rowData, rowId)
         return <div className='listview-item' key={rowId}>
             <div className="m-item">
@@ -190,7 +190,7 @@ export default class List extends Component {
     }
 
     componentWillMount() {
-        this.userRole = window.sessionStorage.getItem('r') == '2017'
+        this.userRole = window.sessionStorage.getItem('r') === '2017'
         this.setState({
             _data: this.props.datasource
         })

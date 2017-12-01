@@ -5,15 +5,21 @@ import {
     List
 } from "antd-mobile"
 
-export default class HomeHeader extends Component {
+import {
+    connect
+} from "react-redux"
+
+import {
+    bindActionCreators
+} from "redux"
+
+import * as HpAction from "../../actions/hompage"
+
+class HomeHeader extends Component {
 
     constructor(props) {
         super(props)
-        this.props=props
-        this.state = {
-            category: '分类',
-            search: ''
-        }
+        this.props = props
         this.onOk = this.onOk.bind(this)
         this.onDismiss = this.onDismiss.bind(this)
         this.search = this.search.bind(this)
@@ -25,60 +31,57 @@ export default class HomeHeader extends Component {
      * @param {*} val 
      */
     search(val) {
-        this.setState({
-            search: val
-        })
-        this.props.searchCallback(val)
+        this.props.set_search(val)
     }
     onClear() {
-        this.props.searchCallback('')
+        this.props.set_search('')
     }
     /**
      * 分类picker选择
      * @param {*} val 
      */
     onOk(val) {
-        this.setState({
-            category: val
-        })
-        this.props.cateCallback(val)
+        this.props.set_category(val)
     }
     onDismiss() {
-        this.setState({
-            category: '分类'
-        })
-        this.props.cateCallback([''])
+        this.props.set_category([''])
     }
 
-    
-
     render() {
-
+        const { search, category, types } = this.props
         return <div className='header'>
             <div className="homeBar">
                 <div className="search">
-                    <SearchBar value={this.state.search} placeholder="搜索" onChange={(val) => {
-                        this.setState({
-                            search: val
-                        })
+                    <SearchBar value={search} placeholder="搜索" onChange={(val) => {
+                        this.search(val)
                     }} onClear={this.onClear} onSubmit={this.search}></SearchBar>
                 </div>
                 <div className="typeList">
                     <Picker
-                        data={this.props.types}
+                        data={types}
                         cols="1"
                         onOk={this.onOk}
                         onDismiss={this.onDismiss}
                     >
-                        <List.Item arrow="horizontal">{this.state.category}</List.Item>
+                        <List.Item arrow="horizontal">{category || '分类'}</List.Item>
                     </Picker>
                 </div>
             </div>
         </div>
 
     }
-
-
-
-
 }
+
+function mapStateToProps(state) {
+    return {
+        category: state.homepage.category,
+        search: state.homepage.search,
+        types: state.homepage.types
+    }
+}
+
+function mapActionCreatorsToProps(dispatch) {
+    return bindActionCreators(HpAction, dispatch);
+}
+
+export default connect(mapStateToProps, mapActionCreatorsToProps)(HomeHeader)

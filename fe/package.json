@@ -5,12 +5,16 @@
   "dependencies": {
     "antd": "^2.11.2",
     "antd-mobile": "^1.4.1",
-    "react-fastclick": "^3.0.2",
+    "babel-polyfill": "^6.26.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-dotdotdot": "^1.1.0",
+    "react-fastclick": "^3.0.2",
+    "react-redux": "^5.0.6",
     "react-router-dom": "^4.1.1",
-    "whatwg-fetch": "^2.0.3"    
+    "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "7.1.1",
@@ -61,8 +65,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "analyze": "node scripts/build.js analyze",
-    "setup":"pm2 deploy ecosystem.config.js production setup",
-    "deploy":"pm2 deploy ecosystem.config.js production"
+    "setup": "pm2 deploy ecosystem.config.js production setup",
+    "deploy": "pm2 deploy ecosystem.config.js production"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -105,5 +109,4 @@
     "extends": "react-app"
   },
   "proxy": "http://localhost:9000"
-  
 }

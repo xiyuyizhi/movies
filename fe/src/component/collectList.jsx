@@ -1,8 +1,5 @@
 
 import React, { Component } from 'react';
-import {
-    ListView
-} from 'antd-mobile'
 import List from "./list"
 import Util from "../util/Util"
 export default class Collect extends Component {

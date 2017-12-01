@@ -1,13 +1,16 @@
 
 import React, { Component } from 'react';
-import {
-    ListView,
-    Icon
-} from 'antd-mobile'
 import Util from "../../util/Util.js"
 import List from "../list"
+import {
+    connect
+} from "react-redux"
+import {
+    bindActionCreators
+} from "redux"
+import * as HpAction from "../../actions/hompage"
 
-export default class Home extends Component {
+class Home extends Component {
 
     constructor(props) {
         super(props)
@@ -30,11 +33,7 @@ export default class Home extends Component {
      */
     componentWillReceiveProps(nextProps) {
         const { category, search } = nextProps
-        if (this.props.category != category || this.props.search != search) {
-            // clearTimeout(this.timer)
-            // this.timer = setTimeout(() => {
-
-            // })
+        if (this.props.category !== category || this.props.search !== search) {
             if (this.state.loading) {
                 return
             }
@@ -51,7 +50,7 @@ export default class Home extends Component {
     _handleQuery(category, search) {
         let cateStr
         let searchStr
-        category && (cateStr = 'cate=' + category)
+        category !== '分类' && (cateStr = 'cate=' + category)
         search && (searchStr = 'content=' + search)
         if (cateStr && searchStr) {
             return cateStr + '&' + searchStr
@@ -169,7 +168,7 @@ export default class Home extends Component {
             method: 'DELETE'
         }).then(res => {
             if (!res.code) {
-                this.props.flushTypes()
+                this.props.load_category()
                 return true
             }
         })
@@ -194,16 +193,16 @@ export default class Home extends Component {
             {...this.props}></List>
     }
 
-    /**
-     * noMore
-     * loading
-     * dataLen
-     * datasource
-     * onEndReached
-     * deleteOne
-     * 
-     * login
-     * history
-     */
-
 }
+
+function mapStateToProps(state) {
+    return {
+        category: state.homepage.category,
+        search: state.homepage.search,
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    (dispatch) => bindActionCreators(HpAction, dispatch)
+)(Home)

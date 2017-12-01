@@ -5,14 +5,14 @@ import {
     Route,
     Redirect
 } from "react-router-dom"
-import Header from "./header"
-import Nav from "./nav"
-import Home from "./home/homePage"
-import Detail from "./detail"
-import User from "./user"
-import Reptile from "./reptile"
-import Collect from "./collectList"
-import Util from "../util/Util"
+import Header from "./component/header"
+import Nav from "./component/nav"
+import Home from "./component/home/homePage"
+import Detail from "./component/detail"
+import User from "./component/user"
+import Reptile from "./component/reptile"
+import Collect from "./component/collectList"
+import Util from "./util/Util"
 
 export default class Rout extends React.Component {
 

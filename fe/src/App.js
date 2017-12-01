@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Router from "./component/route.jsx"
+import Router from "./route.jsx"
 import {
     ActivityIndicator
 } from "antd-mobile"

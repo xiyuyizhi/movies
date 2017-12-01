@@ -131,7 +131,7 @@ export default class Login extends Component {
             <div className="form-line randomcode">
                 <input type="text" placeholder="验证码" onChange={this.changeRandom} />
                 {
-                    this.state.img.base64 && <img src={this.geneUrl(this.state.img.base64)} onClick={this.flushRandom} />
+                    this.state.img.base64 && <img alt="code" src={this.geneUrl(this.state.img.base64)} onClick={this.flushRandom} />
                 }
             </div>
             <Button type="primary" size="small" onClick={this.sub}>{this.state.on ? "注册" : "登录"}</Button>

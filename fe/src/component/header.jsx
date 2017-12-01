@@ -6,15 +6,10 @@ import { withRouter } from "react-router-dom"
 
 class Header extends Component {
 
-    constructor(props) {
-        super(props)
-    }
-
     isDetail(path) {
         return path.indexOf('/detail') !== -1
     }
     isReptile(path) {
-
         return path.indexOf('/reptile') !== -1
     }
 

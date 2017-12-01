@@ -92,7 +92,7 @@ export default class Detail extends Component {
     }
 
     render() {
-        const { login, location } = this.props
+        const {location } = this.props
         const { state } = location
         return (
             this.state.movieInfo ? <div style={{ "marginBottom": "120px" }}>
