@@ -1,8 +1,13 @@
 
 
-# 一步一步搭建react应用-开篇
-
 branch
+
+- redux-redux-saga 加入 redux 和 redux-saga
+
+- [master](https://github.com/xiyuyizhi/movies/tree/master)
+
+
+# 一步一步搭建react应用-开篇
 
 - [master](https://github.com/xiyuyizhi/movies/tree/master)
 
