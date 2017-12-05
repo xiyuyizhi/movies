@@ -8,11 +8,24 @@ import DownForm from "./download-form"
 import Util from "../util/Util.js"
 import cloneDeep from "lodash/cloneDeep"
 
-export default class Detail extends Component {
+import {
+    connect
+} from "react-redux"
+
+import {
+    bindActionCreators
+} from "redux"
+
+import {
+    loadItemMovie,
+    recieveItemMovieInfo,
+    recieveMovieAttach
+} from "../actions/hompage"
+
+class Detail extends Component {
 
     constructor(props) {
         super(props)
-        console.log(props)
         this.state = {
             movieInfo: null,
             download: null
@@ -25,27 +38,21 @@ export default class Detail extends Component {
 
     //movieInfo组件中form表单的回调
     editCallback(data) {
-        this.setState({
-            movieInfo: data
-        })
+        this.props.recieveItemMovieInfo(data)
     }
 
     downCallback(data) {
-        this.download = data
-        
+        this.props.recieveMovieAttach(data)
     }
 
     modifyMovie() {
-        const info = cloneDeep(this.state.movieInfo)
-        if (this.download) {
-            info.downloadUrl = this.download.url
-            info.downloadPwd = this.download.pwd
+        const info = cloneDeep(this.props.movieInfo)
+        if (this.props.download) {
+            info.downloadUrl = this.props.download.url
+            info.downloadPwd = this.props.download.pwd
         }
         const _id = info._id
         delete info._id
-        this.setState({
-            download:this.download
-        })
         Util.fetch(`/api/movies/${_id}`, {
             method: 'PUT',
             body: JSON.stringify(info)
@@ -61,24 +68,11 @@ export default class Detail extends Component {
         })
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const { match, location } = this.props
         const { id } = match.params
         const { login } = location.state
-        Util.fetch(`/api/movies/${id}`).then(res => {
-            this.setState({
-                movieInfo: res.data[0]
-            })
-            const attachId = res.data[0].attachId
-            if (attachId && login) {
-                Util.fetch(`/api/movies/${id}/attach`).then(res => {
-                    this.setState({
-                        download: res.data[0]
-                    })
-                    this.download = res.data[0]
-                })
-            }
-        })
+        this.props.loadItemMovie(id, login)
     }
 
     showButton(isLogin, hasAttach) {
@@ -92,23 +86,37 @@ export default class Detail extends Component {
     }
 
     render() {
-        const {location } = this.props
+        const { location, movieInfo, download } = this.props
         const { state } = location
         return (
-            this.state.movieInfo ? <div style={{ "marginBottom": "120px" }}>
-                <div className="movie-info">
-                    <MovieInfo isEdit={state.edit} data={this.state.movieInfo} callback={this.editCallback}></MovieInfo>
-                    {
-                        (state.edit || (this.state.movieInfo.attachId && state.login)) && <DownForm isEdit={state.edit} data={this.state.download} callback={this.downCallback}></DownForm>
-                    }
-                    {
-                        state.edit ? <Button type="primary" size="small" style={{ "margin": "0 10px" }} onClick={this.modifyMovie}>修改</Button> :
-                            this.showButton(state.login, this.state.movieInfo.attachId)
-                    }
-                </div>
-            </div>: null
+            movieInfo ?
+                <div style={{ "marginBottom": "120px" }}>
+                    <div className="movie-info">
+                        <MovieInfo isEdit={state.edit} data={movieInfo} callback={this.editCallback}></MovieInfo>
+                        {
+                            (state.edit || (movieInfo.attachId && state.login)) && <DownForm data={download} isEdit={state.edit} callback={this.downCallback}></DownForm>
+                        }
+                        {
+                            state.edit ? <Button type="primary" size="small" style={{ "margin": "0 10px" }} onClick={this.modifyMovie}>修改</Button> :
+                                this.showButton(state.login, movieInfo.attachId)
+                        }
+                    </div>
+                </div> : null
         )
     }
 
 }
 
+
+
+export default connect(
+    state => ({
+        movieInfo: state.detail.movieInfo,
+        download: state.detail.attach
+    }),
+    dispatch => (bindActionCreators({
+        loadItemMovie,
+        recieveItemMovieInfo,
+        recieveMovieAttach
+    }, dispatch))
+)(Detail)

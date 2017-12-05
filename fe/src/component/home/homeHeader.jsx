@@ -13,7 +13,10 @@ import {
     bindActionCreators
 } from "redux"
 
-import * as HpAction from "../../actions/hompage"
+import {
+    setSearch,
+    setCategory
+} from "../../actions/hompage"
 
 class HomeHeader extends Component {
 
@@ -31,20 +34,20 @@ class HomeHeader extends Component {
      * @param {*} val 
      */
     search(val) {
-        this.props.set_search(val)
+        this.props.setSearch(val)
     }
     onClear() {
-        this.props.set_search('')
+        this.props.setSearch('')
     }
     /**
      * 分类picker选择
      * @param {*} val 
      */
     onOk(val) {
-        this.props.set_category(val)
+        this.props.setCategory(val)
     }
     onDismiss() {
-        this.props.set_category([''])
+        this.props.setCategory([''])
     }
 
     render() {
@@ -81,7 +84,10 @@ function mapStateToProps(state) {
 }
 
 function mapActionCreatorsToProps(dispatch) {
-    return bindActionCreators(HpAction, dispatch);
+    return bindActionCreators({
+        setSearch,
+        setCategory
+    }, dispatch);
 }
 
 export default connect(mapStateToProps, mapActionCreatorsToProps)(HomeHeader)

@@ -5,10 +5,20 @@ import {
 } from "antd-mobile"
 import Util from "./util/Util"
 import initReactFastclick from 'react-fastclick';
+import {
+    connect
+} from "react-redux"
 
+import {
+    loadCategory
+} from "./actions/hompage"
+
+import {
+    bindActionCreators
+} from "redux"
 initReactFastclick();
 
-export default class App extends Component {
+class App extends Component {
 
     constructor(props) {
         super(props)
@@ -30,6 +40,9 @@ export default class App extends Component {
         })
     }
 
+    componentDidMount() {
+        this.props.loadCategory()
+    }
 
     render() {
         return <div>
@@ -43,3 +56,7 @@ export default class App extends Component {
     }
 
 }
+
+export default connect(null,
+    (dispatch) => bindActionCreators({loadCategory}, dispatch)
+)(App)

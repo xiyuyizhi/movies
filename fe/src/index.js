@@ -9,9 +9,7 @@ import {
 } from "redux"
 import createSagaMiddleware from "redux-saga"
 
-import {
-    watchLoadCateGory
-} from "./sagas"
+import rootSaga from "./sagas"
 import {
     Provider
 } from "react-redux"
@@ -26,14 +24,11 @@ const store = createStore(
     applyMiddleware(sagaMiddleware)
 )
 
-sagaMiddleware.run(watchLoadCateGory)
+sagaMiddleware.run(rootSaga)
 
 store.subscribe(() => {
     console.log(store.getState());
 })
-store.dispatch({
-    type: 'FETCH_LIST_SUCCESS',
-    list: [1, 2, 3]
-})
+
 
 ReactDOM.render(<Provider store={store}><App></App></Provider>, document.getElementById('root'));

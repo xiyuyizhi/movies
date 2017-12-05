@@ -4,10 +4,11 @@ import {
 } from "redux"
 
 import homepage from "./homepage"
-
+import detail from "./detail"
 
 const reducer = combineReducers({
-    homepage
+    homepage,
+    detail
 })
 
 export default reducer

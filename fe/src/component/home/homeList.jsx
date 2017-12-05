@@ -8,7 +8,9 @@ import {
 import {
     bindActionCreators
 } from "redux"
-import * as HpAction from "../../actions/hompage"
+import {
+    loadCategory
+} from "../../actions/hompage"
 
 class Home extends Component {
 
@@ -93,6 +95,10 @@ class Home extends Component {
         })
     }
 
+    /**
+     * 登录状态下，要去查询用户的收藏列表，将收藏状态加到电影列表中
+     * @param {*} data 
+     */
     _mergeCollectStatus(data) {
 
         if (!this.props.login) {
@@ -168,7 +174,7 @@ class Home extends Component {
             method: 'DELETE'
         }).then(res => {
             if (!res.code) {
-                this.props.load_category()
+                this.props.loadCategory()
                 return true
             }
         })
@@ -204,5 +210,5 @@ function mapStateToProps(state) {
 
 export default connect(
     mapStateToProps,
-    (dispatch) => bindActionCreators(HpAction, dispatch)
+    (dispatch) => bindActionCreators({loadCategory}, dispatch)
 )(Home)
