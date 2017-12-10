@@ -1,58 +1,47 @@
 import React from 'react';
 import cloneDeep from "lodash/cloneDeep"
+import {
+    connect
+} from "react-redux"
+import {
+    bindActionCreators
+} from "redux"
+import {
+    recieveMovieAttach
+} from "../actions/index"
 
-export default class DownForm extends React.Component {
+class DownForm extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            download: {
-                url: '',
-                pwd: ''
-            }
-        }
         this.handleUrl = this.handleUrl.bind(this)
         this.handlePwd = this.handlePwd.bind(this)
     }
 
 
     handleUrl(e) {
-        const dm = cloneDeep(this.state.download)
+        const dm = cloneDeep(this.props.download)
         dm.url = e.target.value
-        this.setState({
-            download: dm
-        })
-        this.props.callback(dm)
+        this.props.recieveMovieAttach(dm)
     }
 
     handlePwd(e) {
-        const dm = cloneDeep(this.state.download)
+        const dm = cloneDeep(this.props.download)
         dm.pwd = e.target.value
-        this.setState({
-            download: dm
-        })
-        this.props.callback(dm)
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.data) {
-            this.setState({
-                download: nextProps.data
-            })
-        }
+        this.props.recieveMovieAttach(dm)
     }
 
     render() {
-        const { isEdit } = this.props
+        const { isEdit, download } = this.props
         return (
             <div className='download'>
                 <p>
                     <label>下载地址:</label>
-                    <input type='text' value={this.state.download.url}
+                    <input type='text' value={download.url}
                         disabled={!isEdit} onChange={this.handleUrl}></input>
                 </p>
                 <p>
                     <label>提取码:</label>
-                    <input type='text' value={this.state.download.pwd}
+                    <input type='text' value={download.pwd}
                         disabled={!isEdit} onChange={this.handlePwd}></input>
                 </p>
             </div>
@@ -60,3 +49,12 @@ export default class DownForm extends React.Component {
     }
 
 }
+
+export default connect(
+    state => ({
+        download: state.detail.attach
+    }),
+    dispatch => (bindActionCreators({
+        recieveMovieAttach
+    },dispatch))
+)(DownForm)

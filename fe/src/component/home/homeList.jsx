@@ -10,7 +10,7 @@ import {
 } from "redux"
 import {
     loadCategory
-} from "../../actions/hompage"
+} from "../../actions/index"
 
 class Home extends Component {
 

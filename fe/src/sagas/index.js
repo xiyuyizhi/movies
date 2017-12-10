@@ -4,13 +4,15 @@ import Util from "../util/Util"
 import {
     LOAD_CATEGORY,
     LOAD_ITEM_MOVIE,
+    MODIFY_MOVIE,
+    LOAD_REPTILE_MOVIE,
     recieveTypeList,
     recieveItemMovieInfo,
     recieveMovieAttach
-} from "../actions/hompage"
+} from "../actions/index"
 
 import {
-    put, takeEvery, call, fork, take
+    put, takeEvery, call, fork, take, select
 } from "redux-saga/effects"
 
 //---------get category---------
@@ -51,10 +53,9 @@ function* getMovieAttach(movieId) {
 
 export function* watchLoadItemMovie() {
     while (true) {
-        const { movieId, loginStatus} = yield take(LOAD_ITEM_MOVIE)
+        const { movieId, loginStatus } = yield take(LOAD_ITEM_MOVIE)
         const res = yield call(getItemMovie, movieId)
         yield put(recieveItemMovieInfo(res.data[0]))
-        console.log('loginStatus '+loginStatus);
         if (res.data[0].attachId && loginStatus) {
             const attach = yield call(getMovieAttach, movieId)
             yield put(recieveMovieAttach(attach.data[0]))
@@ -62,9 +63,62 @@ export function* watchLoadItemMovie() {
     }
 }
 
+// ---------------modify movie-------
+
+function modifyMovie(_id, data) {
+    return Util.fetch(`/api/movies/${_id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data)
+    })
+}
+function addMovie(data) {
+    return Util.fetch('/api/movies', {
+        method: 'POST',
+        body: JSON.stringify(data)
+    })
+}
+export function* watchModifyMovie() {
+    while (true) {
+        const { history, mName, isNew } = yield take(MODIFY_MOVIE)
+        const { movieInfo, attach } = yield select((state) => state.detail)
+        const { _id } = movieInfo
+        movieInfo.downloadUrl = attach.url
+        movieInfo.downloadPwd = attach.pwd
+        delete movieInfo._id
+        if (isNew) {
+            movieInfo.title = mName
+            yield call(addMovie, movieInfo)
+        } else {
+            yield call(modifyMovie, _id, movieInfo)
+        }
+        Util.Toast.info('已修改', () => {
+            setTimeout(() => {
+                history.push('/home')
+            }, 0)
+        })
+    }
+}
+
+// --------------reptile movie-----------
+
+function reptileMovie(name) {
+    return Util.fetch('/api/reptile/' + name)
+}
+export function* watchReptileMovie() {
+    while (true) {
+        const { name } = yield take(LOAD_REPTILE_MOVIE)
+        const res = yield call(reptileMovie, name)
+        if (res) {
+            yield put(recieveItemMovieInfo(res.data))
+        }
+    }
+}
+
 export default function* root() {
     yield fork(watchLoadCateGory)
     yield fork(watchLoadItemMovie)
+    yield fork(watchModifyMovie)
+    yield fork(watchReptileMovie)
 }
 
 

@@ -11,7 +11,7 @@ import {
 
 import {
     loadCategory
-} from "./actions/hompage"
+} from "./actions/index"
 
 import {
     bindActionCreators

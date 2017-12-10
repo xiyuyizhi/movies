@@ -1,7 +1,16 @@
 
 import React from 'react';
+import {
+    bindActionCreators
+} from "redux"
+import {
+    connect
+} from "react-redux"
+import {
+    recieveItemMovieInfo
+} from "../actions/index"
 
-export default class MovieInfo extends React.Component {
+class MovieInfo extends React.Component {
 
     constructor(props) {
         super(props)
@@ -10,17 +19,15 @@ export default class MovieInfo extends React.Component {
     }
 
     change(data, property, value) {
-        data[property] = value
-        this.setState({
-            data
-        })
-        this.props.callback(data)
+        const d = { ...data }
+        d[property] = value
+        this.props.recieveItemMovieInfo(d)
     }
-    
+
     render() {
-        const { isEdit,data} = this.props
+        const { isEdit, data } = this.props
         return (
-            data ?
+            Object.keys(data).length ?
                 <div className="movie_info">
                     <img src={data.thumb} alt={data.title} className='big-thumb' />
                     <section>
@@ -59,5 +66,13 @@ export default class MovieInfo extends React.Component {
                 </div> : null
         )
     }
-
 }
+
+export default connect(
+    state => ({
+        data: state.detail.movieInfo
+    }),
+    dispatch => (bindActionCreators({
+        recieveItemMovieInfo
+    }, dispatch))
+)(MovieInfo)

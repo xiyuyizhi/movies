@@ -16,7 +16,7 @@ import {
 import {
     setSearch,
     setCategory
-} from "../../actions/hompage"
+} from "../../actions/index"
 
 class HomeHeader extends Component {
 

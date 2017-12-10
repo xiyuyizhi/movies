@@ -3,7 +3,7 @@ import {
     SET_CATEGORY,
     SET_SEARCH,
     RECIEVE_TYPE_LIST
-} from "../actions/hompage"
+} from "../actions/index"
 
 const defaultState = {
     category: '',

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import HomeHeader from "./homeHeader"
 import HomeList from "./homeList"
-import Util from "../../util/Util.js"
 
 export default class HomePage extends Component {
 

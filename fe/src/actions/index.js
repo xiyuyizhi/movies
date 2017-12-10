@@ -6,6 +6,9 @@ export const LOAD_CATEGORY = 'LOAD_CATEGORY'
 export const LOAD_ITEM_MOVIE = 'LOAD_ITEM_MOVIE'
 export const RECIEVE_ITEM_MOVIE = 'RECIEVE_ITEM_MOVIE'
 export const RECIEVE_MOVIE_ATTACH = 'RECIEVE_MOVIE_ATTACH'
+export const MODIFY_MOVIE = 'MODIFY_MOVIE'
+export const RESET_STATE_DETAIL='RESET_STATE_DETAIL'
+export const LOAD_REPTILE_MOVIE='LOAD_REPTILE_MOVIE'
 
 export function setCategory(category) {
     return {
@@ -53,5 +56,27 @@ export function recieveMovieAttach(attach) {
     return {
         type: RECIEVE_MOVIE_ATTACH,
         attach
+    }
+}
+
+export function modifyMovie(data) {
+    return {
+        ...{
+            type: MODIFY_MOVIE,
+        },
+        ...data
+    }
+}
+
+export function resetStateDetial(){
+    return {
+        type:RESET_STATE_DETAIL
+    }
+}
+
+export function loadReptileMovie(movieName){
+    return {
+        type:LOAD_REPTILE_MOVIE,
+        name:movieName
     }
 }
