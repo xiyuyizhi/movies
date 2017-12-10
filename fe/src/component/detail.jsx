@@ -9,11 +9,9 @@ import Util from "../util/Util.js"
 import {
     connect
 } from "react-redux"
-
 import {
     bindActionCreators
 } from "redux"
-
 import {
     loadItemMovie,
     modifyMovie

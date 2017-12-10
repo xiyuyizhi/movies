@@ -14,6 +14,7 @@ class Header extends Component {
     }
 
     render() {
+        console.log(this.props);
         const { history, location } = this.props
         const { pathname } = location
         return <div className='header'>

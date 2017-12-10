@@ -5,8 +5,11 @@ import Util from "../util/Util"
 import {
     NavLink
 } from "react-router-dom"
+import {
+    connect
+} from "react-redux"
 import Login from "./login"
-export default class User extends React.Component {
+class User extends React.Component {
 
     constructor(props) {
         super(props)
@@ -70,3 +73,9 @@ export default class User extends React.Component {
     }
 
 }
+
+export default connect(
+    state => ({
+        login: state.loginStatus.login
+    })
+)(User)

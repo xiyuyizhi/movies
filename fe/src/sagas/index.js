@@ -2,10 +2,12 @@
 
 import Util from "../util/Util"
 import {
+    CHECK_LOAGIN,
     LOAD_CATEGORY,
     LOAD_ITEM_MOVIE,
     MODIFY_MOVIE,
     LOAD_REPTILE_MOVIE,
+    recieveCheckLogin,
     recieveTypeList,
     recieveItemMovieInfo,
     recieveMovieAttach
@@ -14,6 +16,18 @@ import {
 import {
     put, takeEvery, call, fork, take, select
 } from "redux-saga/effects"
+
+//--------check login status
+function checkLogin() {
+    return Util.fetch('/api/user/checkLogin')
+}
+export function* watchCheckLogin() {
+    while (true) {
+        yield take(CHECK_LOAGIN)
+        const res = yield call(checkLogin)
+        yield put(recieveCheckLogin(!res.code))
+    }
+}
 
 //---------get category---------
 
@@ -115,6 +129,7 @@ export function* watchReptileMovie() {
 }
 
 export default function* root() {
+    yield fork(watchCheckLogin)
     yield fork(watchLoadCateGory)
     yield fork(watchLoadItemMovie)
     yield fork(watchModifyMovie)

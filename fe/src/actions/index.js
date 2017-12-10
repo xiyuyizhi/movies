@@ -7,9 +7,23 @@ export const LOAD_ITEM_MOVIE = 'LOAD_ITEM_MOVIE'
 export const RECIEVE_ITEM_MOVIE = 'RECIEVE_ITEM_MOVIE'
 export const RECIEVE_MOVIE_ATTACH = 'RECIEVE_MOVIE_ATTACH'
 export const MODIFY_MOVIE = 'MODIFY_MOVIE'
-export const RESET_STATE_DETAIL='RESET_STATE_DETAIL'
-export const LOAD_REPTILE_MOVIE='LOAD_REPTILE_MOVIE'
+export const RESET_STATE_DETAIL = 'RESET_STATE_DETAIL'
+export const LOAD_REPTILE_MOVIE = 'LOAD_REPTILE_MOVIE'
 
+export const CHECK_LOAGIN = 'CHECK_LOAGIN'
+export const RECIEVE_CHECK_LOAGIN = 'RECIEVE_CHECK_LOAGIN'
+
+export function checkLogin() {
+    return {
+        type: CHECK_LOAGIN
+    }
+}
+export function recieveCheckLogin(loginStatus) {
+    return {
+        type: RECIEVE_CHECK_LOAGIN,
+        loginStatus
+    }
+}
 export function setCategory(category) {
     return {
         type: SET_CATEGORY,
@@ -68,15 +82,15 @@ export function modifyMovie(data) {
     }
 }
 
-export function resetStateDetial(){
+export function resetStateDetial() {
     return {
-        type:RESET_STATE_DETAIL
+        type: RESET_STATE_DETAIL
     }
 }
 
-export function loadReptileMovie(movieName){
+export function loadReptileMovie(movieName) {
     return {
-        type:LOAD_REPTILE_MOVIE,
-        name:movieName
+        type: LOAD_REPTILE_MOVIE,
+        name: movieName
     }
 }

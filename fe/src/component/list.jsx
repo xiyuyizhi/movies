@@ -121,7 +121,7 @@ export default class List extends Component {
                         this.setState({
                             _data: this.state._data
                         })
-                        Util.Toast.info('已删除')                        
+                        Util.Toast.info('已删除')
                     }
                 })
 
@@ -145,17 +145,16 @@ export default class List extends Component {
     }
 
     _row(rowData, sectionId, rowId) {
-        const { login} = this.props
+        const { login } = this.props
         const rightBtns = this._sectionBtns(rowData, rowId)
         return <div className='listview-item' key={rowId}>
             <div className="m-item">
                 <SwipeAction autoClose right={rightBtns}>
-                    <Link to={{
-                        pathname: `/detail/${rowData._id}`,
-                        state: {
+                    <div onClick={(e) => {
+                        this.props.history.push(`/detail/${rowData._id}`, {
                             title: rowData.title,
                             login
-                        }
+                        })
                     }}>
                         <img src={rowData.thumb} alt={rowData.title} className="m-item-thumb"></img>
                         <div className="m-item-wrap">
@@ -170,7 +169,7 @@ export default class List extends Component {
                                 </p>
                             </Dotdotdot>
                         </div>
-                    </Link>
+                    </div>
                 </SwipeAction>
             </div>
             <p className="separator"></p>

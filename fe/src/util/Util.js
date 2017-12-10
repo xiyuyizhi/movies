@@ -45,7 +45,9 @@ const Util = {
         return fetch(url, options).then(res => {
             Loading.pendingRequest--
             if (Loading.pendingRequest <= 0) {
-                Loading.close()
+                setTimeout(() => {
+                    Loading.close()
+                })
             }
             return res.json()
         }).then(data => {

@@ -10,7 +10,8 @@ import {
 } from "react-redux"
 
 import {
-    loadCategory
+    loadCategory,
+    checkLogin
 } from "./actions/index"
 
 import {
@@ -26,12 +27,12 @@ class App extends Component {
             isLoading: false
         }
         Util.open(() => {
-            if(this.state.isLoading){
+            if (this.state.isLoading) {
                 return
             }
             this.setState({
-                    isLoading: true
-                })
+                isLoading: true
+            })
         })
         Util.close(() => {
             this.setState({
@@ -41,6 +42,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        this.props.checkLogin()
         this.props.loadCategory()
     }
 
@@ -58,5 +60,8 @@ class App extends Component {
 }
 
 export default connect(null,
-    (dispatch) => bindActionCreators({loadCategory}, dispatch)
+    (dispatch) => bindActionCreators({
+        loadCategory,
+        checkLogin
+    }, dispatch)
 )(App)

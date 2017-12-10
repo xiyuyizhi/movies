@@ -31,4 +31,7 @@ store.subscribe(() => {
 })
 
 
-ReactDOM.render(<Provider store={store}><App></App></Provider>, document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={store}><App></App></Provider>,
+    document.getElementById('root')
+);

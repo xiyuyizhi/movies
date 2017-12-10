@@ -205,10 +205,11 @@ function mapStateToProps(state) {
     return {
         category: state.homepage.category,
         search: state.homepage.search,
+        login: state.loginStatus.login
     }
 }
 
 export default connect(
     mapStateToProps,
-    (dispatch) => bindActionCreators({loadCategory}, dispatch)
+    (dispatch) => bindActionCreators({ loadCategory }, dispatch)
 )(Home)

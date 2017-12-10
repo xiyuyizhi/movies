@@ -77,7 +77,8 @@ export default class Collect extends Component {
 
     render() {
         const { noMore, loading } = this.state
-        return <List 
+        return <List
+            {...this.props}
             noMore={noMore}
             loading={loading}
             datasource={this._data}

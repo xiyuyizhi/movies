@@ -6,9 +6,11 @@ import {
 import { Flex, Icon, Popup } from "antd-mobile"
 import Prop from "./popup"
 import Util from "../util/Util"
+import {
+    connect
+} from "react-redux"
+
 class Nav extends React.Component {
-
-
     render() {
         const { login, location } = this.props
         const { pathname } = location
@@ -27,7 +29,7 @@ class Nav extends React.Component {
                         Popup.show(<Prop history={this.props.history}></Prop>, {
                             animationType: 'slide-up'
                         })
-                    }else{
+                    } else {
                         Util.Toast.info('请登录')
                     }
                 }}>
@@ -45,4 +47,10 @@ class Nav extends React.Component {
 
 }
 
-export default withRouter(Nav)
+const connectNav = connect(
+    state => ({
+        login: state.loginStatus.login
+    })
+)(Nav)
+
+export default withRouter(connectNav) 
