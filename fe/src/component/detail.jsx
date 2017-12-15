@@ -21,6 +21,7 @@ class Detail extends Component {
 
     constructor(props) {
         super(props)
+        this.props = props
         this.modifyMovie = this.modifyMovie.bind(this)
     }
 
@@ -30,11 +31,19 @@ class Detail extends Component {
         })
     }
 
+    componentWillUpdate(nextProps) {
+
+        if (nextProps.loginStatus !== this.props.loginStatus) {
+            console.log(nextProps);
+            const { id } = this.props.match.params
+            this.props.loadItemMovie(id)
+        }
+
+    }
+
     componentDidMount() {
-        const { match, location } = this.props
-        const { id } = match.params
-        const { login } = location.state
-        this.props.loadItemMovie(id, login)
+        const { id } = this.props.match.params
+        this.props.loadItemMovie(id)
     }
 
     showButton(isLogin, hasAttach) {
@@ -48,7 +57,7 @@ class Detail extends Component {
     }
 
     render() {
-        const { location, movieInfo } = this.props
+        const { location, movieInfo, loginStatus } = this.props
         const { state } = location
         return (
             movieInfo ?
@@ -56,11 +65,11 @@ class Detail extends Component {
                     <div className="movie-info">
                         <MovieInfo isEdit={state.edit}></MovieInfo>
                         {
-                            (state.edit || (movieInfo.attachId && state.login)) && <DownForm isEdit={state.edit} ></DownForm>
+                            (state.edit || (movieInfo.attachId && loginStatus)) && <DownForm isEdit={state.edit} ></DownForm>
                         }
                         {
                             state.edit ? <Button type="primary" size="small" style={{ "margin": "0 10px" }} onClick={this.modifyMovie}>修改</Button> :
-                                this.showButton(state.login, movieInfo.attachId)
+                                this.showButton(loginStatus, movieInfo.attachId)
                         }
                     </div>
                 </div> : null
@@ -71,6 +80,7 @@ class Detail extends Component {
 
 export default connect(
     state => ({
+        loginStatus: state.loginStatus.login,
         movieInfo: state.detail.movieInfo,
     }),
     dispatch => (bindActionCreators({

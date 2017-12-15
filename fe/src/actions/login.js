@@ -7,6 +7,9 @@ export const RECIEVE_PASSWORD = 'RECIEVE_PASSWORD'
 export const RECIEVE_RANDOM = 'RECIEVE_RANDOME'
 export const CHANGE_LOGIN_STATUS = 'CHANGE_LOGIN_STATUS'
 export const SUBMIT_LOGIN_REGISTE = 'SUBMIT_LOGIN_REGISTE'
+export const FETCH_LOGIN_OUT = 'FETCH_LOGIN_OUT'
+export const FETCH_UINGO = 'FETCH_UINFO'
+export const RECIEVE_USERINFO = 'RECIEVE_USERINFO'
 
 export function loadServerRandom() {
     return {
@@ -49,5 +52,25 @@ export function changeLoginStatus() {
 export function submitLoginRegiste() {
     return {
         type: SUBMIT_LOGIN_REGISTE
+    }
+}
+
+
+export function fetchLoginout() {
+    return {
+        type: FETCH_LOGIN_OUT
+    }
+}
+
+export function fetchUinfo() {
+    return {
+        type: FETCH_UINGO
+    }
+}
+
+export function recieveUInfo(data) {
+    return {
+        type: RECIEVE_USERINFO,
+        uInfo: data
     }
 }

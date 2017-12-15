@@ -12,13 +12,8 @@ import Detail from "./component/detail"
 import User from "./component/user"
 import Reptile from "./component/reptile"
 import Collect from "./component/collectList"
-import Util from "./util/Util"
 
 export default class Rout extends React.Component {
-
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         return (

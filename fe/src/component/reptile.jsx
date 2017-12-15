@@ -3,8 +3,6 @@ import {
     Button,
     Switch
 } from "antd-mobile"
-import cloneDeep from "lodash/cloneDeep"
-import Util from "../util/Util.js"
 import MovieInfo from "./movieInfo"
 import DownForm from "./download-form"
 import {
@@ -53,7 +51,7 @@ class Reptile extends React.Component {
     }
 
     render() {
-        const { movieInfo, download } = this.props
+        const { movieInfo } = this.props
         return (
             <div className='reptile'>
                 <div className='search-form'>
