@@ -7,6 +7,8 @@ import {
 } from "../actions/index"
 import homepage from "./homepage"
 import detail from "./detail"
+import login from "./login"
+
 
 function loginStatus(state = false, action) {
     if (action.type == RECIEVE_CHECK_LOAGIN) {
@@ -18,7 +20,8 @@ function loginStatus(state = false, action) {
 const reducer = combineReducers({
     homepage,
     detail,
-    loginStatus
+    loginStatus,
+    login
 })
 
 export default reducer

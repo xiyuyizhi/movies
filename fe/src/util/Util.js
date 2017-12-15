@@ -47,14 +47,16 @@ const Util = {
             if (Loading.pendingRequest <= 0) {
                 setTimeout(() => {
                     Loading.close()
-                },80)
+                }, 80)
             }
             return res.json()
         }).then(data => {
             if (url !== '/api/user/checkLogin') {
                 if (data.code) {
                     Toast.info(data.name || data.message, 1)
+                    return
                 }
+
             }
             return data
         })

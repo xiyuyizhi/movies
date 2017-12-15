@@ -12,7 +12,12 @@ import {
     recieveItemMovieInfo,
     recieveMovieAttach
 } from "../actions/index"
-
+import {
+    LOAD_SERVERRANDOM,
+    SUBMIT_LOGIN_REGISTE,
+    changeLoginStatus,
+    recieveServerRandom
+} from "../actions/login"
 import {
     put, takeEvery, call, fork, take, select
 } from "redux-saga/effects"
@@ -128,12 +133,59 @@ export function* watchReptileMovie() {
     }
 }
 
+// ----------------login or register----------
+
+function fetchSeverRandom() {
+    return Util.fetch('/api/user/randomCode')
+}
+
+function* watchLoadServerRandom() {
+    while (true) {
+        yield take(LOAD_SERVERRANDOM)
+        const res = yield call(fetchSeverRandom)
+        res && (yield put(recieveServerRandom(res)))
+    }
+}
+
+function submitLoginRegiste(url, data) {
+    return Util.fetch(url, {
+        method: 'POST',
+        body: data
+    })
+}
+
+function* watchLoginRegiste() {
+    while (true) {
+        yield take(SUBMIT_LOGIN_REGISTE)
+        let url = '/api/user/login'
+        const { switchToRegiste, username, password } = yield select((state) => state.login)
+        if (switchToRegiste) {
+            url = "/api/user/add"
+        }
+        const res = yield call(submitLoginRegiste, url, JSON.stringify({
+            username,
+            password
+        }))
+        if (!res) continue
+        if (switchToRegiste) {
+            yield put(changeLoginStatus())
+            Util.Toast.info('请登录')
+            continue
+        }
+        window.localStorage.setItem('t', res.token)
+        window.sessionStorage.setItem('r', res.role)
+        window.location.reload()
+    }
+}
+
 export default function* root() {
     yield fork(watchCheckLogin)
     yield fork(watchLoadCateGory)
     yield fork(watchLoadItemMovie)
     yield fork(watchModifyMovie)
     yield fork(watchReptileMovie)
+    yield fork(watchLoadServerRandom)
+    yield fork(watchLoginRegiste)
 }
 
 
