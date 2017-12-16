@@ -14,6 +14,7 @@ import {
 } from "redux"
 import {
     loadItemMovie,
+    loadMovieAttach,
     modifyMovie
 } from "../actions/index"
 
@@ -32,13 +33,10 @@ class Detail extends Component {
     }
 
     componentWillUpdate(nextProps) {
-
-        if (nextProps.loginStatus !== this.props.loginStatus) {
-            console.log(nextProps);
+        if (nextProps.loginStatus && (nextProps.movieInfo!==this.props.movieInfo)) {
             const { id } = this.props.match.params
-            this.props.loadItemMovie(id)
+            this.props.loadMovieAttach(id)
         }
-
     }
 
     componentDidMount() {
@@ -85,6 +83,7 @@ export default connect(
     }),
     dispatch => (bindActionCreators({
         loadItemMovie,
+        loadMovieAttach,
         modifyMovie
     }, dispatch))
 )(Detail)

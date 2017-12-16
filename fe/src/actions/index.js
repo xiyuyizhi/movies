@@ -4,6 +4,7 @@ export const SET_SEARCH = 'SET_SEARCH'
 export const RECIEVE_TYPE_LIST = 'RECIEVE_TYPE_LIST'
 export const LOAD_CATEGORY = 'LOAD_CATEGORY'
 export const LOAD_ITEM_MOVIE = 'LOAD_ITEM_MOVIE'
+export const LOAD_MOVIE_ATTACH = 'LOAD_MOVIE_ATTACH'
 export const RECIEVE_ITEM_MOVIE = 'RECIEVE_ITEM_MOVIE'
 export const RECIEVE_MOVIE_ATTACH = 'RECIEVE_MOVIE_ATTACH'
 export const MODIFY_MOVIE = 'MODIFY_MOVIE'
@@ -56,6 +57,13 @@ export function loadItemMovie(movieId, loginStatus) {
         type: LOAD_ITEM_MOVIE,
         movieId,
         loginStatus
+    }
+}
+
+export function loadMovieAttach(movieId){
+    return {
+        type:LOAD_MOVIE_ATTACH,
+        movieId
     }
 }
 

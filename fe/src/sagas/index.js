@@ -6,6 +6,7 @@ import {
     CHECK_LOAGIN,
     LOAD_CATEGORY,
     LOAD_ITEM_MOVIE,
+    LOAD_MOVIE_ATTACH,
     MODIFY_MOVIE,
     LOAD_REPTILE_MOVIE,
     recieveCheckLogin,
@@ -13,8 +14,8 @@ import {
     recieveItemMovieInfo,
     recieveMovieAttach
 } from "../actions/index"
-import {
 
+import {
     LOAD_SERVERRANDOM,
     SUBMIT_LOGIN_REGISTE,
     FETCH_LOGIN_OUT,
@@ -68,38 +69,30 @@ export function* watchLoadCateGory() {
 
 //-------------get movie detail--------
 
-function fetchItemMovie(id) {
-    return Util.fetch(`/api/movies/${id}`)
+function* getItemMovie(id) {
+    return yield Util.fetch(`/api/movies/${id}`)
 }
 
-
-export function* getItemMovie(movieId) {
-    return yield call(fetchItemMovie, movieId)
+function* getMovieAttach(id) {
+    return yield Util.fetch(`/api/movies/${id}/attach`)
 }
 
-// --------------get movie attach-------
-
-function fetchItemAttach(id) {
-    return Util.fetch(`/api/movies/${id}/attach`)
-}
-
-function* getMovieAttach(movieId) {
-    return yield call(fetchItemAttach, movieId)
-}
-
-function* getTest(action) {
+function* getMovieInfo(action) {
     const { movieId } = action
-    let { login } = yield select(state => state.loginStatus)
     const res = yield call(getItemMovie, movieId)
     yield put(recieveItemMovieInfo(res.data[0]))
-    if (res.data[0].attachId && login) {
-        const attach = yield call(getMovieAttach, movieId)
-        yield put(recieveMovieAttach(attach.data[0]))
-    }
 }
 
 export function* watchLoadItemMovie() {
-    yield takeLatest(LOAD_ITEM_MOVIE, getTest)
+    yield takeLatest(LOAD_ITEM_MOVIE, getMovieInfo)
+}
+export function* watchLoadAttach() {
+    while (true) {
+        const { movieId } = yield take(LOAD_MOVIE_ATTACH)
+        const { attachId } = yield select(state => state.detail.movieInfo)
+        const attach = yield call(getMovieAttach, movieId)
+        yield put(recieveMovieAttach(attach.data[0]))
+    }
 }
 
 // if (!login) {
@@ -230,6 +223,7 @@ export default function* root() {
     yield fork(watchGetUserInfo)
     yield fork(watchLoadCateGory)
     yield fork(watchLoadItemMovie)
+    yield fork(watchLoadAttach)
     yield fork(watchModifyMovie)
     yield fork(watchReptileMovie)
     yield fork(watchLoadServerRandom)
