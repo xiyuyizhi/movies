@@ -220,6 +220,10 @@ express_jwt({
 
 测试的一个例子，篇幅太长，就不[放在这](https://github.com/xiyuyizhi/movies/blob/redux-redux-saga/dayByday/day5.md)了
 
+## 最后
+
+喜欢可以[关注](https://github.com/xiyuyizhi/movies)下，万一有福利呢。。。。。
+
 
 
 

@@ -63,7 +63,7 @@ class Detail extends Component {
                     <div className="movie-info">
                         <MovieInfo isEdit={state.edit}></MovieInfo>
                         {
-                            (state.edit || (movieInfo.attachId && loginStatus)) && <DownForm isEdit={state.edit} ></DownForm>
+                            (state.edit || (movieInfo.attachId && loginStatus)) && <DownForm isEdit={true} ></DownForm>
                         }
                         {
                             state.edit ? <Button type="primary" size="small" style={{ "margin": "0 10px" }} onClick={this.modifyMovie}>修改</Button> :
