@@ -23,8 +23,8 @@ module.exports = {
   deploy: {
     "production": {
       user: "root",
-      host: ['118.190.208.49'],
-      ref: "origin/master",
+      host: ['xiyuyizhi.xyz'],
+      ref: "origin/redux-redux-saga",
       repo: "git@github.com:xiyuyizhi/movies.git",
       path: "/root/www/movies_be",
       "post-setup": "ls -la",
