@@ -3,7 +3,7 @@ module.exports = {
   deploy: {
     "production": {
       user: "root",
-      host: ['118.190.208.49'],
+      host: ['xiyuyizhi.xyz'],
       ref: "origin/master",
       repo: "git@github.com:xiyuyizhi/movies.git",
       path: "/root/www/movies_fe",
