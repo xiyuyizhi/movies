@@ -31,7 +31,7 @@ branch
 
 ## 前端
 
-前端使用了react,redux加redux-saga,对redux简单总结一下，同时记录一个前后接口调用有依赖关系的问题的问题
+前端使用了react,redux加redux-saga,对redux简单总结一下，同时记录一个前后接口调用有依赖关系的问题
 
 - ### redux
 
@@ -153,8 +153,7 @@ componentWillUpdate(nextProps) {
 6. 总结，合理使用组件的钩子函数，generator中不要处理太多操作，增加灵活性
 
 ## 后端
-
-之前也用express和mongodb练习过写博客系统，这次加入了使用token+redis来做身份认证、在node中写了写单元测试，还是值得记录一下的
+后端采用express和mongodb，也用到了redis,主要技术点有`使用pm2来管理node应用及部署代码`，[mongodb中开启身份认证](https://github.com/xiyuyizhi/movies/blob/master/dayByday/day3.md)，使用token+redis来做身份认证、在node中写了写单元测试，还是值得记录一下的
 
 - ### 使用 jwt + redis 来做基于token的用户身份认证
 
@@ -194,7 +193,7 @@ express_jwt({
 为什么使用redis
 
 **采用jsonwebtoken生成token时可以指定token的有效期，并且jsonwebtoken的verify方法也提供了选项来更新token的有效期，
-但这里使用了express_jwt中间件，express_jwt不提供方法来刷新token**
+但这里使用了express_jwt中间件，而express_jwt不提供方法来刷新token**
 
 思路：
 1. 客户端请求登录成功，生成token
