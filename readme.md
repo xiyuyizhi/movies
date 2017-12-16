@@ -1,17 +1,9 @@
 
 
-# 一步一步搭建react应用-开篇
+## [在线地址](http://xiyuyizhi.xyz) 推荐浏览器开发者工具开启手机设备模式
 
 
-## [在线地址](http://xiyuyizhi.xyz:8080) 推荐浏览器开发者工具开启手机设备模式
-
-*断断续续利用周末时间做了两个月，基于react和express的一个小项目差不多做完了。做之前想着边做边做些笔记，记录下每步遇到的问题和解决方案,然而没有。*
-
-* 所以现在开始补一下。*
-
-* 初衷是练习一下react相关的技术栈，但做的过程感觉对后端投入的热情更大。*
-
-## 接下来会从这几点写写文章记录下
+## 笔记
 
 - [一步一步搭建react应用-前后端初始化](/dayByday/day1.md)
 
@@ -28,7 +20,7 @@
 ## 技术栈
 
 - react + react-router + antd-mobile + fetch
-- redux(没用,之后改)
+- redux(master分支没有用)
 - express + mongodb + redis
 
 
