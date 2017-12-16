@@ -14,8 +14,9 @@ class Nav extends React.Component {
     render() {
         const { login, location } = this.props
         const { pathname } = location
+        console.log(pathname);
         const homeActive = pathname === '/home'
-        const userActive = pathname === '/user'
+        const userActive = (pathname === '/user' || pathname === '/collect')
         return <Flex id="footerNav">
             <Flex.Item>
                 <NavLink activeClassName="active home" to="/home" >
@@ -39,7 +40,7 @@ class Nav extends React.Component {
             <Flex.Item>
                 <NavLink activeClassName="active user" to="/user">
                     <Icon type={require('../common/svg/user.svg')} color={userActive ? "#108ee9" : "#777"} size="xxs" />
-                    <span className="nav-label">我的</span>
+                    <span className="nav-label" style={{ color: userActive ? "#108ee9" : "#333" }}>我的</span>
                 </NavLink>
             </Flex.Item>
         </Flex>

@@ -156,7 +156,16 @@ class Home extends Component {
         this.setState({
             loading: true
         })
-        Util.fetch('/api/movies?latest=' + this.latestTime).then(res => {
+        let url = ''
+        const { category, search } = this.props
+        if (category || search) {
+            const str = this._handleQuery(category, search)
+            url = '/api/movies/search/by?' + str + '&latest=' + this.latestTime
+        } else {
+            url = '/api/movies?latest=' + this.latestTime
+        }
+
+        Util.fetch(url).then(res => {
             if (res.data.length) {
                 this._mergeCollectStatus(res.data)
             } else {
@@ -182,7 +191,10 @@ class Home extends Component {
 
 
     componentDidMount() {
-        this._fetch()
+        console.log('........');
+        console.log(this.props);
+        const { category, search } = this.props
+        this._fetch(category, search)
     }
 
 

@@ -98,6 +98,30 @@ class MoviesModel {
         })
     }
 
+    /**
+     * 按类型分类、按title查询
+     * @param {*} query 
+     * @param {*} callback 
+     */
+    search(query, callback) {
+        const { cate, content, latest } = query
+        const queryObj = {}
+        cate && (queryObj['type'] = cate)
+        content && (queryObj['title'] = new RegExp(content))
+        latest && (queryObj['updateTime'] = {
+            '$lt': Number(query.latest)
+        })
+        DB.connect().then((db, err) => {
+            this.getCollection(db).find(queryObj).sort({
+                updateTime: -1
+            }).toArray().then((docs, err) => {
+                callback(err, docs)
+                db.close()
+            })
+        })
+    }
+
+
     async getListByIds(ids) {
         const db = await DB.connect()
         const docs = db.collection('movies').find({
@@ -148,29 +172,7 @@ class MoviesModel {
         })
     }
 
-    /**
-     * 按类型分类、按title查询
-     * @param {*} query 
-     * @param {*} callback 
-     */
-    search(query, callback) {
-        const { cate, content, latest } = query
-        const queryObj = {}
-        cate && (queryObj['type'] = cate)
-        content && (queryObj['title'] = new RegExp(content))
-        latest && (queryObj['updateTime'] = {
-            '$lt': Number(query.latest)
-        })
-        DB.connect().then((db, err) => {
-            this.getCollection(db).find(queryObj).sort({
-                updateTime: -1
-            }).toArray().then((docs, err) => {
-                callback(err, docs)
-                db.close()
-            })
-        })
-    }
-
+    
     /**
      * 删除，同时type集合相应的类型数量-1
      * @param {*} movieId 

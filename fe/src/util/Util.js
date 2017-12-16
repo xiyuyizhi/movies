@@ -47,7 +47,7 @@ const Util = {
             if (Loading.pendingRequest <= 0) {
                 setTimeout(() => {
                     Loading.close()
-                }, 80)
+                }, 300)
             }
             return res.json()
         }).then(data => {

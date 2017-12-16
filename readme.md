@@ -7,7 +7,7 @@ branch
 
 > 之前做了个好电影搜集的小应用，前端采用react，后端采用express+mongodb，最近又将组件间的状态管理改成了redux，并加入了redux-saga来管理异步操作,记录一些总结
 
-## [在线地址]()
+## [在线地址](http://xiyuyizhi.xyz)
 
 [源码](https://github.com/xiyuyizhi/movies)
 
@@ -23,7 +23,7 @@ branch
 
 - 权限控制，普通用户可以录入、收藏,administrator录入、修改、删除
 
-- 用户中心，我的收藏列表
+- 用户中心，我的收藏列表
 
 ![](./view.png)
 
@@ -35,9 +35,9 @@ branch
 
 - ### redux
 
-一句话总结redux，我觉的就是将组件之间的纵向的props传递和父子组件间的state爱恨纠缠给打平了，将一种纵向关系转变成`多个组件和一个独立出来的状态对象直接交互`，这样之后，代码结构确实看上去更加清晰了。
+一句话总结redux，我觉的就是将组件之间的纵向的props传递和父子组件间的state爱恨纠缠给打平了，将一种纵向关系转变成`多个组件和一个独立出来的状态对象直接交互`，这样之后，代码结构确实看上去更加清晰了。
 
-redux的核心概念，action,reducer,和store
+redux的核心概念，action,reducer,和store
 
 `action就是说明我要操作一个状态了，怎么操作是reducer的事，而所有状态存储在store中，store发出动作并交由指定的reducer来处理`
 
@@ -94,7 +94,7 @@ export function* watchLoadItemMovie() {
 }
 ```
 
-3. 用户登录了，进到详情，流程正常，但如果在详情页刷新了页面，获取附件的接口没触发，原因是此时checkLogin接口还没返回结果，`state.loginStatus`状态还是false，上面就没走到if中
+3. 用户登录了，进到详情，流程正常，但如果在详情页刷新了页面，获取附件的接口没触发，原因是此时checkLogin接口还没返回结果，`state.loginStatus`状态还是false，上面就没走到if中
 
 4. 一开始想着怎么控制一些generator中yield的先后顺序来解决(如果用户没有登录的话,再发一个CHECK_LOAGIN,结果返回了流程再继续)，但存在CHECK_LOAGIN调用两次，如果登录了，还会再多一次获取用户信息的接口调用的情况，肯定不行
 
@@ -154,7 +154,7 @@ componentWillUpdate(nextProps) {
 
 ## 后端
 
-之前也用express和mongodb练习过写博客系统，这次加入了使用token+redis来做身份认证、在node中写了写单元测试，还是值得记录一下的
+之前也用express和mongodb练习过写博客系统，这次加入了使用token+redis来做身份认证、在node中写了写单元测试，还是值得记录一下的
 
 - ### 使用 jwt + redis 来做基于token的用户身份认证
 
@@ -171,7 +171,6 @@ componentWillUpdate(nextProps) {
 5. 服务端对需要认证的接口要验证token，验证成功接收请求
 
 
-为什么使用redis
 
 这里采用[jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)来生成token，
 ```
@@ -191,6 +190,8 @@ express_jwt({
     }
     }
 ```
+
+为什么使用redis
 
 **采用jsonwebtoken生成token时可以指定token的有效期，并且jsonwebtoken的verify方法也提供了选项来更新token的有效期，
 但这里使用了express_jwt中间件，express_jwt不提供方法来刷新token**

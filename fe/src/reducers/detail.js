@@ -16,7 +16,7 @@ export default function detail(state = defaultState, action) {
         case RECIEVE_ITEM_MOVIE:
             return { ...state, movieInfo: action.movieInfo }
         case RECIEVE_MOVIE_ATTACH:
-            return { ...state, attach: action.attach }
+            return { ...state, attach: action.attach || {} }
         case RESET_STATE_DETAIL:
             return { ...state, movieInfo: {}, attach: {} }
         default:
