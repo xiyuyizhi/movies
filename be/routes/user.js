@@ -23,22 +23,28 @@ if (process.env.NODE_ENV != 'test') {
     )
 }
 
-router.get('/info',(req,res,next)=>{
-     UserModel.get(req.user._id).then(result=>{
-         res.json({
-             code:CONFIG.ERR_OK,
-             data:result.length && result[0]
-         })
-     })
+router.get('/info', (req, res, next) => {
+    UserModel.get(req.user._id).then(result => {
+        res.json({
+            code: CONFIG.ERR_OK,
+            data: result.length && result[0]
+        })
+    })
 })
 
 router.post('/add', (req, res, next) => {
     req.body.role = 1
-    req.body.fullname=`用户${new Date().getTime()}`
-    UserModel.add(req.body).then(result => {
-        res.json(result)
-    }).catch(err => {
-        next(err)
+    req.body.fullname = `用户${new Date().getTime()}`
+    UserModel.validUser(req.body.username).them(docs => {
+        if (docs.length) {
+            next(10007)
+            return
+        }
+        UserModel.add(req.body).then(result => {
+            res.json(result)
+        }).catch(err => {
+            next(err)
+        })
     })
 })
 
@@ -60,7 +66,7 @@ router.post('/login', (req, res, next) => {
                 res.json({
                     code: CONFIG.ERR_OK,
                     token: tok,
-                    role:docs[0].role
+                    role: docs[0].role
                 })
                 return
             }
