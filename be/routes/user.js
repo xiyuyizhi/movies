@@ -35,7 +35,7 @@ router.get('/info', (req, res, next) => {
 router.post('/add', (req, res, next) => {
     req.body.role = 1
     req.body.fullname = `用户${new Date().getTime()}`
-    UserModel.validUser(req.body.username).them(docs => {
+    UserModel.validUser(req.body.username).then(docs => {
         if (docs.length) {
             next(10007)
             return
