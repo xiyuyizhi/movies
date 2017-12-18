@@ -7,7 +7,7 @@ branch
 
 > 之前做了个好电影搜集的小应用，前端采用react，后端采用express+mongodb，最近又将组件间的状态管理改成了redux，并加入了redux-saga来管理异步操作,记录一些总结
 
-## [在线地址](http://xiyuyizhi.xyz)
+## [在线地址](http://xiyuyizhi.xyz:8080)
 
 [源码](https://github.com/xiyuyizhi/movies)
 
