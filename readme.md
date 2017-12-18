@@ -3,6 +3,8 @@ branch
 
 - redux-redux-saga 加入 redux 和 redux-saga
 
+- [mobx](https://github.com/xiyuyizhi/movies/tree/mobx)
+
 - [master](https://github.com/xiyuyizhi/movies/tree/master)
 
 > 之前做了个好电影搜集的小应用，前端采用react，后端采用express+mongodb，最近又将组件间的状态管理改成了redux，并加入了redux-saga来管理异步操作,记录一些总结
