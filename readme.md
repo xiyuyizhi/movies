@@ -55,41 +55,7 @@ clone代码到本地
 ```
 
 
-## 功能介绍
 
-之前看了挺多棒子电影的，所以想做一个电影相关的小项目，主要功能：
-
-- 首页 电影列表展示，可搜索和分类筛选
-
-- 电影详情页(有无下载地址)
-
-- 爬取豆瓣电影并录入
-
-- 登录、注册
-
-- 管理员增删改查
-
-- 普通登录用户收藏电影
-
-- 我的收藏列表
-
-
----
-
-### 首页
-
-![](img/homepage.png)![](img/category.png)
-![](img/action_menu1.png)![](img/action_menu2.png)
-
-### 详情页
-![](img/detail1.png)![](img/detail2.png)
-
-## 录入
-![](img/search.png)![](img/add.png)
-
-
-## 用户
-![](img/login.png)![](img/user.png)![](img/collect.png)
 
 
 
