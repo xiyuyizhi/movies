@@ -27,7 +27,17 @@ branch
 
 - 用户中心，我的收藏列表
 
+
+![](img/homepage.png)
+![](img/category.png) 
+![](img/action_menu1.png)
+![](img/action_menu2.png)
 ![](./view.png)
+![](img/search.png)
+![](img/add.png)
+![](img/login.png)
+![](img/user.png)
+![](img/collect.png)
 
 # 一些总结
 
@@ -45,7 +55,7 @@ redux的核心概念，action,reducer,和store
 
 redux强制规范了我们对状态的操作，只能在action和reducer这些东西中,这样，原本错综复杂的业务逻辑处理就换了个地，限制在了action和reducer中，组件看上去就很干净了。其实，该复杂的东西在哪放都复杂，只不过现在更清晰一点
 
-使用redux不好的地方就是太繁琐了，定义各种action,connect各种组件。。。。。现在又出来一个Mobx,不明觉厉，反正大家都说好~
+使用redux不好的地方就是太繁琐了，定义各种action,connect各种组件。。。。。
 
 - ### redux-saga
 
