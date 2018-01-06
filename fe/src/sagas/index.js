@@ -4,15 +4,14 @@ import Util from "../util/Util"
 import {
     RECIEVE_CHECK_LOAGIN,
     CHECK_LOAGIN,
-    LOAD_CATEGORY,
     LOAD_ITEM_MOVIE,
     LOAD_MOVIE_ATTACH,
     MODIFY_MOVIE,
     LOAD_REPTILE_MOVIE,
     recieveCheckLogin,
-    recieveTypeList,
     recieveItemMovieInfo,
-    recieveMovieAttach
+    recieveMovieAttach,
+    loadMovies
 } from "../actions/index"
 
 import {
@@ -26,16 +25,23 @@ import {
     recieveUInfo
 } from "../actions/login"
 import {
-    put, takeEvery, takeLatest, call, fork, take, select
+    put, takeEvery, takeLatest, call, fork, take, select, join
 } from "redux-saga/effects"
+
+import {
+    watchLoadCateGory,
+    watchLoadMovies
+} from "./homepage"
 
 //--------check login status
 function* checkLogin() {
     const res = yield Util.fetch('/api/user/checkLogin')
     yield put(recieveCheckLogin(!res.code))
+    //先判断是否登录后再查列表
+    yield put(loadMovies())
     if (!res.code) {
         //已登录
-        yield put(fetchUinfo())
+        yield getUinfo()
     }
 }
 export function* watchCheckLogin() {
@@ -47,25 +53,7 @@ function* getUinfo() {
     const info = yield (Util.fetch('/api/user/info'))
     yield put(recieveUInfo(info.data))
 }
-function* watchGetUserInfo() {
-    yield takeEvery(FETCH_UINGO, getUinfo)
-}
 
-
-//---------get category---------
-
-function fetchCateTypes() {
-    return Util.fetch('/api/types')
-}
-
-export function* getCateTypes(action) {
-    const types = yield call(fetchCateTypes)
-    yield put(recieveTypeList(types.data))
-}
-
-export function* watchLoadCateGory() {
-    yield takeEvery(LOAD_CATEGORY, getCateTypes);
-}
 
 //-------------get movie detail--------
 
@@ -95,15 +83,6 @@ export function* watchLoadAttach() {
     }
 }
 
-// if (!login) {
-//     //刷新页面的时候，如果此时checklogin接口还没返回数据或还没发出，应触发一个checklogin
-//     //checklogin返回后才能得到login状态
-//     yield put({
-//         type: CHECK_LOAGIN
-//     })
-//     const ret = yield take(RECIEVE_CHECK_LOAGIN)
-//     login = ret.loginStatus
-// }
 
 // ---------------modify movie-------
 
@@ -133,6 +112,7 @@ export function* watchModifyMovie() {
         } else {
             yield call(modifyMovie, _id, movieInfo)
         }
+        yield put(loadMovies('SEARCH'))
         Util.Toast.info('已修改', () => {
             setTimeout(() => {
                 history.push('/home')
@@ -217,11 +197,10 @@ function* watchLogout() {
     }
 }
 
-
 export default function* root() {
     yield fork(watchCheckLogin)
-    yield fork(watchGetUserInfo)
     yield fork(watchLoadCateGory)
+    yield fork(watchLoadMovies)
     yield fork(watchLoadItemMovie)
     yield fork(watchLoadAttach)
     yield fork(watchModifyMovie)

@@ -13,7 +13,7 @@ import {
 import Login from "./login"
 import {
     fetchLoginout
-} from "../actions/login"
+} from "../../actions/login"
 class User extends React.Component {
 
     constructor(props) {

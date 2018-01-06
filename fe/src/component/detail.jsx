@@ -33,6 +33,9 @@ class Detail extends Component {
     }
 
     componentWillUpdate(nextProps) {
+        if(nextProps.location.state && nextProps.location.state.edit){
+            return
+        }
         if (nextProps.loginStatus && (nextProps.movieInfo!==this.props.movieInfo)) {
             const { id } = this.props.match.params
             this.props.loadMovieAttach(id)

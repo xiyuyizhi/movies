@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
-import List from "./list"
-import Util from "../util/Util"
+import List from "../list"
+import Util from "../../util/Util"
 export default class Collect extends Component {
 
     constructor(props) {

@@ -3,8 +3,8 @@ import {
     Button,
     Switch
 } from "antd-mobile"
-import MovieInfo from "./movieInfo"
-import DownForm from "./download-form"
+import MovieInfo from "../movieInfo"
+import DownForm from "../download-form"
 import {
     bindActionCreators
 } from "redux"
@@ -14,8 +14,8 @@ import {
 import {
     resetStateDetial,
     loadReptileMovie,
-    modifyMovie
-} from "../actions/index"
+    modifyMovie,
+} from "../../actions/index"
 
 class Reptile extends React.Component {
     constructor(props) {
@@ -91,6 +91,6 @@ export default connect(
     dispatch => (bindActionCreators({
         resetStateDetial,
         loadReptileMovie,
-        modifyMovie
+        modifyMovie,
     }, dispatch))
 )(Reptile)

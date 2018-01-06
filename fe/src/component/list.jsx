@@ -208,9 +208,10 @@ export default class List extends Component {
                     height: (document.documentElement.clientHeight - 110)
                 }}
                 useZscroller
+                initialListSize={10}
                 pageSize={10}
                 onEndReached={onEndReached}
-                onEndReachedThreshold={20}
+                onEndReachedThreshold={30}
                 scrollEventThrottle={100}>
             </ListView>
         } else {

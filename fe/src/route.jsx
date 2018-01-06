@@ -9,9 +9,9 @@ import Header from "./component/header"
 import Nav from "./component/nav"
 import Home from "./component/home/homePage"
 import Detail from "./component/detail"
-import User from "./component/user"
-import Reptile from "./component/reptile"
-import Collect from "./component/collectList"
+import User from "./component/user/user"
+import Reptile from "./component/post/reptile"
+import Collect from "./component/user/collectList"
 
 export default class Rout extends React.Component {
 

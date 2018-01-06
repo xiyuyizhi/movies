@@ -1,7 +1,7 @@
 
 
 import React, { Component } from 'react';
-import Util from "../util/Util"
+import Util from "../../util/Util"
 import {
     Button,
     Switch
@@ -19,7 +19,7 @@ import {
     loadServerRandom,
     changeLoginStatus,
     submitLoginRegiste
-} from "../actions/login"
+} from "../../actions/login"
 
 class Login extends Component {
 

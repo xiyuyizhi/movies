@@ -1,6 +1,6 @@
 import React from 'react'
 import { Popup, Icon } from "antd-mobile"
-import Util from "../util/Util"
+import Util from "../../util/Util"
 const dayOfWeek = ['日', '一', '二', '三', '四', '五', '六']
 function formate() {
     const now = new Date()
@@ -34,18 +34,18 @@ export default class Pop extends React.Component {
                     Popup.hide();
                     history.push('/reptile')
                 }}>
-                    <Icon type={require('../common/svg/search.svg')} size="lg"></Icon>
+                    <Icon type={require('../../common/svg/search.svg')} size="lg"></Icon>
                     <label className='name' >先找找</label>
                 </span>
                 <span className="editBtns-item" onClick={() => {
                     Util.Toast.info('暂不支持')
                 }}>
-                    <Icon type={require('../common/svg/upload.svg')} size="lg"></Icon>
+                    <Icon type={require('../../common/svg/upload.svg')} size="lg"></Icon>
                     <label className='name'>文件夹形式</label>
                 </span>
             </div>
             <div className='popup-footer'>
-                <Icon type={require('../common/svg/close.svg')} size="sm" style={{ position: 'relative', top: '5px' }} onClick={() => {
+                <Icon type={require('../../common/svg/close.svg')} size="sm" style={{ position: 'relative', top: '5px' }} onClick={() => {
                     Popup.hide();
                 }} />
             </div>

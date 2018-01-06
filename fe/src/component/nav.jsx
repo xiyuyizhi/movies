@@ -4,7 +4,7 @@ import {
     withRouter
 } from "react-router-dom"
 import { Flex, Icon, Popup } from "antd-mobile"
-import Prop from "./popup"
+import Prop from "./post/popup"
 import Util from "../util/Util"
 import {
     connect
@@ -14,7 +14,6 @@ class Nav extends React.Component {
     render() {
         const { login, location } = this.props
         const { pathname } = location
-        console.log(pathname);
         const homeActive = pathname === '/home'
         const userActive = (pathname === '/user' || pathname === '/collect')
         return <Flex id="footerNav">

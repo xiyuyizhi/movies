@@ -15,7 +15,8 @@ import {
 
 import {
     setSearch,
-    setCategory
+    setCategory,
+    loadMovies,
 } from "../../actions/index"
 
 class HomeHeader extends Component {
@@ -35,9 +36,11 @@ class HomeHeader extends Component {
      */
     search(val) {
         this.props.setSearch(val)
+        this.props.loadMovies('SEARCH')
     }
     onClear() {
         this.props.setSearch('')
+        this.props.loadMovies('SEARCH')
     }
     /**
      * 分类picker选择
@@ -45,9 +48,11 @@ class HomeHeader extends Component {
      */
     onOk(val) {
         this.props.setCategory(val)
+        this.props.loadMovies('SEARCH')
     }
     onDismiss() {
         this.props.setCategory([''])
+        this.props.loadMovies('SEARCH')
     }
 
     render() {
@@ -86,7 +91,8 @@ function mapStateToProps(state) {
 function mapActionCreatorsToProps(dispatch) {
     return bindActionCreators({
         setSearch,
-        setCategory
+        setCategory,
+        loadMovies
     }, dispatch);
 }
 

@@ -1,8 +1,10 @@
 
 export const SET_CATEGORY = 'SET_CATEGORY'
 export const SET_SEARCH = 'SET_SEARCH'
-export const RECIEVE_TYPE_LIST = 'RECIEVE_TYPE_LIST'
 export const LOAD_CATEGORY = 'LOAD_CATEGORY'
+export const LOAD_MOVIES = 'LOAD_MOVIES'
+export const RECIEVE_TYPE_LIST = 'RECIEVE_TYPE_LIST'
+export const RECIEVE_MOVIES = 'RECIEVE_MOVIES'
 export const LOAD_ITEM_MOVIE = 'LOAD_ITEM_MOVIE'
 export const LOAD_MOVIE_ATTACH = 'LOAD_MOVIE_ATTACH'
 export const RECIEVE_ITEM_MOVIE = 'RECIEVE_ITEM_MOVIE'
@@ -45,12 +47,29 @@ export function loadCategory() {
     }
 }
 
+export function loadMovies(types) {
+    return {
+        type: LOAD_MOVIES,
+        types
+    }
+}
+
+
 export function recieveTypeList(list) {
     return {
         type: RECIEVE_TYPE_LIST,
         list
     }
 }
+
+export function recieveMovies(list,types) {
+    return {
+        type: RECIEVE_MOVIES,
+        list,
+        types
+    }
+}
+
 
 export function loadItemMovie(movieId, loginStatus) {
     return {
@@ -60,9 +79,9 @@ export function loadItemMovie(movieId, loginStatus) {
     }
 }
 
-export function loadMovieAttach(movieId){
+export function loadMovieAttach(movieId) {
     return {
-        type:LOAD_MOVIE_ATTACH,
+        type: LOAD_MOVIE_ATTACH,
         movieId
     }
 }
