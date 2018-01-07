@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^2.13.11",
-    "antd-mobile": "^1.7.2",
+    "antd-mobile": "^1.4.1",
     "babel-polyfill": "^6.26.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
