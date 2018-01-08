@@ -14,7 +14,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const customLess = require('./custom-less')
-
+var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
@@ -46,10 +46,15 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
   { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
 
+const webpack_isomorphic_tools_plugin =
+  new WebpackIsomorphicToolsPlugin(require('./webpack-isomorphic-tools-configuration'))
+    .development()
+
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
-const config= {
+const config = {
+  context: path.join(__dirname,'..'),
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
@@ -127,15 +132,15 @@ const config= {
         ],
         include: paths.appSrc,
       },
-      {
-        test: /\.(svg)$/i,
-        loader: 'svg-sprite-loader',
-        include: [
-          require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
-          path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
-          paths.appSrc,
-        ]
-      },
+      // {
+      //   test: /\.(svg)$/i,
+      //   loader: 'svg-sprite-loader',
+      //   include: [
+      //     require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
+      //     path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
+      //     paths.appSrc,
+      //   ]
+      // },
       // ** ADDING/UPDATING LOADERS **
       // The "file" loader handles all assets unless explicitly excluded.
       // The `exclude` list *must* be updated with every change to loader extensions.
@@ -149,7 +154,7 @@ const config= {
           /\.html$/,
           /\.(js|jsx)$/,
           /\.less$/,
-          /\.svg$/,
+          // /\.svg$/,
           /\.css$/,
           /\.json$/,
           /\.bmp$/,
@@ -184,7 +189,7 @@ const config= {
           compact: true,
         },
       },
-      
+
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
       // "css" loader resolves paths in CSS and adds assets as dependencies.
@@ -382,7 +387,8 @@ const config= {
     // solution that requires the user to opt into importing specific locales.
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    webpack_isomorphic_tools_plugin
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
@@ -392,15 +398,15 @@ const config= {
     net: 'empty',
     tls: 'empty',
   },
-  externals:{
-    AMap:'AMap'
+  externals: {
+    AMap: 'AMap'
   }
 };
 /**
  * 分析打包后js相关文件大小
  */
-if(process.argv[2]=='analyze'){
+if (process.argv[2] == 'analyze') {
   config.plugins.push(new BundleAnalyzerPlugin())
 }
 
-module.exports =config
+module.exports = config

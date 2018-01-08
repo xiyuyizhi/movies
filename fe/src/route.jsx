@@ -2,9 +2,11 @@
 import React from 'react';
 import {
     BrowserRouter as Router,
+    //StaticRouter as Router,
     Route,
     Redirect
 } from "react-router-dom"
+
 import Header from "./component/header"
 import Nav from "./component/nav"
 import Home from "./component/home/homePage"
@@ -12,12 +14,12 @@ import Detail from "./component/detail"
 import User from "./component/user/user"
 import Reptile from "./component/post/reptile"
 import Collect from "./component/user/collectList"
-
+// import Prop from "./component/post/popup"
 export default class Rout extends React.Component {
 
     render() {
         return (
-            <Router>
+            <Router context={{}}>
                 <div>
                     <Header></Header>
                     <div className="main">
@@ -31,6 +33,7 @@ export default class Rout extends React.Component {
                         <Route path="/collect" component={Collect}></Route>
                     </div>
                     <Nav></Nav>
+                    
                 </div>
             </Router>
         )

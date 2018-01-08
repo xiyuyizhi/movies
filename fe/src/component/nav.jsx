@@ -3,7 +3,9 @@ import {
     NavLink,
     withRouter
 } from "react-router-dom"
-import { Flex, Icon, Popup } from "antd-mobile"
+// import { Flex, Icon, Popup } from "antd-mobile"
+import { Flex } from "antd-mobile"
+import Icon from "./customIcon"
 import Prop from "./post/popup"
 import Util from "../util/Util"
 import {
@@ -11,38 +13,54 @@ import {
 } from "react-redux"
 
 class Nav extends React.Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            show: false
+        }
+        this.handleProp = this.handleProp.bind(this)
+    }
+
+    handleProp(status) {
+        this.setState({
+            show: status
+        })
+    }
+
     render() {
         const { login, location } = this.props
         const { pathname } = location
         const homeActive = pathname === '/home'
         const userActive = (pathname === '/user' || pathname === '/collect')
-        return <Flex id="footerNav">
-            <Flex.Item>
-                <NavLink activeClassName="active home" to="/home" >
-                    <Icon type={require('../common/svg/list.svg')} color={homeActive ? "#108ee9" : "#777"} className="home" size="xxs" />
-                    <span className="nav-label">首页</span>
-                </NavLink>
-            </Flex.Item>
-            <Flex.Item>
-                <span className="circle" onClick={(e) => {
-                    if (login) {
-                        Popup.show(<Prop history={this.props.history}></Prop>, {
-                            animationType: 'slide-up'
-                        })
-                    } else {
-                        Util.Toast.info('请登录')
-                    }
-                }}>
-                    <Icon type={require('../common/svg/edit.svg')} size="xxs" className="edit" />
-                </span>
-            </Flex.Item>
-            <Flex.Item>
-                <NavLink activeClassName="active user" to="/user">
-                    <Icon type={require('../common/svg/user.svg')} color={userActive ? "#108ee9" : "#777"} size="xxs" />
-                    <span className="nav-label" style={{ color: userActive ? "#108ee9" : "#333" }}>我的</span>
-                </NavLink>
-            </Flex.Item>
-        </Flex>
+        return <div>
+            <Prop history={this.props.history} show={this.state.show} handleProp={this.handleProp}></Prop>
+            <Flex id="footerNav">
+                <Flex.Item>
+                    <NavLink activeClassName="active home" to="/home" >
+                        <Icon type={require('../common/svg/list.svg')} color={homeActive ? "#108ee9" : "#777"} className="home" size="xxs" />
+                        <span className="nav-label">首页</span>
+                    </NavLink>
+                </Flex.Item>
+                <Flex.Item>
+                    <span className="circle" onClick={(e) => {
+                        if (login) {
+                            this.handleProp(true)
+                        } else {
+                            Util.Toast.info('请登录')
+                        }
+                    }}>
+                        <Icon type={require('../common/svg/edit.svg')} size="xxs" className="edit" />
+                    </span>
+                </Flex.Item>
+                <Flex.Item>
+                    <NavLink activeClassName="active user" to="/user">
+                        <Icon type={require('../common/svg/user.svg')} color={userActive ? "#108ee9" : "#777"} size="xxs" />
+                        <span className="nav-label" style={{ color: userActive ? "#108ee9" : "#333" }}>我的</span>
+                    </NavLink>
+                </Flex.Item>
+            </Flex >
+        </div>
     }
 
 }

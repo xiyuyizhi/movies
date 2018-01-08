@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import {
     ListView,
-    SwipeAction,
-    Icon
+    SwipeAction
 } from 'antd-mobile'
+import Icon from "./customIcon"
 import Dotdotdot from 'react-dotdotdot'
 import Util from "../util/Util.js"
 

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Popup, Icon } from "antd-mobile"
+import { Modal } from "antd-mobile"
+import Icon from "../customIcon"
 import Util from "../../util/Util"
 const dayOfWeek = ['日', '一', '二', '三', '四', '五', '六']
 function formate() {
@@ -22,34 +23,41 @@ export default class Pop extends React.Component {
     render() {
         const d = formate()
         const { history } = this.props
-        return < div className='popup' >
-            <div className='showtime'>
-                <span>{d.date}</span>
-                <span className="weekDay">{d.weekDay}</span>
-            </div>
-            <div id='container'></div>
+        return <Modal popup
+            visible={this.props.show}
+            animationType="slide-up"
+            maskClosable={false} >
+            <div className='popup' >
+                <div className='showtime'>
+                    <span>{d.date}</span>
+                    <span className="weekDay">{d.weekDay}</span>
+                </div>
+                <div id='container'></div>
 
-            <div className="editBtns">
-                <span className="editBtns-item" onClick={() => {
-                    Popup.hide();
-                    history.push('/reptile')
-                }}>
-                    <Icon type={require('../../common/svg/search.svg')} size="lg"></Icon>
-                    <label className='name' >先找找</label>
-                </span>
-                <span className="editBtns-item" onClick={() => {
-                    Util.Toast.info('暂不支持')
-                }}>
-                    <Icon type={require('../../common/svg/upload.svg')} size="lg"></Icon>
-                    <label className='name'>文件夹形式</label>
-                </span>
-            </div>
-            <div className='popup-footer'>
-                <Icon type={require('../../common/svg/close.svg')} size="sm" style={{ position: 'relative', top: '5px' }} onClick={() => {
-                    Popup.hide();
-                }} />
-            </div>
-        </div >
+                <div className="editBtns">
+                    <span className="editBtns-item" onClick={() => {
+                        this.props.handleProp(false)
+                        history.push('/reptile')
+                    }}>
+                        <Icon type={require('../../common/svg/search.svg')} size="lg"></Icon>
+                        <label className='name' >先找找</label>
+                    </span>
+                    <span className="editBtns-item" onClick={() => {
+                        Util.Toast.info('暂不支持')
+                    }}>
+                        <Icon type={require('../../common/svg/upload.svg')} size="lg"></Icon>
+                        <label className='name'>文件夹形式</label>
+                    </span>
+                </div>
+                <div className='popup-footer'>
+                    <Icon type={require('../../common/svg/close.svg')} size="sm" style={{ position: 'relative', top: '5px' }} onClick={() => {
+                        this.props.handleProp(false)
+                    }} />
+                </div>
+
+            </div >
+        </Modal >
+
     }
 
 }
