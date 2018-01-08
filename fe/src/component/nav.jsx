@@ -29,6 +29,7 @@ class Nav extends React.Component {
     }
 
     render() {
+        console.log(require('../common/svg/user.svg'));
         const { login, location } = this.props
         const { pathname } = location
         const homeActive = pathname === '/home'
