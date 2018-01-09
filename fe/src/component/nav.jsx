@@ -3,7 +3,6 @@ import {
     NavLink,
     withRouter
 } from "react-router-dom"
-// import { Flex, Icon, Popup } from "antd-mobile"
 import { Flex } from "antd-mobile"
 import Icon from "./customIcon"
 import Prop from "./post/popup"
@@ -14,6 +13,7 @@ import {
 import userIcon from "../common/svg/user.svg"
 import listIcon from "../common/svg/list.svg"
 import editIcon from "../common/svg/edit.svg"
+
 class Nav extends React.Component {
 
     constructor(props) {
@@ -31,7 +31,6 @@ class Nav extends React.Component {
     }
 
     render() {
-        console.log(require('../common/svg/user.svg'));
         const { login, location } = this.props
         const { pathname } = location
         const homeActive = pathname === '/home'
@@ -41,7 +40,7 @@ class Nav extends React.Component {
             <Flex id="footerNav">
                 <Flex.Item>
                     <NavLink activeClassName="active home" to="/home" >
-                        <Icon type={listIcon} color={homeActive ? "#108ee9" : "#777"} className="home" size="xxs" />
+                        <Icon type={listIcon} size="xxs" />
                         <span className="nav-label">首页</span>
                     </NavLink>
                 </Flex.Item>
@@ -58,7 +57,7 @@ class Nav extends React.Component {
                 </Flex.Item>
                 <Flex.Item>
                     <NavLink activeClassName="active user" to="/user">
-                        <Icon type={userIcon} color={userActive ? "#108ee9" : "#777"} size="xxs" />
+                        <Icon type={userIcon} size="xxs" />
                         <span className="nav-label" style={{ color: userActive ? "#108ee9" : "#333" }}>我的</span>
                     </NavLink>
                 </Flex.Item>

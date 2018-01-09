@@ -4,7 +4,7 @@ import {
     ActivityIndicator
 } from "antd-mobile"
 import Util from "./util/Util"
-import initReactFastclick from 'react-fastclick';
+// import initReactFastclick from 'react-fastclick';
 import {
     connect
 } from "react-redux"
@@ -17,7 +17,8 @@ import {
 import {
     bindActionCreators
 } from "redux"
-initReactFastclick();
+
+// initReactFastclick();
 
 class App extends Component {
 

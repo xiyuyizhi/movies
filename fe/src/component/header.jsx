@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {
-    NavBar
+    NavBar,
+    Icon
 } from "antd-mobile"
 import { withRouter } from "react-router-dom"
 
@@ -18,13 +19,13 @@ class Header extends Component {
         const { pathname } = location
         return <div className='header'>
             {
-                this.isDetail(pathname) && <NavBar className="normalBar" leftContent="返回"
+                this.isDetail(pathname) && <NavBar  icon={<Icon type="left" />} className="normalBar" leftContent="返回"
                     mode="light"
                     onLeftClick={() => history.go(-1)}
                 >{location.state.title}</NavBar>
             }
             {
-                this.isReptile(pathname) && <NavBar className="normalBar" leftContent="返回"
+                this.isReptile(pathname) && <NavBar  icon={<Icon type="left" />} className="normalBar" leftContent="返回"
                     mode="light"
                     onLeftClick={() => history.push('/home')}
                 >找找看</NavBar>
@@ -35,7 +36,7 @@ class Header extends Component {
                 >我的</NavBar>
             }
             {
-                pathname === '/collect' && <NavBar className="normalBar" leftContent="返回"
+                pathname === '/collect' && <NavBar  icon={<Icon type="left" />} className="normalBar" leftContent="返回"
                     mode="light"
                     onLeftClick={() => history.go(-1)}
                 >收藏</NavBar>

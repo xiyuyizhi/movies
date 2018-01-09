@@ -129,15 +129,15 @@ module.exports = {
         ],
         include: paths.appSrc,
       },
-      {
-        test: /\.(svg)$/i,
-        loader: 'svg-sprite-loader',
-        include: [
-          require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
-          path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
-          paths.appSrc,
-        ]
-      },
+      // {
+      //   test: /\.(svg)$/i,
+      //   loader: 'svg-sprite-loader',
+      //   include: [
+      //     require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
+      //     path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
+      //     paths.appSrc,
+      //   ]
+      // },
       // ** ADDING/UPDATING LOADERS **
       // The "file" loader handles all assets unless explicitly excluded.
       // The `exclude` list *must* be updated with every change to loader extensions.
@@ -153,7 +153,7 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.css$/,
           /\.less$/,
-          /\.svg$/,
+          // /\.svg$/,
           /\.json$/,
           /\.bmp$/,
           /\.gif$/,
