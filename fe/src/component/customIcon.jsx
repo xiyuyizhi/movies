@@ -1,15 +1,16 @@
 
 import React from 'react'
 
-const CustomIcon = ({ type, className = '', size = 'md', ...restProps }) => (
-    <svg
-        className={`am-icon am-icon-${type.substr(1)} am-icon-${size} ${className}`}
+const CustomIcon = ({ type, className = '', size = 'md', ...restProps }) => {
+    return <svg
+        viewBox={`${type.viewBox}`}
+        className={`am-icon am-icon-${type.id} am-icon-${size} ${className}`}
         {...restProps}
     >
-        <use xlinkHref={type} /> {/* svg-sprite-loader@0.3.x */}
-        {/* <use xlinkHref={#${type.default.id}} /> */} {/* svg-sprite-loader@latest */}
+        {/* <use xlinkHref={type.default.id} /> svg-sprite-loader@0.3.x */}
+        <use xlinkHref={`#${type.id}`} />
     </svg>
-);
+};
 
 
 export default CustomIcon

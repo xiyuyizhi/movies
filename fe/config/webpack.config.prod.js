@@ -15,6 +15,7 @@ const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const customLess = require('./custom-less')
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 const publicPath = paths.servedPath;
@@ -54,6 +55,7 @@ const webpack_isomorphic_tools_plugin =
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
 const config = {
+  target:'node',
   context: path.join(__dirname,'..'),
   // Don't attempt to continue if there are any errors.
   bail: true,
@@ -132,15 +134,18 @@ const config = {
         ],
         include: paths.appSrc,
       },
-      // {
-      //   test: /\.(svg)$/i,
-      //   loader: 'svg-sprite-loader',
-      //   include: [
-      //     require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
-      //     path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
-      //     paths.appSrc,
-      //   ]
-      // },
+      {
+        test: /\.(svg)$/i,
+        loader: 'svg-sprite-loader',
+        include: [
+          require.resolve('antd-mobile').replace(/warn\.js$/, ''),  // 1. svg files of antd-mobile
+          path.resolve(__dirname, 'src/common/svg/'),  // folder of svg files in your project
+          paths.appSrc,
+        ],
+        options: {
+          runtimeCompat: true
+        }
+      },
       // ** ADDING/UPDATING LOADERS **
       // The "file" loader handles all assets unless explicitly excluded.
       // The `exclude` list *must* be updated with every change to loader extensions.
@@ -154,7 +159,7 @@ const config = {
           /\.html$/,
           /\.(js|jsx)$/,
           /\.less$/,
-          // /\.svg$/,
+          /\.svg$/,
           /\.css$/,
           /\.json$/,
           /\.bmp$/,
@@ -388,7 +393,8 @@ const config = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    webpack_isomorphic_tools_plugin
+    webpack_isomorphic_tools_plugin,
+    // new SpriteLoaderPlugin()
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.

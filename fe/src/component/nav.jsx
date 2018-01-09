@@ -11,7 +11,9 @@ import Util from "../util/Util"
 import {
     connect
 } from "react-redux"
-
+import userIcon from "../common/svg/user.svg"
+import listIcon from "../common/svg/list.svg"
+import editIcon from "../common/svg/edit.svg"
 class Nav extends React.Component {
 
     constructor(props) {
@@ -39,7 +41,7 @@ class Nav extends React.Component {
             <Flex id="footerNav">
                 <Flex.Item>
                     <NavLink activeClassName="active home" to="/home" >
-                        <Icon type={require('../common/svg/list.svg')} color={homeActive ? "#108ee9" : "#777"} className="home" size="xxs" />
+                        <Icon type={listIcon} color={homeActive ? "#108ee9" : "#777"} className="home" size="xxs" />
                         <span className="nav-label">首页</span>
                     </NavLink>
                 </Flex.Item>
@@ -51,12 +53,12 @@ class Nav extends React.Component {
                             Util.Toast.info('请登录')
                         }
                     }}>
-                        <Icon type={require('../common/svg/edit.svg')} size="xxs" className="edit" />
+                        <Icon type={editIcon} size="xxs" className="edit" />
                     </span>
                 </Flex.Item>
                 <Flex.Item>
                     <NavLink activeClassName="active user" to="/user">
-                        <Icon type={require('../common/svg/user.svg')} color={userActive ? "#108ee9" : "#777"} size="xxs" />
+                        <Icon type={userIcon} color={userActive ? "#108ee9" : "#777"} size="xxs" />
                         <span className="nav-label" style={{ color: userActive ? "#108ee9" : "#333" }}>我的</span>
                     </NavLink>
                 </Flex.Item>

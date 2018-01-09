@@ -15,5 +15,6 @@ module.exports = {
     "@icon-size-xxs": "1rem",
     "@search-bar-input-height": "2rem",
     "@searchbar-font-size": "1rem",
-    "@icon-size-md": "2rem"
+    "@icon-size-md": "2rem",
+    "@icon-size-lg": "4rem"
 }

@@ -7,7 +7,7 @@ import {
 import Icon from "./customIcon"
 import Dotdotdot from 'react-dotdotdot'
 import Util from "../util/Util.js"
-
+import IconNodata from '../common/svg/noData.svg'
 export default class List extends Component {
 
     constructor(props) {
@@ -216,7 +216,7 @@ export default class List extends Component {
             </ListView>
         } else {
             return <div className='noData'>
-                <Icon type={require('../common/svg/no-data.svg')} size="lg" />
+                <Icon type={IconNodata} size="lg" />
             </div>
         }
 
