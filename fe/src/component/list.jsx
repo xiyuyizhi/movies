@@ -186,7 +186,9 @@ export default class List extends Component {
     }
 
     componentWillMount() {
-        this.userRole = window.sessionStorage.getItem('r') === '2017'
+        // if (window) {
+        //     this.userRole = window.sessionStorage.getItem('r') === '2017'
+        // }
         this.setState({
             _data: this.props.datasource
         })
@@ -204,9 +206,12 @@ export default class List extends Component {
             return <ListView className="listview" dataSource={dss}
                 renderRow={this._row}
                 renderFooter={this._footer}
-                style={{
-                    height: (document.documentElement.clientHeight - 110)
-                }}
+                // style={{
+                //     height: "557px"
+                // }}
+                // style={{
+                //     height: (document.documentElement.clientHeight - 110)
+                // }}
                 useZscroller
                 initialListSize={10}
                 pageSize={10}

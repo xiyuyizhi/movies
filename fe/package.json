@@ -66,7 +66,7 @@
     "webpack-manifest-plugin": "1.1.0"
   },
   "scripts": {
-    "ssr": "NODE_ENV='development' node server/index.js",
+    "ssr": "pm2 start ecosystem.config.js",
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "analyze": "node scripts/build.js analyze",

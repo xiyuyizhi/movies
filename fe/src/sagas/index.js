@@ -177,6 +177,7 @@ function* watchLoginRegiste() {
         }
         window.localStorage.setItem('t', res.token)
         window.sessionStorage.setItem('r', res.role)
+        document.cookie = 'auth=' + res.token+';path=/'
         yield put(recieveCheckLogin(true))
         yield put(fetchUinfo())
 
@@ -193,6 +194,7 @@ function* watchLogout() {
         const res1 = yield call(logout)
         if (!res1) continue
         window.localStorage.removeItem('t')
+        document.cookie = 'auth=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         yield put(recieveCheckLogin(false))
     }
 }

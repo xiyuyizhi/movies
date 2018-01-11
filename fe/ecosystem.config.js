@@ -1,5 +1,21 @@
 module.exports = {
+  apps: [
 
+    // First application
+    {
+      name: 'ssr',
+      script: './server/index.js',
+      watch: true,
+      env: {
+        PORT: 7777,
+        NODE_ENV: 'development'
+      },
+      env_production: {
+        PORT: 8000,
+        NODE_ENV: 'production'
+      }
+    }
+  ],
   deploy: {
     "production": {
       user: "root",

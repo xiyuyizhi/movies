@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Router from "./server_route.jsx"
 import {
     ActivityIndicator
 } from "antd-mobile"
@@ -52,7 +53,7 @@ class App extends Component {
                 toast
                 animating={this.state.isLoading}>
             </ActivityIndicator>
-            {this.props.children}
+            <Router></Router>
         </div>
 
     }

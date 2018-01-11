@@ -6,7 +6,7 @@ import {
     RECIEVE_MOVIES,
     recieveMovies
 } from "../actions/index"
-
+// import data from "../mock"
 const defaultState = {
     category: '',
     search: '',
@@ -36,7 +36,7 @@ export default function homePage(state = defaultState, action) {
                 return {
                     ...state,
                     list: action.list,
-                    noMore:false
+                    noMore: false
                 }
             }
             if (action.list.length) {
@@ -46,7 +46,7 @@ export default function homePage(state = defaultState, action) {
                 }
             }
             return { ...state, noMore: true }
-    
+
         default:
             return state
     }
