@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "production": "pm2 start ecosystem.config.js --env production",
     "start": "pm2 start ecosystem.config.js",
     "test": "mocha --watch --slow 300",
     "setup":"pm2 deploy ecosystem.config.js production setup",

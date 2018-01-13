@@ -7,7 +7,7 @@ module.exports = {
 
     // First application
     {
-      name: 'movies-be',
+      name: 'movies_be',
       script: 'bin/www',
       watch: true,
       env: {
@@ -29,7 +29,7 @@ module.exports = {
       path: "/root/www/movies_be",
       "post-setup": "ls -la",
       "pre-deploy-local":"ls -la",
-      "post-deploy": "cd be && npm install && pm2 kill && pm2 start ecosystem.config.js --env production",
+      "post-deploy": "cd be && npm install && pm2 delete movies_be && npm run production",
       "env": {
         "NODE_ENV": "production"
       }

@@ -26,7 +26,7 @@ module.exports = {
       repo: "git@github.com:xiyuyizhi/movies.git",
       path: "/root/www/movies_fe",
       "post-setup": "ls -la",
-      "post-deploy": "cd /root/www/front && rm -rf * && cd /root/www/movies_fe/current/fe/build && cp -r . /root/www/front",
+      "post-deploy": "cd fe && npm install && pm2 delete ssr && npm run ssr.pro && cd /root/www/front && rm -rf * && cd /root/www/movies_fe/current/fe/build && cp -r . /root/www/front",
     }
   }
 };
