@@ -22,7 +22,6 @@ import Routes from "./route"
 import "./common/index.less"
 
 const sagaMiddleware = createSagaMiddleware()
-console.log(window.__INITIAL_STATE__);
 const store = createStore(
     reducer,
     window.__INITIAL_STATE__,
@@ -35,16 +34,10 @@ store.subscribe(() => {
     console.log(store.getState());
 })
 
-function onUpdate() {
-    if (window.__INITIAL_STATE__ !== null) {
-        window.__INITIAL_STATE__ = null;
-        return;
-    }
-}
 
 hydrate(
     <Provider store={store}>
-        <Router onUpdate={onUpdate}>
+        <Router>
             <Routes></Routes>
         </Router>
     </Provider>,

@@ -160,11 +160,13 @@ export default class List extends Component {
                                 <span className='label'>{rowData.type.join('/')}</span>
                                 <span className='label'>{rowData.actors.join('/')}</span>
                             </div>
-                            <Dotdotdot clamp={4}>
-                                <p className="m-item-instruct">
-                                    {rowData.instruct}
-                                </p>
-                            </Dotdotdot>
+                            <div style={{marginBottom:'10px',overflow:'hidden'}}>
+                                <Dotdotdot clamp={4}>
+                                    <p className="m-item-instruct">
+                                        {rowData.instruct}
+                                    </p>
+                                </Dotdotdot>
+                            </div>
                         </div>
                     </div>
                 </SwipeAction>
@@ -186,7 +188,7 @@ export default class List extends Component {
     }
 
     componentWillMount() {
-        if (typeof window !=='undefined') {
+        if (typeof window !== 'undefined') {
             this.userRole = window.sessionStorage.getItem('r') === '2017'
         }
         this.setState({
