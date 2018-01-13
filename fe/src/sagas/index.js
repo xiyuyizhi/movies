@@ -54,6 +54,10 @@ function* getUinfo() {
     yield put(recieveUInfo(info.data))
 }
 
+export function* watchFetchUinfo() {
+    yield takeLatest(FETCH_UINGO, getUinfo)
+}
+
 
 //-------------get movie detail--------
 
@@ -199,6 +203,7 @@ function* watchLogout() {
 
 export default function* root() {
     yield fork(watchCheckLogin)
+    yield fork(watchFetchUinfo)
     yield fork(watchLoadCateGory)
     yield fork(watchLoadMovies)
     yield fork(watchLoadItemMovie)
