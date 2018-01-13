@@ -24,7 +24,7 @@ module.exports = {
     "production": {
       user: "root",
       host: ['xiyuyizhi.xyz'],
-      ref: "origin/redux-redux-saga",
+      ref: "origin/ssr",
       repo: "git@github.com:xiyuyizhi/movies.git",
       path: "/root/www/movies_be",
       "post-setup": "ls -la",
