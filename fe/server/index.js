@@ -4,8 +4,6 @@ require('babel-register')({
     presets: ['es2015', 'react-app']
 })
 
-
-
 var WebpackIsomorphicTools = require('webpack-isomorphic-tools')
 
 // this must be equal to your Webpack configuration "context" parameter
@@ -24,12 +22,5 @@ global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../config/we
         // here goes all your web application code:
         // (it must reside in a separate *.js file 
         //  in order for the whole thing to work)
-        var app = require('./app');
-        var debug = require('debug')('be:server');
-        var http = require('http');
-        var port = process.env.PORT || '3000';
-        app.set('port', port);
-        var server = http.createServer(app);
-        server.listen(port);
-        console.log('server run on port'+port);
+        require('./app');
     })

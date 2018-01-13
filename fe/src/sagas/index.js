@@ -2,7 +2,6 @@
 
 import Util from "../util/Util"
 import {
-    RECIEVE_CHECK_LOAGIN,
     CHECK_LOAGIN,
     LOAD_ITEM_MOVIE,
     LOAD_MOVIE_ATTACH,
@@ -25,7 +24,7 @@ import {
     recieveUInfo
 } from "../actions/login"
 import {
-    put, takeEvery, takeLatest, call, fork, take, select, join
+    put,takeLatest, call, fork, take, select
 } from "redux-saga/effects"
 
 import {
@@ -79,7 +78,6 @@ export function* watchLoadItemMovie() {
 export function* watchLoadAttach() {
     while (true) {
         const { movieId } = yield take(LOAD_MOVIE_ATTACH)
-        const { attachId } = yield select(state => state.detail.movieInfo)
         const attach = yield call(getMovieAttach, movieId)
         yield put(recieveMovieAttach(attach.data[0]))
     }

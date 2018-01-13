@@ -35,14 +35,14 @@ class Type {
                 'type_name': item
             }, { '$inc': { count: -1 } })
         })
-        db.close()
+        // db.close()
     }
 
     remove(callback) {
         DB.connect().then((db, err) => {
             const Types = db.collection('types')
             Types.remove({}).then(() => {
-                db.close()
+                // db.close()
                 callback()
             })
         })

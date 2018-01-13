@@ -8,11 +8,13 @@ module.exports = {
       watch: true,
       env: {
         PORT: 7777,
-        NODE_ENV: 'development'
+        NODE_ENV: 'development',
+        args: "http://localhost:9000"
       },
       env_production: {
-        PORT: 8000,
-        NODE_ENV: 'production'
+        PORT: 7788,
+        NODE_ENV: 'production',
+        args: "http://localhost:9000"
       }
     }
   ],

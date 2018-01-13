@@ -33,7 +33,6 @@ class Nav extends React.Component {
     render() {
         const { login, location } = this.props
         const { pathname } = location
-        const homeActive = pathname === '/home'
         const userActive = (pathname === '/user' || pathname === '/collect')
         return <div>
             <Prop history={this.props.history} show={this.state.show} handleProp={this.handleProp}></Prop>

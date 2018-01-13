@@ -27,7 +27,7 @@ class Collect {
         const movies = await db.collection('collect').find(params).sort({
             updateTime: -1
         }).limit(parseInt(pageSize) || CONFIG.PAGESIZE).toArray()
-        db.close()
+        // db.close()
         return movies
     }
 
@@ -45,7 +45,7 @@ class Collect {
                 '$in': data.idsArr
             }
         }).toArray()
-        db.close()
+        // db.close()
         return docs
     }
 

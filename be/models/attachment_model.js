@@ -14,7 +14,7 @@ class Attachment {
                 _id: DB.id(id)
             }).toArray().then((docs,err)=>{
                 callback(err,docs)
-                db.close()
+                // db.close()
             })
         })
 
@@ -25,7 +25,7 @@ class Attachment {
             const Attach = db.collection('attachment')
             Attach.remove({}).then(() => {
                 callback()
-                db.close()
+                // db.close()
             })
         })
     }

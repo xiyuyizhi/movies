@@ -47,7 +47,7 @@ class MoviesModel {
     insertOne(db, data, callback) {
         this.getCollection(db).insertOne(data).then((docs, err) => {
             callback(err, docs)
-            db.close()
+            // db.close()
         })
     }
 
@@ -91,7 +91,7 @@ class MoviesModel {
                 updateTime: -1
             }).limit(parseInt(pageSize) || CONFIG.PAGESIZE).toArray((err, docs) => {
                 callback(err, docs)
-                db.close()
+                // db.close()
             })
         }).catch(e => {
             callback(e)
@@ -116,7 +116,7 @@ class MoviesModel {
                 updateTime: -1
             }).toArray().then((docs, err) => {
                 callback(err, docs)
-                db.close()
+                // db.close()
             })
         })
     }
@@ -131,7 +131,7 @@ class MoviesModel {
                 })
             }
         }).toArray()
-        db.close()
+        // db.close()
         return docs
     }
 
@@ -147,7 +147,7 @@ class MoviesModel {
                 _id: DB.id(movieId)
             }).toArray((err, docs) => {
                 callback(err, docs)
-                db.close()
+                // db.close()
             })
         }).catch(e => {
             callback(e)
@@ -193,7 +193,7 @@ class MoviesModel {
                         _id: DB.id(movieId)
                     })
                     callback(null, docs)
-                    db.close()
+                    // db.close()
                 }
                 Dlet()
                 return
@@ -207,7 +207,7 @@ class MoviesModel {
         DB.connect().then((db, err) => {
             this.getCollection(db).remove({}).then(() => {
                 callback()
-                db.close()
+                // db.close()
             })
         })
     }

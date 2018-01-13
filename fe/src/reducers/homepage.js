@@ -4,9 +4,7 @@ import {
     SET_SEARCH,
     RECIEVE_TYPE_LIST,
     RECIEVE_MOVIES,
-    recieveMovies
 } from "../actions/index"
-// import data from "../mock"
 const defaultState = {
     category: '',
     search: '',

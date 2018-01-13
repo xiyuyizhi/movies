@@ -10,7 +10,7 @@ const CustomIcon = ({ type, className = '', size = 'md', ...restProps }) => {
     //     {/* <use xlinkHref={type.default.id} /> svg-sprite-loader@0.3.x */}
     //     <use xlinkHref={`#${type.id}`} />
     // </svg>
-    return <img src={type} className={`am-icon am-icon-${size} ${className}`} {...restProps}/> 
+    return <img src={type} alt={className} className={`am-icon am-icon-${size} ${className}`} {...restProps}/> 
 };
 
 

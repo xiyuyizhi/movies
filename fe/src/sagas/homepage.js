@@ -1,12 +1,11 @@
 
 import {
-    put, takeEvery, takeLatest, call, fork, take, select
+    put, takeEvery, call, select
 } from "redux-saga/effects"
 import Util from "../util/Util"
 import {
     LOAD_CATEGORY,
     LOAD_MOVIES,
-    loadMovies,
     recieveTypeList,
     recieveMovies,
 } from "../actions/index"

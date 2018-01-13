@@ -186,9 +186,9 @@ export default class List extends Component {
     }
 
     componentWillMount() {
-        // if (window) {
-        //     this.userRole = window.sessionStorage.getItem('r') === '2017'
-        // }
+        if (typeof window !=='undefined') {
+            this.userRole = window.sessionStorage.getItem('r') === '2017'
+        }
         this.setState({
             _data: this.props.datasource
         })

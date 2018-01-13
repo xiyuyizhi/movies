@@ -31,7 +31,7 @@ class Header extends Component {
                 >找找看</NavBar>
             }
             {
-                pathname === '/user' && <NavBar className="normalBar" iconName="false"
+                pathname === '/user' && <NavBar className="normalBar" iconname="false"
                     mode="light"
                 >我的</NavBar>
             }
