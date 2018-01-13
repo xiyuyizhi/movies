@@ -14,7 +14,7 @@ module.exports = {
       env_production: {
         PORT: 7788,
         NODE_ENV: 'production',
-        args: "http://localhost:9000"
+        args: "http://localhost:8000"
       }
     }
   ],
