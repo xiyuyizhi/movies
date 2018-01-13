@@ -1,17 +1,16 @@
 
 branch
 
-- redux-redux-saga 加入 redux 和 redux-saga
+
+- [服务端渲染](https://github.com/xiyuyizhi/movies/tree/ssr)
 
 - [master](https://github.com/xiyuyizhi/movies/tree/master)
 
-- [mobx](https://github.com/xiyuyizhi/movies/tree/mobx) 待完成
-
-- [ssr](https://github.com/xiyuyizhi/movies/tree/ssr) 待完成
+## 此分支采用redux redux-saga重构
 
 > 之前做了个好电影搜集的小应用，前端采用react，后端采用express+mongodb，最近又将组件间的状态管理改成了redux，并加入了redux-saga来管理异步操作,记录一些总结
 
-## [在线地址](http://xiyuyizhi.xyz:8080)
+## [在线地址](http://movies.xiyuyizhi.xyz:8080)
 
 [源码](https://github.com/xiyuyizhi/movies)
 
