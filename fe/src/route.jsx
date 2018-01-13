@@ -4,7 +4,7 @@ import {
     Route,
     Redirect
 } from "react-router-dom"
-import App from "./app"
+import App from "./App"
 import Header from "./component/header"
 import Nav from "./component/nav"
 import Home from "./component/home/homePage"
