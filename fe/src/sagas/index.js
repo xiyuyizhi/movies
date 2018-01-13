@@ -53,7 +53,9 @@ function* getUinfo() {
     const info = yield (Util.fetch('/api/user/info'))
     yield put(recieveUInfo(info.data))
 }
-
+export function* watchFtechUinfo() {
+    yield takeLatest(FETCH_UINGO, getUinfo)
+}
 
 //-------------get movie detail--------
 
@@ -201,6 +203,7 @@ function* watchLogout() {
 
 export default function* root() {
     yield fork(watchCheckLogin)
+    yield fork(watchFtechUinfo)
     yield fork(watchLoadCateGory)
     yield fork(watchLoadMovies)
     yield fork(watchLoadItemMovie)

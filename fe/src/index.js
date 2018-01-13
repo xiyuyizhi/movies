@@ -1,7 +1,7 @@
 
 import "babel-polyfill"
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { hydrate } from 'react-dom';
 
 import {
     createStore,
@@ -22,10 +22,10 @@ import Routes from "./route"
 import "./common/index.less"
 
 const sagaMiddleware = createSagaMiddleware()
-
+console.log(window.__INITIAL_STATE__);
 const store = createStore(
     reducer,
-    window.__INITIAL_STATE__?JSON.parse(window.__INITIAL_STATE__):{},
+    window.__INITIAL_STATE__,
     applyMiddleware(sagaMiddleware)
 )
 
@@ -35,10 +35,16 @@ store.subscribe(() => {
     console.log(store.getState());
 })
 
+function onUpdate() {
+    if (window.__INITIAL_STATE__ !== null) {
+        window.__INITIAL_STATE__ = null;
+        return;
+    }
+}
 
-ReactDOM.hydrate(
+hydrate(
     <Provider store={store}>
-        <Router>
+        <Router onUpdate={onUpdate}>
             <Routes></Routes>
         </Router>
     </Provider>,

@@ -42,8 +42,11 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.props.checkLogin()
-        this.props.loadCategory()
+        if (!window.__INITIAL_STATE__) {
+            this.props.checkLogin()
+            this.props.loadCategory()
+        }
+
     }
 
     render() {

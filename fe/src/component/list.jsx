@@ -206,12 +206,6 @@ export default class List extends Component {
             return <ListView className="listview" dataSource={dss}
                 renderRow={this._row}
                 renderFooter={this._footer}
-                // style={{
-                //     height: "557px"
-                // }}
-                // style={{
-                //     height: (document.documentElement.clientHeight - 110)
-                // }}
                 useZscroller
                 initialListSize={10}
                 pageSize={10}

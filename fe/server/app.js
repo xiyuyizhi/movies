@@ -45,7 +45,6 @@ app.use('*', (req, res, next) => {
 
     Promise.all(promises).then(x => {
         const html = renderFullPage(req, res, store)
-        console.log(store.getState());
         res.send(html)
     })
 
@@ -57,8 +56,6 @@ module.exports = app
 
 function renderFullPage(req, res, store) {
     //    console.log(initState);
-    console.log('cookie');
-    console.log(req.cookies);
     const context = {}
     const html = renderToString(<Provider store={store}>
         <Router location={req.baseUrl}
@@ -67,7 +64,6 @@ function renderFullPage(req, res, store) {
         </Router>
 
     </Provider>)
-    console.log("1111111" + context.url);
     if (context.url) {
         res.redirect('/home')
         return

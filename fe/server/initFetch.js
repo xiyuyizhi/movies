@@ -12,7 +12,6 @@ const getD = function (store) {
                 type: 'RECIEVE_MOVIES',
                 list: res.data
             })
-
             console.log('获取数据');
         })
 
@@ -24,7 +23,6 @@ const checkLogin = function (store, token) {
         }
     }).then(res => res.json())
         .then(res => {
-            console.log(res);
             store.dispatch({
                 type: 'RECIEVE_CHECK_LOAGIN',
                 loginStatus: !res.code
@@ -47,8 +45,7 @@ const loadCategory=function(store){
 
 module.exports = function fetchData(req) {
     const store = createStore(reducers)
-    let promises = [getD(store),loadCategory(store)]
-    promises = [
+    let  promises = [
         getD(store),
         loadCategory(store),
         checkLogin(store, req.cookies.auth)
