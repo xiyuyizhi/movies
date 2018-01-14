@@ -46,7 +46,6 @@ class App extends Component {
             this.props.checkLogin()
             this.props.loadCategory()
         }
-
     }
 
     render() {
