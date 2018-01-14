@@ -22,7 +22,7 @@ branch
 
 - ssr服务 express
 
-[项目地址](https://github.com/xiyuyizhi/movies),喜欢的给个star，感谢。。。。。。。
+[项目地址](https://github.com/xiyuyizhi/movies),喜欢的给个star，感谢。。。。。。。
 
 ### 访问地址(手机模式)
 
