@@ -59,13 +59,15 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
+    const { category, list, noMore, search } = state.homepage
+    const { login, loginStatus } = state.loginStatus
     return {
-        category: state.homepage.category,
-        list: state.homepage.list,
-        noMore: state.homepage.noMore,
-        search: state.homepage.search,
-        login: state.loginStatus.login,
-        loginStatus: state.loginStatus.login,
+        category,
+        list,
+        noMore,
+        search,
+        login,
+        loginStatus
     }
 }
 

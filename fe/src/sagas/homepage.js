@@ -4,11 +4,15 @@ import {
 } from "redux-saga/effects"
 import Util from "../util/Util"
 import {
+    setRefresh,
     LOAD_CATEGORY,
     LOAD_MOVIES,
+    LOAD_LATEST_MOVIES,
     recieveTypeList,
     recieveMovies,
+    recieveLatestMovies
 } from "../actions/index"
+import { stat } from "fs";
 
 //---------get category---------
 
@@ -16,7 +20,7 @@ function fetchCateTypes() {
     return Util.fetch('/api/types')
 }
 
-export function* getCateTypes(action) {
+function* getCateTypes(action) {
     const types = yield call(fetchCateTypes)
     yield put(recieveTypeList(types.data))
 }
@@ -49,7 +53,7 @@ function _handleQuery(category, search) {
  * 
  */
 let loading = false
-export function* getMovies(action) {
+function* getMovies(action) {
     let url
     let latest
     const { category, search, list, noMore } = yield select(state => state.homepage)
@@ -97,4 +101,19 @@ function* getCollectStatus(list, login) {
 
 export function* watchLoadMovies() {
     yield takeEvery(LOAD_MOVIES, getMovies)
+}
+
+
+//  get latest movies
+
+function* getLatestMovies(){
+    yield put(setRefresh())
+    const {list}=yield select(state=>state.homepage)
+    const latestTime=list[0]&& list[0].updateTime
+    const res =yield Util.fetch('/api/movies/latest?latest='+latestTime)
+    yield put(recieveLatestMovies(res.data))
+}
+
+export function* watchLatestMovies(){
+    yield takeEvery(LOAD_LATEST_MOVIES,getLatestMovies)
 }

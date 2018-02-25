@@ -1,10 +1,13 @@
 
 export const SET_CATEGORY = 'SET_CATEGORY'
 export const SET_SEARCH = 'SET_SEARCH'
+export const SET_REFRESH='SET_REFRESH'
 export const LOAD_CATEGORY = 'LOAD_CATEGORY'
 export const LOAD_MOVIES = 'LOAD_MOVIES'
+export const LOAD_LATEST_MOVIES='LOAD_LATEST_MOVIES'
 export const RECIEVE_TYPE_LIST = 'RECIEVE_TYPE_LIST'
 export const RECIEVE_MOVIES = 'RECIEVE_MOVIES'
+export const RECIEVE_LATEST_MOVIES='RECIEVE_LATEST_MOVIES'
 export const LOAD_ITEM_MOVIE = 'LOAD_ITEM_MOVIE'
 export const LOAD_MOVIE_ATTACH = 'LOAD_MOVIE_ATTACH'
 export const RECIEVE_ITEM_MOVIE = 'RECIEVE_ITEM_MOVIE'
@@ -40,7 +43,11 @@ export function setSearch(search) {
         search
     }
 }
-
+export function setRefresh(){
+    return {
+        type:SET_REFRESH
+    }
+}
 export function loadCategory() {
     return {
         type: LOAD_CATEGORY
@@ -54,6 +61,11 @@ export function loadMovies(types) {
     }
 }
 
+export function loadLatestMovies(){
+    return {
+        type:LOAD_LATEST_MOVIES
+    }
+}
 
 export function recieveTypeList(list) {
     return {
@@ -70,6 +82,12 @@ export function recieveMovies(list,types) {
     }
 }
 
+export function recieveLatestMovies(list){
+    return {
+        type:RECIEVE_LATEST_MOVIES,
+        list
+    }
+}
 
 export function loadItemMovie(movieId, loginStatus) {
     return {

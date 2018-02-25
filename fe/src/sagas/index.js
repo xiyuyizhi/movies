@@ -29,7 +29,8 @@ import {
 
 import {
     watchLoadCateGory,
-    watchLoadMovies
+    watchLoadMovies,
+    watchLatestMovies
 } from "./homepage"
 
 //--------check login status
@@ -204,6 +205,7 @@ export default function* root() {
     yield fork(watchFtechUinfo)
     yield fork(watchLoadCateGory)
     yield fork(watchLoadMovies)
+    yield fork(watchLatestMovies)
     yield fork(watchLoadItemMovie)
     yield fork(watchLoadAttach)
     yield fork(watchModifyMovie)

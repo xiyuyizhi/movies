@@ -2,15 +2,19 @@
 import {
     SET_CATEGORY,
     SET_SEARCH,
+    SET_REFRESH,
     RECIEVE_TYPE_LIST,
     RECIEVE_MOVIES,
+    RECIEVE_LATEST_MOVIES
 } from "../actions/index"
+import { stat } from "fs";
 const defaultState = {
     category: '',
     search: '',
     types: [],
     list: [],
-    noMore: false
+    noMore: false,
+    onRefresh:false
 }
 
 export default function homePage(state = defaultState, action) {
@@ -20,6 +24,8 @@ export default function homePage(state = defaultState, action) {
             return { ...state, category: action.category[0], noMore: false }
         case SET_SEARCH:
             return { ...state, search: action.search, noMore: false }
+        case SET_REFRESH:
+            return {...state,onRefresh:true}    
         case RECIEVE_TYPE_LIST:
             return Object.assign({}, state, {
                 types: action.list.map(item => {
@@ -44,7 +50,12 @@ export default function homePage(state = defaultState, action) {
                 }
             }
             return { ...state, noMore: true }
-
+        case RECIEVE_LATEST_MOVIES:
+            return {
+                ...state,
+                onRefresh:false,
+                list:[...action.list,...state.list]
+            }
         default:
             return state
     }

@@ -98,6 +98,23 @@ class MoviesModel {
         })
     }
 
+
+    getLatest(query, callback) {
+        const { latest,pageSize } = query
+        DB.connect().then((db, err) => {
+            this.getCollection(db).find({
+                updateTime:{
+                    '$gt':Number(latest)
+                }
+            }).sort({
+                updateTime: -1
+            }).limit(parseInt(pageSize) || CONFIG.PAGESIZE).toArray((err, docs) => {
+                callback(err, docs)
+                // db.close()
+            })
+        })
+    }
+
     /**
      * 按类型分类、按title查询
      * @param {*} query 
@@ -172,7 +189,7 @@ class MoviesModel {
         })
     }
 
-    
+
     /**
      * 删除，同时type集合相应的类型数量-1
      * @param {*} movieId 

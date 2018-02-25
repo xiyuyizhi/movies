@@ -1,14 +1,27 @@
 
 import React, { Component } from 'react';
 import {
+    PullToRefresh,
     ListView,
     SwipeAction
 } from 'antd-mobile'
+
+import { connect } from "react-redux"
+
+import {
+    loadLatestMovies
+} from "../actions/index"
+
+import {
+    bindActionCreators
+} from "redux"
+
 import Icon from "./customIcon"
 import Dotdotdot from 'react-dotdotdot'
 import Util from "../util/Util.js"
 import IconNodata from '../common/svg/noData.svg'
-export default class List extends Component {
+
+class List extends Component {
 
     constructor(props) {
         super(props)
@@ -18,9 +31,11 @@ export default class List extends Component {
         })
         this._footer = this._footer.bind(this)
         this._row = this._row.bind(this)
+        this._onRefresh = this._onRefresh.bind(this)
         this.ds = ds
         this.state = {
-            _data: []
+            _data: [],
+            // refresh: false
         }
     }
 
@@ -160,7 +175,7 @@ export default class List extends Component {
                                 <span className='label'>{rowData.type.join('/')}</span>
                                 <span className='label'>{rowData.actors.join('/')}</span>
                             </div>
-                            <div style={{marginBottom:'10px',overflow:'hidden'}}>
+                            <div style={{ marginBottom: '10px', overflow: 'hidden' }}>
                                 <Dotdotdot clamp={4}>
                                     <p className="m-item-instruct">
                                         {rowData.instruct}
@@ -201,6 +216,10 @@ export default class List extends Component {
         return d.length
     }
 
+    _onRefresh() {
+        this.props.loadLatestMovies()
+    }
+
     render() {
         const { onEndReached } = this.props
         const dss = this.ds.cloneWithRows(this.state._data)
@@ -213,7 +232,12 @@ export default class List extends Component {
                 pageSize={10}
                 onEndReached={onEndReached}
                 onEndReachedThreshold={30}
-                scrollEventThrottle={100}>
+                scrollEventThrottle={100}
+                pullToRefresh={
+                    <PullToRefresh refreshing={this.props.refresh}
+                        onRefresh={this._onRefresh}></PullToRefresh>
+                }
+            >
             </ListView>
         } else {
             return <div className='noData'>
@@ -223,3 +247,14 @@ export default class List extends Component {
 
     }
 }
+
+export default connect(
+    state => {
+        return {
+            refresh: state.homepage.onRefresh
+        }
+    },
+    (dispatch) => bindActionCreators({
+        loadLatestMovies
+    }, dispatch)
+)(List)

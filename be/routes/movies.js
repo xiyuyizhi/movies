@@ -8,6 +8,7 @@ const Admin = 2017
 const unlessPath = {
   path: [
     { url: '/api/movies', methods: ['GET'] },
+    { url: '/api/movies/latest', methods: ['GET'] },
     { url: '/api/movies/search/by', methods: ['GET'] },
     { url: /movies\/[^\/]+$/, methods: ['GET'] },
   ]
@@ -38,10 +39,16 @@ router.get('/', function (req, res, next) {
     callback(err, docs, res, next)
   })
 })
+router.get('/latest', function (req, res, next) {
+  MoviesModel.getLatest(req.query, (err, docs) => {
+    callback(err, docs, res, next)
+  })
+})
 
 /* GET users listing. */
 router.post('/', function (req, res, next) {
   MoviesModel.addMovies(req.body, (err, docs) => {
+    console.log(err);
     callback(err, docs, res, next)
   })
 });
