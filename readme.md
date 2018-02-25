@@ -22,8 +22,6 @@ branch
 
 - ssr服务 express
 
-[项目地址](https://github.com/xiyuyizhi/movies),喜欢的给个star，感谢。。。。。。。
-
 ### 访问地址(手机模式)
 
 
@@ -228,7 +226,3 @@ componentDidMount() {
 //当当前页面是服务端返回的(因为window.__INITIAL_STATE__有初始状态)，初始的ajax就不触发了
 
 ```
-
-### 总结
-
-服务端渲染的坑还是挺多的，这一个星期就搞它了。。。。这里记录一些比较重要的东西，[具体细节有兴趣的可以看下代码](https://github.com/xiyuyizhi/movies).最后，最重要的，喜欢的给个star，感谢。。。。。。。
